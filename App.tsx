@@ -1,28 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
-import { SplashScreen } from './src/screens';
+import React, {useEffect, useState} from 'react';
+import {StatusBar, Text, View} from 'react-native';
+import {SplashScreen} from './src/screens';
 import AuthNavigator from './src/navigators/AuthNavigator';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 
 function App(): React.JSX.Element {
-
   const [isShowSplash, setIsShowSplash] = useState(true);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setIsShowSplash(false)
-    }, 1500)
+      setIsShowSplash(false);
+    }, 2500);
 
     return () => clearTimeout(timeout);
   }, []);
 
-  return isShowSplash ? (
-    <SplashScreen />
-  ) : (
-    <NavigationContainer>
-      <AuthNavigator />
-    </NavigationContainer>
+  return (
+    <>
+      <StatusBar barStyle="light-content" backgroundColor="#000" />
+      {isShowSplash ? (
+        <SplashScreen />
+      ) : (
+        <NavigationContainer>
+          <AuthNavigator />
+        </NavigationContainer>
+      )}
+    </>
   );
-};
+}
 
 export default App;
