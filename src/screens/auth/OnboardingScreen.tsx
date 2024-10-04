@@ -4,6 +4,8 @@ import {globalStyles} from '../../styles/globalStyles';
 import Swiper from 'react-native-swiper';
 import {appInfo} from '../../constants/appInfos';
 import {appColors} from '../../constants/appColor';
+import {TextComponent} from '../../components';
+import {fontFamilies} from '../../constants/fontFamilies';
 
 const OnboardingScreen = ({navigation}: any) => {
   // const [index, setIndex] = useState(0);
@@ -62,7 +64,7 @@ const OnboardingScreen = ({navigation}: any) => {
               paddingHorizontal: 20,
               paddingVertical: 15,
               position: 'absolute',
-              bottom: 20,
+              bottom: appInfo.sizes.HEIGHT * 0.05,
               right: 30,
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -71,7 +73,11 @@ const OnboardingScreen = ({navigation}: any) => {
               backgroundColor: appColors.primary,
             }}>
             <TouchableOpacity onPress={handleNext}>
-              <Text style={{color: appColors.white}}>Get Started</Text>
+              <TextComponent
+                text="Get Started"
+                color={appColors.white}
+                font={fontFamilies.medium}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -91,7 +97,7 @@ const OnboardingScreen = ({navigation}: any) => {
               paddingHorizontal: 20,
               paddingVertical: 15,
               position: 'absolute',
-              bottom: 20,
+              bottom: appInfo.sizes.HEIGHT * 0.05,
               right: 30,
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -100,7 +106,11 @@ const OnboardingScreen = ({navigation}: any) => {
               backgroundColor: appColors.primary,
             }}>
             <TouchableOpacity onPress={handleNext}>
-              <Text style={{color: appColors.white}}>Next</Text>
+              <TextComponent
+                text="Next"
+                color={appColors.white}
+                font={fontFamilies.medium}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -120,7 +130,7 @@ const OnboardingScreen = ({navigation}: any) => {
               paddingHorizontal: 20,
               paddingVertical: 15,
               position: 'absolute',
-              bottom: 20,
+              bottom: appInfo.sizes.HEIGHT * 0.05,
               right: 30,
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -130,7 +140,11 @@ const OnboardingScreen = ({navigation}: any) => {
             }}>
             <TouchableOpacity
               onPress={() => navigation.navigate('LoginScreen')}>
-              <Text style={{color: appColors.white}}>Next</Text>
+              <TextComponent
+                text="Next"
+                color={appColors.white}
+                font={fontFamilies.medium}
+              />
             </TouchableOpacity>
           </View>
         </View>
