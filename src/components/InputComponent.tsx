@@ -55,9 +55,9 @@ const InputComponent = (props: Props) => {
         }>
         {isPassword ? (
           isShowPass ? (
-            <EyeSlash size={22} color={appColors.gray} />
+            <EyeSlash size={22} color={appColors.darkGray} />
           ) : (
-            <Eye size={22} color={appColors.gray} />
+            <Eye size={22} color={appColors.darkGray} />
           )
         ) : (
           value.length > 0 &&
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 15,
     backgroundColor: appColors.white,
-    marginBottom: 19,
+    marginTop: 19,
   },
   input: {
     padding: 0,

@@ -8,4 +8,5 @@ export const appColors = {
   lightGray: '#E4DFDF',
   darkGray: '#807A7A',
   link: '#000120',
+  darkSlate: '#1A2530',
 };
