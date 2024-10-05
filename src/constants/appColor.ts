@@ -5,5 +5,9 @@ export const appColors = {
   white: '#fff',
   text: '#1A2530',
   gray: '#E5EEF7',
+  lightGray: '#E4DFDF',
+  darkGray: '#807A7A',
+  coolGray: '#707B81',
   link: '#000120',
+  darkSlate: '#1A2530',
 };

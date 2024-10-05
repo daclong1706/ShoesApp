@@ -24,4 +24,26 @@ export const globalStyles = StyleSheet.create({
     minHeight: 54,
     flexDirection: 'row',
   },
+
+  shadow: {
+    shadowColor: 'rgba(0, 0, 0, 1)',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+
+  section: {
+    paddingHorizontal: 16,
+    paddingBottom: 20,
+  },
+
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
 });

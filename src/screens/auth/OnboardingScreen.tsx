@@ -4,29 +4,32 @@ import {globalStyles} from '../../styles/globalStyles';
 import Swiper from 'react-native-swiper';
 import {appInfo} from '../../constants/appInfos';
 import {appColors} from '../../constants/appColor';
-import {TextComponent} from '../../components';
+import {
+  ButtonComponent,
+  OnboardingSlide,
+  TextComponent,
+} from '../../components';
 import {fontFamilies} from '../../constants/fontFamilies';
 
 const OnboardingScreen = ({navigation}: any) => {
-  // const [index, setIndex] = useState(0);
-  const swiperRef = useRef<Swiper>(null); // Định kiểu ref cho Swiper
+  const swiperRef = useRef<Swiper>(null);
 
   useEffect(() => {
     if (swiperRef.current) {
-      // Đảm bảo Swiper đã sẵn sàng
       console.log('Swiper is ready');
     }
   }, []);
 
   const handleNext = () => {
     if (swiperRef.current) {
-      swiperRef.current.scrollBy(1, true); // Gọi khi swiperRef đã được khởi tạo
+      swiperRef.current.scrollBy(1, true);
     }
   };
+
   return (
     <View style={[globalStyles.container]}>
       <Swiper
-        ref={swiperRef} // Gán ref cho Swiper
+        ref={swiperRef}
         loop={false}
         showsPagination={true}
         showsButtons={false}
@@ -49,105 +52,21 @@ const OnboardingScreen = ({navigation}: any) => {
           borderRadius: 4,
           backgroundColor: appColors.primary,
         }}>
-        {/* Onboard-1 */}
-        <View>
-          <Image
-            source={require('../../assets/images/onboard-1.png')}
-            style={{
-              width: appInfo.sizes.WIDTH,
-              height: appInfo.sizes.HEIGHT,
-              resizeMode: 'cover',
-            }}
-          />
-          <View
-            style={{
-              paddingHorizontal: 20,
-              paddingVertical: 15,
-              position: 'absolute',
-              bottom: appInfo.sizes.HEIGHT * 0.05,
-              right: 30,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderRadius: 50,
-              backgroundColor: appColors.primary,
-            }}>
-            <TouchableOpacity onPress={handleNext}>
-              <TextComponent
-                text="Get Started"
-                color={appColors.white}
-                font={fontFamilies.medium}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Onboard-2 */}
-        <View>
-          <Image
-            source={require('../../assets/images/onboard-2.png')}
-            style={{
-              width: appInfo.sizes.WIDTH,
-              height: appInfo.sizes.HEIGHT,
-              resizeMode: 'cover',
-            }}
-          />
-          <View
-            style={{
-              paddingHorizontal: 20,
-              paddingVertical: 15,
-              position: 'absolute',
-              bottom: appInfo.sizes.HEIGHT * 0.05,
-              right: 30,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderRadius: 50,
-              backgroundColor: appColors.primary,
-            }}>
-            <TouchableOpacity onPress={handleNext}>
-              <TextComponent
-                text="Next"
-                color={appColors.white}
-                font={fontFamilies.medium}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Onboard-3 */}
-        <View>
-          <Image
-            source={require('../../assets/images/onboard-3.png')}
-            style={{
-              width: appInfo.sizes.WIDTH,
-              height: appInfo.sizes.HEIGHT,
-              resizeMode: 'cover',
-            }}
-          />
-          <View
-            style={{
-              paddingHorizontal: 20,
-              paddingVertical: 15,
-              position: 'absolute',
-              bottom: appInfo.sizes.HEIGHT * 0.05,
-              right: 30,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderRadius: 50,
-              backgroundColor: appColors.primary,
-            }}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('LoginScreen')}>
-              <TextComponent
-                text="Next"
-                color={appColors.white}
-                font={fontFamilies.medium}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
+        <OnboardingSlide
+          imageSource={require('../../assets/images/onboard-1.png')}
+          buttonText="Get Started"
+          onPress={handleNext}
+        />
+        <OnboardingSlide
+          imageSource={require('../../assets/images/onboard-2.png')}
+          buttonText="Next"
+          onPress={handleNext}
+        />
+        <OnboardingSlide
+          imageSource={require('../../assets/images/onboard-3.png')}
+          buttonText="Next"
+          onPress={() => navigation.navigate('LoginScreen')}
+        />
       </Swiper>
     </View>
   );
