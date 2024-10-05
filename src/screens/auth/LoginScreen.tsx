@@ -1,6 +1,6 @@
-import {View, Text, Button, Image, Switch} from 'react-native';
+import {PasswordCheck, Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Switch} from 'react-native';
 import {
   ButtonComponent,
   ContainerComponent,
@@ -10,32 +10,40 @@ import {
   SpaceComponent,
   TextComponent,
 } from '../../components';
-import {globalStyles} from '../../styles/globalStyles';
-import InpuComponent from '../../components/InputComponent';
-import {PasswordCheck, Size, Sms} from 'iconsax-react-native';
 import {appColors} from '../../constants/appColor';
 import {fontFamilies} from '../../constants/fontFamilies';
 import SocialLogin from './components/SocialLogin';
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRemember, setIsRemember] = useState(true);
   return (
-    <ContainerComponent isImageBackground>
+    <ContainerComponent isImageBackground isScroll>
       <SectionComponent
         styles={{
           justifyContent: 'center',
           alignItems: 'center',
-          marginTop: 75,
+          marginTop: 55,
         }}>
-        <Image
+        {/* <Image
           source={require('../../assets/images/nike.png')}
           style={{width: 162, height: 114, marginBottom: 30}}
+        /> */}
+        <TextComponent
+          title
+          text="Hello Again!"
+          size={28}
+          styles={{marginBottom: 12}}
+        />
+        <TextComponent
+          text="Welcome Back You’ve Been Missed!"
+          color={appColors.coolGray}
         />
       </SectionComponent>
+      <SpaceComponent height={50} />
       <SectionComponent>
-        <TextComponent title text="Sign in" />
+        {/* <TextComponent title text="Sign in" /> */}
         <InputComponent
           value={email}
           placeholder="Email"
@@ -59,13 +67,20 @@ const LoginScreen = () => {
               thumbColor={appColors.white}
               value={isRemember}
               onChange={() => setIsRemember(!isRemember)}
+              style={{marginRight: 12}}
             />
-            <TextComponent text="Remember me" />
+            <TextComponent
+              text="Remember me"
+              size={13}
+              color={appColors.coolGray}
+            />
           </RowComponent>
           <ButtonComponent
             type="link"
-            text="Forgot Password?"
-            onPress={() => {}}
+            text="Recovery Password"
+            textColor={appColors.coolGray}
+            size={13}
+            onPress={() => navigation.navigate('RecoveryPassword')}
           />
         </RowComponent>
         <SpaceComponent height={20} />
@@ -79,7 +94,7 @@ const LoginScreen = () => {
 
       <SocialLogin />
 
-      <SectionComponent>
+      <SectionComponent styles={{flex: 1, justifyContent: 'flex-end'}}>
         <RowComponent justify="space-between" styles={{paddingHorizontal: 40}}>
           <TextComponent text="Don’t have an account?" size={12} />
           <ButtonComponent
@@ -88,6 +103,7 @@ const LoginScreen = () => {
             size={12}
             textColor={appColors.darkSlate}
             textStyles={{fontFamily: fontFamilies.medium}}
+            onPress={() => navigation.navigate('SignUpScreen')}
           />
         </RowComponent>
       </SectionComponent>
