@@ -13,11 +13,22 @@ import {
 import {appColors} from '../../constants/appColor';
 import {fontFamilies} from '../../constants/fontFamilies';
 import SocialLogin from './components/SocialLogin';
+import authenticationAPI from '../../apis/authApi';
 
 const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRemember, setIsRemember] = useState(true);
+
+  const handleLogin = async () => {
+    try {
+      const res = await authenticationAPI.HandleAuthentication('/hello');
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <ContainerComponent isImageBackground isScroll>
       <SectionComponent
@@ -87,7 +98,7 @@ const LoginScreen = ({navigation}: any) => {
         <ButtonComponent
           type="primary"
           text="Sign In"
-          onPress={() => console.log('Login')}
+          onPress={handleLogin}
           size={18}
         />
       </SectionComponent>
