@@ -1,4 +1,4 @@
-import {Button, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {appColors} from '../constants/appColor';
 import {fontFamilies} from '../constants/fontFamilies';
 

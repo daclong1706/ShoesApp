@@ -1,16 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {StatusBar, Text, View} from 'react-native';
-import {SplashScreen} from './src/screens';
-import AuthNavigator from './src/navigators/AuthNavigator';
 import {NavigationContainer} from '@react-navigation/native';
-import {useAsyncStorage} from '@react-native-async-storage/async-storage';
-import MainNavigator from './src/navigators/MainNavigator';
+import React, {useEffect, useState} from 'react';
+import {StatusBar} from 'react-native';
+import {Provider} from 'react-redux';
+import AppRouter from './src/navigators/AppRouter';
+import {SplashScreen} from './src/screens';
+import store from './src/stores/store';
 
 function App(): React.JSX.Element {
   const [isShowSplash, setIsShowSplash] = useState(true);
-  const [accessToken, setAccessToken] = useState('');
-
-  const {getItem, setItem} = useAsyncStorage('assetToken');
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -20,26 +17,18 @@ function App(): React.JSX.Element {
     return () => clearTimeout(timeout);
   }, []);
 
-  useEffect(() => {
-    checkLogin();
-  }, []);
-
-  const checkLogin = async () => {
-    const token = await getItem();
-
-    token && setAccessToken(token);
-  };
-
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
-      {isShowSplash ? (
-        <SplashScreen />
-      ) : (
-        <NavigationContainer>
-          {accessToken ? <MainNavigator /> : <AuthNavigator />}
-        </NavigationContainer>
-      )}
+      <Provider store={store}>
+        {isShowSplash ? (
+          <SplashScreen />
+        ) : (
+          <NavigationContainer>
+            <AppRouter />
+          </NavigationContainer>
+        )}
+      </Provider>
     </>
   );
 }
