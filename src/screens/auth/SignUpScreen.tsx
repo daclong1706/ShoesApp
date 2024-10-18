@@ -18,25 +18,39 @@ import {useDispatch} from 'react-redux';
 import {addAuth} from '../../stores/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+interface ErrorMessage {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 const initValue = {
   username: '',
   email: '',
   password: '',
-  comfirmPassword: '',
+  confirmPassword: '',
 };
 
 const SignUpScreen = ({navigation}: any) => {
   const [values, setValues] = useState(initValue);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState<any>();
+  const [isDisable, setIsDisable] = useState(true);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (values.email || values.password) {
-      setErrorMessage('');
+    if (
+      !errorMessage ||
+      (errorMessage &&
+        (errorMessage.email ||
+          errorMessage.password ||
+          errorMessage.confirmPassword))
+    ) {
+      setIsDisable(true);
+    } else {
+      setIsDisable(false);
     }
-  }, [values.email, values.password]);
+  }, [errorMessage]);
 
   const handleChangeValue = (key: string, value: string) => {
     const data: any = {...values};
@@ -44,49 +58,60 @@ const SignUpScreen = ({navigation}: any) => {
     setValues(data);
   };
 
-  const handleRegister = async () => {
-    const {email, password, comfirmPassword} = values;
-
-    const emailValidation = Validate.Email(email);
-    const passwordValidation = Validate.Password(password);
-
-    if (email && password && comfirmPassword) {
-      if (emailValidation) {
-        if (passwordValidation) {
-          if (password === comfirmPassword) {
-            setIsLoading(true);
-            try {
-              const res = await authenticationAPI.HandleAuthentication(
-                '/register',
-                {
-                  username: values.username,
-                  email,
-                  password,
-                },
-                'post',
-              );
-
-              dispatch(addAuth(res.data));
-              await AsyncStorage.setItem('auth', JSON.stringify(res.data));
-              setIsLoading(false);
-            } catch (error) {
-              console.log(error);
-              setIsLoading(false);
-            }
-            setErrorMessage('');
-          } else {
-            setErrorMessage('Passwords do not match.');
-          }
+  const formValidator = (key: string) => {
+    const data = {...errorMessage};
+    let message = '';
+    switch (key) {
+      case 'email':
+        if (!values.email) {
+          message = 'Email is required.';
+        } else if (!Validate.Email(values.email)) {
+          message = 'Invalid email address.';
         } else {
-          setErrorMessage(
-            'Password must be at least 8 characters long and contain [A-Z], [a-z], [0-9], [!@#$%^&*(),.?":{}|<>].',
-          );
+          message = '';
         }
-      } else {
-        setErrorMessage('Invalid email. Please enter a valid address.');
-      }
+        break;
+      case 'password':
+        if (!values.password) {
+          message = 'Password is required.';
+        } else if (!Validate.Password(values.password)) {
+          message =
+            'Password must be at least 8 characters, including uppercase, lowercase, number, and special character.';
+        } else {
+          message = '';
+        }
+        break;
+      case 'confirmPassword':
+        if (!values.confirmPassword) {
+          message = 'Please enter your confirm password.';
+        } else if (values.confirmPassword !== values.password) {
+          message = 'Passwords do not match.';
+        } else {
+          message = '';
+        }
+        break;
+    }
+
+    if (message) {
+      data[`${key}`] = message;
     } else {
-      setErrorMessage('Please enter complete information.');
+      delete data[`${key}`];
+    }
+
+    setErrorMessage(data);
+  };
+
+  const handleRegister = async () => {
+    const api = '/verification';
+    try {
+      const res = await authenticationAPI.HandleAuthentication(
+        api,
+        {email: values.email},
+        'post',
+      );
+      console.log(res);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -124,6 +149,7 @@ const SignUpScreen = ({navigation}: any) => {
             onChange={val => handleChangeValue('email', val)}
             allowClear
             affix={<Sms size={22} color={appColors.darkGray} />}
+            onEnd={() => formValidator('email')}
           />
           <InputComponent
             value={values.password}
@@ -132,35 +158,42 @@ const SignUpScreen = ({navigation}: any) => {
             allowClear
             isPassword
             affix={<PasswordCheck size={22} color={appColors.darkGray} />}
+            onEnd={() => formValidator('password')}
           />
           <InputComponent
-            value={values.comfirmPassword}
+            value={values.confirmPassword}
             placeholder="Confirm Password"
-            onChange={val => handleChangeValue('comfirmPassword', val)}
+            onChange={val => handleChangeValue('confirmPassword', val)}
             allowClear
             isPassword
             affix={<PasswordCheck size={22} color={appColors.darkGray} />}
+            onEnd={() => formValidator('confirmPassword')}
           />
-          <SectionComponent styles={{marginHorizontal: 16}}>
+          <SectionComponent styles={{marginHorizontal: 12}}>
             {errorMessage && (
-              <RowComponent>
-                <Danger
-                  size={14}
-                  color={appColors.danger}
-                  style={{marginRight: 6}}
-                />
-                <TextComponent
-                  text={errorMessage}
-                  color={appColors.danger}
-                  size={12}
-                />
-              </RowComponent>
+              <SectionComponent>
+                {Object.keys(errorMessage).map((error, index) => (
+                  <RowComponent key={`row${index}`}>
+                    <Danger
+                      size={14}
+                      color={appColors.danger}
+                      style={{marginRight: 6}}
+                    />
+                    <TextComponent
+                      text={errorMessage[`${error}`]}
+                      key={`error${index}`}
+                      color={appColors.danger}
+                      size={12}
+                    />
+                  </RowComponent>
+                ))}
+              </SectionComponent>
             )}
           </SectionComponent>
-
           <ButtonComponent
             type="primary"
             text="Sign Up"
+            disable={isDisable}
             onPress={handleRegister}
             size={18}
           />

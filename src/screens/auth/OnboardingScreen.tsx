@@ -27,7 +27,7 @@ const OnboardingScreen = ({navigation}: any) => {
         loop={false}
         showsPagination={true}
         showsButtons={false}
-        dotColor={appColors.primary2}
+        dotColor={appColors.primaryPastel}
         activeDotColor={appColors.primary}
         paginationStyle={{
           bottom: 40,
@@ -38,7 +38,7 @@ const OnboardingScreen = ({navigation}: any) => {
           width: 10,
           height: 6,
           borderRadius: 4,
-          backgroundColor: appColors.primary2,
+          backgroundColor: appColors.primaryPastel,
         }}
         activeDotStyle={{
           width: 32,

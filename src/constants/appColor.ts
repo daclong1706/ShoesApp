@@ -1,6 +1,10 @@
 export const appColors = {
   primary: '#5B9EE1',
-  primary2: '#E5EEF7',
+  primaryLight: '#90C4F2',
+  primarySoft: '#7AB2E9',
+  primaryPale: '#B8D9F5',
+  primaryTint: '#A3CFF0',
+  primaryPastel: '#C9E4FA',
   secondary: '#1A183E',
   white: '#fff',
   text: '#1A2530',
