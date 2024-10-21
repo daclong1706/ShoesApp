@@ -1,16 +1,14 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  StyleSheet,
-  TextInputProps,
-  KeyboardType,
-} from 'react-native';
-import React, {ReactNode, useState} from 'react';
 import {Eye, EyeSlash} from 'iconsax-react-native';
-import {appColors} from '../constants/appColor';
+import React, {ReactNode, useState} from 'react';
+import {
+  KeyboardType,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {appColors} from '../constants/appColor';
 import {globalStyles} from '../styles/globalStyles';
 
 interface Props {
@@ -22,6 +20,7 @@ interface Props {
   isPassword?: boolean;
   allowClear?: boolean;
   type?: KeyboardType;
+  onEnd?: () => void;
 }
 
 const InputComponent = (props: Props) => {
@@ -34,6 +33,7 @@ const InputComponent = (props: Props) => {
     isPassword,
     allowClear,
     type,
+    onEnd,
   } = props;
   const [isShowPass, setIsShowPass] = useState(isPassword ?? false);
   return (
@@ -47,6 +47,8 @@ const InputComponent = (props: Props) => {
         secureTextEntry={isShowPass}
         placeholderTextColor={'#747688'} //'#747688'
         keyboardType={type ?? 'default'}
+        autoCapitalize="none"
+        onEndEditing={onEnd}
       />
       {suffix ?? suffix}
       <TouchableOpacity

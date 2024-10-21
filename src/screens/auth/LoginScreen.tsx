@@ -1,6 +1,6 @@
 import {PasswordCheck, Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
-import {Switch} from 'react-native';
+import {Alert, Switch} from 'react-native';
 import {
   ButtonComponent,
   ContainerComponent,
@@ -13,11 +13,39 @@ import {
 import {appColors} from '../../constants/appColor';
 import {fontFamilies} from '../../constants/fontFamilies';
 import SocialLogin from './components/SocialLogin';
+import authenticationAPI from '../../apis/authApi';
+import {useDispatch} from 'react-redux';
+import {Validate} from '../../utils/validate';
+import {addAuth} from '../../stores/reducers/authReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRemember, setIsRemember] = useState(true);
+  const dispatch = useDispatch();
+  const handleLogin = async () => {
+    const emailValidation = Validate.Email(email);
+    if (emailValidation) {
+      try {
+        const res = await authenticationAPI.HandleAuthentication(
+          '/login',
+          {email, password},
+          'post',
+        );
+        dispatch(addAuth(res.data));
+        await AsyncStorage.setItem(
+          'auth',
+          isRemember ? JSON.stringify(res.data) : email,
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      Alert.alert('Email is not correct!');
+    }
+  };
+
   return (
     <ContainerComponent isImageBackground isScroll>
       <SectionComponent
@@ -87,7 +115,7 @@ const LoginScreen = ({navigation}: any) => {
         <ButtonComponent
           type="primary"
           text="Sign In"
-          onPress={() => console.log('Login')}
+          onPress={handleLogin}
           size={18}
         />
       </SectionComponent>

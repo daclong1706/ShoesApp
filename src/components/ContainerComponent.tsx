@@ -56,7 +56,11 @@ const ContainerComponent = (props: Props) => {
   };
 
   const returnContainer = isScroll ? (
-    <ScrollView contentContainerStyle={{flexGrow: 1}}>{children}</ScrollView>
+    <ScrollView
+      contentContainerStyle={{flexGrow: 1}}
+      showsVerticalScrollIndicator>
+      {children}
+    </ScrollView>
   ) : (
     <View style={styles.flexContainer}>{children}</View>
   );

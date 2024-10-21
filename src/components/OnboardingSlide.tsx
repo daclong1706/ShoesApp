@@ -1,15 +1,9 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  ImageSourcePropType,
-} from 'react-native';
 import React from 'react';
-import TextComponent from './TextComponent';
+import {Image, ImageSourcePropType, TouchableOpacity, View} from 'react-native';
 import {appColors} from '../constants/appColor';
-import {fontFamilies} from '../constants/fontFamilies';
 import {appInfo} from '../constants/appInfos';
+import {fontFamilies} from '../constants/fontFamilies';
+import TextComponent from './TextComponent';
 
 interface Props {
   imageSource: ImageSourcePropType;

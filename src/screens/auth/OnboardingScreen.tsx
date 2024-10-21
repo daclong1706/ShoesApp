@@ -1,15 +1,9 @@
-import {View, Text, Image, Button, TouchableOpacity} from 'react-native';
 import React, {useEffect, useRef} from 'react';
-import {globalStyles} from '../../styles/globalStyles';
+import {View} from 'react-native';
 import Swiper from 'react-native-swiper';
-import {appInfo} from '../../constants/appInfos';
+import {OnboardingSlide} from '../../components';
 import {appColors} from '../../constants/appColor';
-import {
-  ButtonComponent,
-  OnboardingSlide,
-  TextComponent,
-} from '../../components';
-import {fontFamilies} from '../../constants/fontFamilies';
+import {globalStyles} from '../../styles/globalStyles';
 
 const OnboardingScreen = ({navigation}: any) => {
   const swiperRef = useRef<Swiper>(null);
@@ -33,7 +27,7 @@ const OnboardingScreen = ({navigation}: any) => {
         loop={false}
         showsPagination={true}
         showsButtons={false}
-        dotColor={appColors.primary2}
+        dotColor={appColors.primaryPastel}
         activeDotColor={appColors.primary}
         paginationStyle={{
           bottom: 40,
@@ -44,7 +38,7 @@ const OnboardingScreen = ({navigation}: any) => {
           width: 10,
           height: 6,
           borderRadius: 4,
-          backgroundColor: appColors.primary2,
+          backgroundColor: appColors.primaryPastel,
         }}
         activeDotStyle={{
           width: 32,

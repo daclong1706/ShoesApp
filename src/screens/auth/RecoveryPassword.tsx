@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {ArrowRight, Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
 import {
   ButtonComponent,
@@ -9,9 +9,6 @@ import {
   TextComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColor';
-import {ArrowRight, ArrowRight2, Sms} from 'iconsax-react-native';
-import {fontFamilies} from '../../constants/fontFamilies';
-import {globalStyles} from '../../styles/globalStyles';
 
 const RecoveryPassword = () => {
   const [email, setEmail] = useState('');

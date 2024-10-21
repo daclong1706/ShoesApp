@@ -1,4 +1,4 @@
-import {Button, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {appColors} from '../constants/appColor';
 import {fontFamilies} from '../constants/fontFamilies';
 
@@ -38,12 +38,21 @@ export const globalStyles = StyleSheet.create({
 
   section: {
     paddingHorizontal: 16,
-    paddingBottom: 20,
+    paddingVertical: 6,
   },
 
   row: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: appColors.primarySoft,
+    width: 30,
+    height: 30,
+    borderRadius: 100,
   },
 });
