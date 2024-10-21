@@ -46,4 +46,13 @@ export const globalStyles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
+
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: appColors.primarySoft,
+    width: 30,
+    height: 30,
+    borderRadius: 100,
+  },
 });
