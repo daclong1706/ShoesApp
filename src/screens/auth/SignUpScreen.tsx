@@ -17,6 +17,7 @@ import SocialLogin from './components/SocialLogin';
 import {useDispatch} from 'react-redux';
 import {addAuth} from '../../stores/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {formValidator} from './constants/validator';
 
 interface ErrorMessage {
   email: string;
@@ -61,49 +62,6 @@ const SignUpScreen = ({navigation}: any) => {
     setValues(data);
   };
 
-  const formValidator = (key: string) => {
-    const data = {...errorMessage};
-    let message = '';
-    switch (key) {
-      case 'email':
-        if (!values.email) {
-          message = 'Email is required.';
-        } else if (!Validate.Email(values.email)) {
-          message = 'Invalid email address.';
-        } else {
-          message = '';
-        }
-        break;
-      case 'password':
-        if (!values.password) {
-          message = 'Password is required.';
-        } else if (!Validate.Password(values.password)) {
-          message =
-            'Password must be at least 8 characters, including uppercase, lowercase, number, and special character.';
-        } else {
-          message = '';
-        }
-        break;
-      case 'confirmPassword':
-        if (!values.confirmPassword) {
-          message = 'Please enter your confirm password.';
-        } else if (values.confirmPassword !== values.password) {
-          message = 'Passwords do not match.';
-        } else {
-          message = '';
-        }
-        break;
-    }
-
-    if (message) {
-      data[`${key}`] = message;
-    } else {
-      delete data[`${key}`];
-    }
-
-    setErrorMessage(data);
-  };
-
   const handleRegister = async () => {
     const api = '/verification';
     setIsLoading(true);
@@ -119,7 +77,7 @@ const SignUpScreen = ({navigation}: any) => {
         ...values,
       });
     } catch (error) {
-      console.log(error);
+      formValidator('useEmail', {}, errorMessage, setErrorMessage);
       setIsLoading(false);
     }
   };
@@ -158,7 +116,14 @@ const SignUpScreen = ({navigation}: any) => {
             onChange={val => handleChangeValue('email', val)}
             allowClear
             affix={<Sms size={22} color={appColors.darkGray} />}
-            onEnd={() => formValidator('email')}
+            onEnd={() =>
+              formValidator(
+                'email',
+                {email: values.email},
+                errorMessage,
+                setErrorMessage,
+              )
+            }
           />
           <InputComponent
             value={values.password}
@@ -167,7 +132,14 @@ const SignUpScreen = ({navigation}: any) => {
             allowClear
             isPassword
             affix={<PasswordCheck size={22} color={appColors.darkGray} />}
-            onEnd={() => formValidator('password')}
+            onEnd={() =>
+              formValidator(
+                'password',
+                {password: values.password},
+                errorMessage,
+                setErrorMessage,
+              )
+            }
           />
           <InputComponent
             value={values.confirmPassword}
@@ -176,7 +148,17 @@ const SignUpScreen = ({navigation}: any) => {
             allowClear
             isPassword
             affix={<PasswordCheck size={22} color={appColors.darkGray} />}
-            onEnd={() => formValidator('confirmPassword')}
+            onEnd={() =>
+              formValidator(
+                'confirmPassword',
+                {
+                  password: values.password,
+                  confirmPassword: values.confirmPassword,
+                },
+                errorMessage,
+                setErrorMessage,
+              )
+            }
           />
           <SectionComponent styles={{marginHorizontal: 12}}>
             {errorMessage && (

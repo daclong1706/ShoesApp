@@ -48,6 +48,7 @@ const InputComponent = (props: Props) => {
         placeholderTextColor={'#747688'} //'#747688'
         keyboardType={type ?? 'default'}
         autoCapitalize="none"
+        autoCorrect={false}
         onEndEditing={onEnd}
       />
       {suffix ?? suffix}

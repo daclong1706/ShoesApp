@@ -1422,6 +1422,11 @@
     prompts "^2.4.2"
     semver "^7.5.2"
 
+"@react-native-google-signin/google-signin@^13.1.0":
+  version "13.1.0"
+  resolved "https://registry.npmjs.org/@react-native-google-signin/google-signin/-/google-signin-13.1.0.tgz"
+  integrity sha512-C2/sqb0/s0c+Dwc/mykASZsRuHxGqn7SFrCxCY9D8p8IOQO05haInhCc7lzraJshRixGva5c/4usQZ71HMYSEQ==
+
 "@react-native/assets-registry@0.75.3":
   version "0.75.3"
 
@@ -1825,10 +1830,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*":
-  version "22.7.4"
-  resolved "https://registry.npmjs.org/@types/node/-/node-22.7.4.tgz"
-  integrity sha512-y+NPi1rFzDs1NdQHHToqeiX2TIS79SWEAw9GYhkkx8bD0ChpfqC+n2j5OXOCpzfojBEBt6DnEnnG9MY0zk1XLg==
+"@types/node@*", "@types/node@^22.7.9":
+  version "22.7.9"
+  resolved "https://registry.npmjs.org/@types/node/-/node-22.7.9.tgz"
+  integrity sha512-jrTfRC7FM6nChvU7X2KqcrgquofrWLFDeYC1hKfwNWomVvrn7JIksqf344WN2X/y8xrgqBd2dJATZV4GbatBfg==
   dependencies:
     undici-types "~6.19.2"
 
@@ -4891,6 +4896,11 @@ react-native-gesture-handler@^2.20.0, "react-native-gesture-handler@>= 1.0.0":
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
+react-native-network-info@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.npmjs.org/react-native-network-info/-/react-native-network-info-5.2.1.tgz"
+  integrity sha512-iam74xXtrSqqZurCl1/bSjZ9jXcsJY84g7brx1/4uVGCY26c6m+4CArHNSHOsz5ATg2NQT+81sjNy0KlCPyK4g==
+
 react-native-reanimated@^3.15.3, "react-native-reanimated@>= 1.0.0":
   version "3.15.3"
   resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-3.15.3.tgz"
@@ -4955,7 +4965,7 @@ react-native-vector-icons@^10.2.0:
     prop-types "^15.7.2"
     yargs "^16.1.1"
 
-react-native@*, "react-native@^0.0.0-0 || >=0.65 <1.0", react-native@>=0.46, react-native@>=0.59.0, react-native@0.75.3:
+react-native@*, "react-native@^0.0.0-0 || >=0.65 <1.0", react-native@>=0.46, react-native@>=0.47, react-native@>=0.59.0, react-native@0.75.3:
   version "0.75.3"
   dependencies:
     "@jest/create-cache-key-function" "^29.6.3"

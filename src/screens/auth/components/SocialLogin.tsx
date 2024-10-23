@@ -11,6 +11,10 @@ import {fontFamilies} from '../../../constants/fontFamilies';
 import {Google, Facebook} from '../../../assets/svg';
 
 const SocialLogin = () => {
+  const handleLoginWithGoogle = async () => {
+    console.log('Login');
+  };
+
   return (
     <SectionComponent>
       <TextComponent
@@ -22,6 +26,7 @@ const SocialLogin = () => {
       <SpaceComponent height={10} />
       <ButtonComponent
         type="primary"
+        onPress={handleLoginWithGoogle}
         color={appColors.white}
         textColor={appColors.text}
         size={18}
