@@ -1,7 +1,6 @@
-import {View, Text} from 'react-native';
-import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {HomeScreen} from '../screens';
+import React from 'react';
+import HomeNavigator from './HomeNavigator';
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
@@ -11,7 +10,7 @@ const TabNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Tab.Screen name="HomeScreen" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeNavigator} />
     </Tab.Navigator>
   );
 };

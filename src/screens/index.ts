@@ -7,8 +7,10 @@ import HomeScreen from './home/HomeScreen';
 import SplashScreen from './SplashScreen';
 import CheckEmailPassword from './auth/CheckEmailPassword';
 import ResetPassword from './auth/ResetPassword';
-import ShoppingScreen from './ShoppingScreen';
 import ProfileScreen from './profiles/ProfileScreen';
+import CartScreen from './CartScreen';
+import NotificationScreen from './notifications/NotificationScreen';
+import FavoriteScreen from './favorites/FavoriteScreen';
 
 export {
   HomeScreen,
@@ -20,6 +22,8 @@ export {
   Verification,
   CheckEmailPassword,
   ResetPassword,
-  ShoppingScreen,
+  CartScreen,
   ProfileScreen,
+  FavoriteScreen,
+  NotificationScreen,
 };
