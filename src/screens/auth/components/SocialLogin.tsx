@@ -9,10 +9,27 @@ import {
 import {appColors} from '../../../constants/appColor';
 import {fontFamilies} from '../../../constants/fontFamilies';
 import {Google, Facebook} from '../../../assets/svg';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+
+GoogleSignin.configure({
+  webClientId:
+    '199291532897-totmithrtcq87rcc5tq0k2cm67lddo5a.apps.googleusercontent.com',
+});
 
 const SocialLogin = () => {
   const handleLoginWithGoogle = async () => {
-    console.log('Login');
+    await GoogleSignin.hasPlayServices({
+      showPlayServicesUpdateDialog: true,
+    });
+    try {
+      await GoogleSignin.hasPlayServices();
+
+      const userInfo = await GoogleSignin.signIn();
+
+      console.log(userInfo.data?.user);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

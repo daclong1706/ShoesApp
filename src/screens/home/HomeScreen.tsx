@@ -11,22 +11,11 @@ import {fontFamilies} from '../../constants/fontFamilies';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 const HomeScreen = ({navigation}: any) => {
-  // const dispatch = useDispatch();
-
-  // const handleLogout = async () => {
-  //   try {
-  //     await AsyncStorage.removeItem('auth');
-  //     dispatch(removeAuth());
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: '#F8F9FA',
+        // backgroundColor: '#F8F9FA',
       }}>
       <StatusBar barStyle={'dark-content'} />
       <View
@@ -58,7 +47,7 @@ const HomeScreen = ({navigation}: any) => {
                 color={appColors.danger}
               />
               <TextComponent
-                text=" Mondolibug, Sylhet"
+                text=" Ho Chi Minh City, Viet Nam"
                 font={fontFamilies.semiBold}
               />
             </RowComponent>
