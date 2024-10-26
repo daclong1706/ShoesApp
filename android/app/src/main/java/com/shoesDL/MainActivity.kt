@@ -1,4 +1,4 @@
-package com.shoesapp
+package com.dl.shoes
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

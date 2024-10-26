@@ -13,7 +13,7 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 GoogleSignin.configure({
   webClientId:
-    '199291532897-totmithrtcq87rcc5tq0k2cm67lddo5a.apps.googleusercontent.com',
+    '199291532897-jmhe6jroat626ikvps09cqsa2kf220lc.apps.googleusercontent.com',
 });
 
 const SocialLogin = () => {
