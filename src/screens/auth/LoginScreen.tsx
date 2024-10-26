@@ -1,5 +1,5 @@
-import {PasswordCheck, Sms} from 'iconsax-react-native';
-import React, {useState} from 'react';
+import {Danger, PasswordCheck, Sms} from 'iconsax-react-native';
+import React, {useEffect, useState} from 'react';
 import {Alert, Switch} from 'react-native';
 import {
   ButtonComponent,
@@ -18,31 +18,44 @@ import {useDispatch} from 'react-redux';
 import {Validate} from '../../utils/validate';
 import {addAuth} from '../../stores/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {formValidator} from './constants/validator';
 
 const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRemember, setIsRemember] = useState(true);
-  const dispatch = useDispatch();
-  const handleLogin = async () => {
-    const emailValidation = Validate.Email(email);
-    if (emailValidation) {
-      try {
-        const res = await authenticationAPI.HandleAuthentication(
-          '/login',
-          {email, password},
-          'post',
-        );
-        dispatch(addAuth(res.data));
-        await AsyncStorage.setItem(
-          'auth',
-          isRemember ? JSON.stringify(res.data) : email,
-        );
-      } catch (error) {
-        console.log(error);
-      }
+  const [errorMessage, setErrorMessage] = useState<any>();
+  const [isDisable, setIsDisable] = useState(true);
+
+  useEffect(() => {
+    if (
+      !errorMessage ||
+      (errorMessage && (errorMessage.email || errorMessage.password)) ||
+      !email ||
+      !password
+    ) {
+      setIsDisable(true);
     } else {
-      Alert.alert('Email is not correct!');
+      setIsDisable(false);
+    }
+  }, [errorMessage]);
+
+  const dispatch = useDispatch();
+
+  const handleLogin = async () => {
+    try {
+      const res = await authenticationAPI.HandleAuthentication(
+        '/login',
+        {email, password},
+        'post',
+      );
+      dispatch(addAuth(res.data));
+      await AsyncStorage.setItem(
+        'auth',
+        isRemember ? JSON.stringify(res.data) : email,
+      );
+    } catch (error) {
+      formValidator('wrongPass', {}, errorMessage, setErrorMessage);
     }
   };
 
@@ -75,17 +88,40 @@ const LoginScreen = ({navigation}: any) => {
         <InputComponent
           value={email}
           placeholder="Email"
-          onChange={val => setEmail(val)}
+          onChange={val => {
+            setEmail(val);
+            setErrorMessage({});
+          }}
           allowClear
           affix={<Sms size={22} color={appColors.darkGray} />}
+          onEnd={() =>
+            formValidator(
+              'email',
+              {email: email},
+              errorMessage,
+              setErrorMessage,
+            )
+          }
         />
         <InputComponent
           value={password}
           placeholder="Password"
-          onChange={val => setPassword(val)}
+          onChange={val => {
+            setPassword(val);
+            setErrorMessage({});
+            // formValidator(
+            //   'password',
+            //   {password: val},
+            //   errorMessage,
+            //   setErrorMessage,
+            // );
+          }}
           allowClear
           isPassword
           affix={<PasswordCheck size={22} color={appColors.darkGray} />}
+          // onEnd={() =>
+
+          // }
         />
         <SpaceComponent height={19} />
         <RowComponent justify="space-between">
@@ -108,11 +144,32 @@ const LoginScreen = ({navigation}: any) => {
             text="Recovery Password"
             textColor={appColors.coolGray}
             size={13}
-            onPress={() => navigation.navigate('RecoveryPassword')}
+            onPress={() => navigation.navigate('ForgotPassword')}
           />
         </RowComponent>
-        <SpaceComponent height={20} />
+        <SectionComponent styles={{marginHorizontal: 12}}>
+          {errorMessage && (
+            <SectionComponent>
+              {Object.keys(errorMessage).map((error, index) => (
+                <RowComponent key={`row${index}`}>
+                  <Danger
+                    size={14}
+                    color={appColors.danger}
+                    style={{marginRight: 6}}
+                  />
+                  <TextComponent
+                    text={errorMessage[`${error}`]}
+                    key={`error${index}`}
+                    color={appColors.danger}
+                    size={12}
+                  />
+                </RowComponent>
+              ))}
+            </SectionComponent>
+          )}
+        </SectionComponent>
         <ButtonComponent
+          disable={isDisable}
           type="primary"
           text="Sign In"
           onPress={handleLogin}

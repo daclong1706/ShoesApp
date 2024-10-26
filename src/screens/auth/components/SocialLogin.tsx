@@ -9,8 +9,29 @@ import {
 import {appColors} from '../../../constants/appColor';
 import {fontFamilies} from '../../../constants/fontFamilies';
 import {Google, Facebook} from '../../../assets/svg';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+
+GoogleSignin.configure({
+  webClientId:
+    '199291532897-jmhe6jroat626ikvps09cqsa2kf220lc.apps.googleusercontent.com',
+});
 
 const SocialLogin = () => {
+  const handleLoginWithGoogle = async () => {
+    await GoogleSignin.hasPlayServices({
+      showPlayServicesUpdateDialog: true,
+    });
+    try {
+      await GoogleSignin.hasPlayServices();
+
+      const userInfo = await GoogleSignin.signIn();
+
+      console.log(userInfo.data?.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <SectionComponent>
       <TextComponent
@@ -22,6 +43,7 @@ const SocialLogin = () => {
       <SpaceComponent height={10} />
       <ButtonComponent
         type="primary"
+        onPress={handleLoginWithGoogle}
         color={appColors.white}
         textColor={appColors.text}
         size={18}
