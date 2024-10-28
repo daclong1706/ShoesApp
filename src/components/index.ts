@@ -7,6 +7,7 @@ import RowComponent from './RowComponent';
 import SectionComponent from './SectionComponent';
 import SpaceComponent from './SpaceComponent';
 import TabBarBottom from './TabBarBottom';
+import TagComponent from './TagComponent';
 import TextComponent from './TextComponent';
 
 export {
@@ -20,4 +21,5 @@ export {
   OnboardingSlide,
   TabBarBottom,
   CircleComponent,
+  TagComponent,
 };

@@ -27,6 +27,7 @@ import {
 import RowComponent from './RowComponent';
 import {fontFamilies} from '../constants/fontFamilies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const CustomDrawer = ({navigation}: any) => {
   const user = useSelector(authSelector);
@@ -36,6 +37,7 @@ const CustomDrawer = ({navigation}: any) => {
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem('auth');
+      await GoogleSignin.signOut();
       dispatch(removeAuth());
     } catch (error) {
       console.log(error);
@@ -93,29 +95,25 @@ const CustomDrawer = ({navigation}: any) => {
             screen: 'ProfileScreen',
           });
         }}>
-        {user.email ? (
+        {user.photo ? (
           <Image
             source={{
-              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEm6PLJe9kcUX4umLQ5m_YJNu5mBlsPA5v8g&s',
+              uri: user.photo,
             }}
             style={[style.avatar]}
           />
         ) : (
-          <View style={[style.avatar, {backgroundColor: appColors.gray}]}>
+          <View style={[style.avatar, {backgroundColor: appColors.lightGray}]}>
             <TextComponent
               title
               size={22}
               text={
-                user.name
-                  ? user.name
-                      .splipt(' ')
-                      [user.name.splipt(' ').length - 1].substring(0, 1)
-                  : ''
+                user.name ? user.name.split(' ').at(-1).substring(0, 1) : ''
               }
             />
           </View>
         )}
-        <TextComponent text={user.email} title size={18} />
+        <TextComponent text={user.name} title size={18} />
       </TouchableOpacity>
 
       <FlatList
@@ -165,6 +163,8 @@ const style = StyleSheet.create({
     height: 64,
     borderRadius: 100,
     marginBottom: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   listItem: {
     paddingVertical: 17,

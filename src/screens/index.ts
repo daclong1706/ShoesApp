@@ -11,6 +11,7 @@ import ProfileScreen from './profiles/ProfileScreen';
 import CartScreen from './CartScreen';
 import NotificationScreen from './notifications/NotificationScreen';
 import FavoriteScreen from './favorites/FavoriteScreen';
+import SearchScreen from './events/SearchScreen';
 
 export {
   HomeScreen,
@@ -26,4 +27,5 @@ export {
   ProfileScreen,
   FavoriteScreen,
   NotificationScreen,
+  SearchScreen,
 };

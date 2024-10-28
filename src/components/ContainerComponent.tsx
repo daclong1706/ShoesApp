@@ -40,13 +40,33 @@ const ContainerComponent = (props: Props) => {
               minHeight: 48,
             }}>
             {back && (
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                style={[styles.button, globalStyles.shadow, {marginRight: 12}]}>
-                <ArrowLeft2 size={24} color={appColors.text} />
-              </TouchableOpacity>
+              <RowComponent>
+                <TouchableOpacity
+                  onPress={() => navigation.goBack()}
+                  style={[
+                    styles.button,
+                    globalStyles.shadow,
+                    {marginRight: 12},
+                  ]}>
+                  <ArrowLeft2 size={24} color={appColors.text} />
+                </TouchableOpacity>
+              </RowComponent>
             )}
-            {title && <TextComponent text={title} font={fontFamilies.medium} />}
+            {title && (
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <TextComponent
+                  text={title}
+                  font={fontFamilies.medium}
+                  size={16}
+                  styles={{left: -32}}
+                />
+              </View>
+            )}
           </RowComponent>
         )}
 

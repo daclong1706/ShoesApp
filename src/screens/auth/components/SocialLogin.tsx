@@ -1,5 +1,5 @@
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ButtonComponent,
   SectionComponent,
@@ -10,6 +10,10 @@ import {appColors} from '../../../constants/appColor';
 import {fontFamilies} from '../../../constants/fontFamilies';
 import {Google, Facebook} from '../../../assets/svg';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import authenticationAPI from '../../../apis/authApi';
+import {useDispatch} from 'react-redux';
+import {addAuth} from '../../../stores/reducers/authReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 GoogleSignin.configure({
   webClientId:
@@ -17,16 +21,37 @@ GoogleSignin.configure({
 });
 
 const SocialLogin = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
   const handleLoginWithGoogle = async () => {
     await GoogleSignin.hasPlayServices({
       showPlayServicesUpdateDialog: true,
     });
+
+    const api = '/login-google';
+
     try {
       await GoogleSignin.hasPlayServices();
 
       const userInfo = await GoogleSignin.signIn();
 
-      console.log(userInfo.data?.user);
+      if (userInfo && userInfo.data?.user) {
+        const user = userInfo.data.user;
+
+        const res: any = await authenticationAPI.HandleAuthentication(
+          api,
+          user,
+          'post',
+        );
+
+        console.log(res.data);
+
+        dispatch(addAuth(res.data));
+        await AsyncStorage.setItem('auth', JSON.stringify(res.data));
+      } else {
+        console.log('User info is incomplete, login aborted.');
+      }
     } catch (error) {
       console.log(error);
     }
