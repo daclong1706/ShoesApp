@@ -5,22 +5,24 @@ import {fontFamilies} from '../constants/fontFamilies';
 import {globalStyles} from '../styles/globalStyles';
 
 interface Props {
-  text: string;
+  text?: string;
   color?: string;
   size?: number;
   flex?: number;
   font?: string;
   styles?: StyleProp<TextStyle>;
   title?: boolean;
+  numOfLine?: number;
 }
 
 const TextComponent = (props: Props) => {
-  const {text, size, flex, font, color, styles, title} = props;
+  const {text, size, flex, font, color, styles, title, numOfLine} = props;
 
   const fontSizeDefault = Platform.OS === 'ios' ? 16 : 14;
 
   return (
     <Text
+      numberOfLines={numOfLine}
       style={[
         globalStyles.text,
         {

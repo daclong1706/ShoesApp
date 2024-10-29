@@ -6,8 +6,13 @@ import {
   View,
   Image,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
-import {TextComponent, ButtonComponent} from '../../components';
+import {
+  TextComponent,
+  ButtonComponent,
+  TabBarComponent,
+} from '../../components';
 import {fontFamilies} from '../../constants/fontFamilies';
 import {appColors} from '../../constants/appColor';
 
@@ -15,7 +20,7 @@ interface Shoe {
   id: string;
   name: string;
   price: string;
-  image: any; // Bạn có thể thay thế `any` bằng kiểu ảnh của bạn (ví dụ: require(...))
+  image: any;
 }
 
 interface PopularShoesProps {
@@ -31,21 +36,7 @@ const PopularShoes: React.FC<PopularShoesProps> = ({
 }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.headerRow}>
-        <TextComponent
-          text="Popular Shoes"
-          font={fontFamilies.medium}
-          size={18}
-        />
-        <TouchableOpacity onPress={onSeeAll}>
-          <TextComponent
-            text="See all"
-            color={appColors.primary}
-            font={fontFamilies.medium}
-          />
-        </TouchableOpacity>
-      </View>
-
+      <TabBarComponent title="Popular Shoes" size={18} onPress={onSeeAll} />
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -102,15 +93,10 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 12,
   },
-  headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
   scrollContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: StatusBar.currentHeight,
   },
   shoeCard: {
     width: 150,

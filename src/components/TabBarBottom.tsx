@@ -4,6 +4,7 @@ import {
   Home,
   Notification,
   Profile,
+  Calendar,
 } from 'iconsax-react-native';
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
@@ -53,8 +54,8 @@ const TabBarBottom = ({state, descriptors, navigation}: any) => {
             IconComponent = <Home size={24} color={iconColor} />;
           } else if (route.name === 'Favorite') {
             IconComponent = <Heart size={24} color={iconColor} />;
-          } else if (route.name === 'Notification') {
-            IconComponent = <Notification size={24} color={iconColor} />;
+          } else if (route.name === 'Event') {
+            IconComponent = <Calendar size={24} color={iconColor} />;
           } else if (route.name === 'Profile') {
             IconComponent = <Profile size={24} color={iconColor} />;
           } else if (route.name === 'Cart') {

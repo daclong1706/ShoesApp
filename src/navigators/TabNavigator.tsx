@@ -7,6 +7,7 @@ import HomeNavigator from './HomeNavigator';
 import NotificationNavigator from './NotificationNavigator';
 import ProfileNavigator from './ProfileNavigator';
 import DrawerNavigator from './DrawerNavigator';
+import EventNavigator from './EventNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,13 +17,13 @@ const TabNavigator = () => {
       tabBar={props => <TabBarBottom {...props} />}
       screenOptions={{headerShown: false}}>
       <Tab.Screen name="Home" component={HomeNavigator} />
-      <Tab.Screen name="Favorite" component={FavoriteNavigator} />
+      <Tab.Screen name="Event" component={EventNavigator} />
       <Tab.Screen
         name="Cart"
         component={CartScreen}
         options={{tabBarShowLabel: false}}
       />
-      <Tab.Screen name="Notification" component={NotificationNavigator} />
+      <Tab.Screen name="Favorite" component={FavoriteNavigator} />
       <Tab.Screen name="Profile" component={ProfileNavigator} />
     </Tab.Navigator>
   );

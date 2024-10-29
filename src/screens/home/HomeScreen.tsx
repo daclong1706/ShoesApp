@@ -1,6 +1,6 @@
 // HomeScreen.tsx
 import React, {useState} from 'react';
-import {View, StatusBar, StyleSheet} from 'react-native';
+import {View, StatusBar, StyleSheet, ScrollView, FlatList} from 'react-native';
 import {
   Adidas,
   Converse,
@@ -10,11 +10,20 @@ import {
   UnderArmour,
 } from '../../assets/svg';
 import {appColors} from '../../constants/appColor';
-import {CircleComponent, RowComponent, TextComponent} from '../../components';
+import {
+  CircleComponent,
+  RowComponent,
+  SectionComponent,
+  ShoesList,
+  TabBarComponent,
+  TextComponent,
+} from '../../components';
 import {Menu, SearchNormal1, ShoppingBag} from 'iconsax-react-native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import BrandFilter from './BrandFilter'; // Import component mới
 import PopularShoes from './PopularShoes';
+import {it} from 'node:test';
+import {Shoes} from '../../models/ShoesModel';
 
 const brands = [
   {id: 'nike', text: 'Nike', icon: <Nike />},
@@ -83,6 +92,105 @@ export const products = [
   },
 ];
 
+const shoes: Shoes[] = [
+  {
+    productId: 'CW2288-111',
+    name: 'Nike Air Jordan',
+    description:
+      'Air Jordan là một thương hiệu giày thể thao bóng rổ nổi tiếng...',
+    price: 2929000,
+    colors: [
+      {
+        colorId: 'blue-white',
+        colorName: 'Blue/White',
+        colorImage:
+          'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/80a05f38-1936-46f0-9b99-7ed0eb00849b/NIKE+DUNK+LOW+RETRO.png',
+        colorCode: '#fffff',
+        images: [
+          'https://link.to/blue_white_image1.jpg',
+          'https://link.to/blue_white_image2.jpg',
+          'https://link.to/blue_white_image3.jpg',
+        ],
+        discountPercentage: 30,
+      },
+      {
+        colorId: 'blue-black',
+        colorName: 'Blue/Black',
+        colorImage:
+          'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/f90a69fc-1b25-41de-b008-34a791214918/NIKE+DUNK+LOW+RETRO.png',
+        colorCode: 'red',
+        images: [
+          'https://link.to/blue_white_image1.jpg',
+          'https://link.to/blue_white_image2.jpg',
+          'https://link.to/blue_white_image3.jpg',
+        ],
+        discountPercentage: 30,
+      },
+    ],
+    sizes: ['38', '39', '40', '41', '42', '43'],
+    features: [
+      {
+        description: 'Đế giữa bằng foam nhẹ, đàn hồi tốt',
+        image: 'https://link.to/feature_image1.jpg',
+      },
+    ],
+    reviews: [
+      {
+        username: 'AnthonyT904858449',
+        date: '2024-10-17',
+        rating: 5,
+        comment: 'Màu sắc của đôi giày thật tuyệt vời...',
+      },
+    ],
+    similarProductIds: ['JAM123', 'DUNK234'],
+    benefits: [
+      'The stitched overlays on the upper add heritage style, durability and support.',
+    ],
+    productDetails: ['Foam midsole', 'Perforations on the toe', 'Rubber sole'],
+    origins:
+      'Debuting in 1982, the AF-1 was the first basketball shoe to house Nike Air.',
+    label: 'Best Seller', // Gắn nhãn Best Seller
+  },
+  {
+    productId: 'CW2299-222',
+    name: 'Nike Air Max',
+    description: 'Nike Air Max là dòng giày thể thao nổi bật...',
+    price: 920.5,
+    colors: [
+      {
+        colorId: 'red-white',
+        colorName: 'Red/White',
+        colorImage: 'https://link.to/thumbnail_red_white.jpg',
+        images: [
+          'https://link.to/red_white_image1.jpg',
+          'https://link.to/red_white_image2.jpg',
+        ],
+      },
+    ],
+    sizes: ['40', '41', '42', '43', '44'],
+    features: [
+      {
+        description: 'Công nghệ Air Max êm ái, thoải mái',
+        image: 'https://link.to/feature_image2.jpg',
+      },
+    ],
+    reviews: [
+      {
+        username: 'User123',
+        date: '2024-09-10',
+        rating: 4,
+        comment: 'Giày đẹp, mang rất thoải mái.',
+      },
+    ],
+    similarProductIds: ['JAM125', 'DUNK236'],
+    benefits: ['Designed with Air Max technology for comfort.'],
+    productDetails: ['Air Max sole', 'Breathable mesh upper'],
+    origins:
+      'The Air Max revolutionized sports footwear with its visible air pocket.',
+    label: 'Best Choice', // Gắn nhãn Best Choice
+  },
+];
+
 const HomeScreen = ({navigation}: any) => {
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
 
@@ -146,20 +254,40 @@ const HomeScreen = ({navigation}: any) => {
           </RowComponent>
         </RowComponent>
       </View>
-      <View style={styles.content}>
-        <BrandFilter
+      <ScrollView>
+        {/* <BrandFilter
         // brands={brands}
         // selectedBrand={selectedBrand}
         // onPress={handlePress}
+        /> */}
+
+        <BrandFilter />
+        {/* <TabBarComponent title="Popular" /> */}
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={Array.from({length: 5})}
+          renderItem={({item, index}) => (
+            <ShoesList key={`Shoes ${index}`} item={shoes[0]} type="card" />
+          )}
         />
-      </View>
-      <View style={styles.content}>
+
         <PopularShoes
           shoes={products}
           onSeeAll={handleSeeAll}
           onAddToCart={handleAddToCart}
         />
-      </View>
+        <PopularShoes
+          shoes={products}
+          onSeeAll={handleSeeAll}
+          onAddToCart={handleAddToCart}
+        />
+        <PopularShoes
+          shoes={products}
+          onSeeAll={handleSeeAll}
+          onAddToCart={handleAddToCart}
+        />
+      </ScrollView>
     </View>
   );
 };
@@ -175,9 +303,9 @@ const styles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight,
     paddingHorizontal: StatusBar.currentHeight,
   },
-  content: {
-    paddingHorizontal: StatusBar.currentHeight,
-  },
+  // content: {
+  //   paddingLeft: StatusBar.currentHeight,
+  // },
   location: {
     flex: 1,
     alignItems: 'center',
@@ -203,7 +331,7 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 8,
     shadowOpacity: 0.3,
-    elevation: 16,
+    elevation: 2,
   },
   searchIcon: {
     marginHorizontal: 14,

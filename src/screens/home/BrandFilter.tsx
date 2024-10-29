@@ -1,7 +1,12 @@
 // BrandFilter.tsx
 import React, {ReactNode, useState} from 'react';
-import {FlatList, ScrollView, StyleSheet, View} from 'react-native';
-import {TagComponent, TextComponent, ButtonComponent} from '../../components';
+import {FlatList, ScrollView, StatusBar, StyleSheet, View} from 'react-native';
+import {
+  TagComponent,
+  TextComponent,
+  ButtonComponent,
+  TabBarComponent,
+} from '../../components';
 import {fontFamilies} from '../../constants/fontFamilies';
 import {
   Adidas,
@@ -57,12 +62,12 @@ const BrandFilter = (props: Props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerRow}>
-        <TextComponent text="Select Brand" font={fontFamilies.medium} />
-        <ButtonComponent text="See all" type="link" />
-      </View>
+      <TabBarComponent title="Select Brand" />
       <FlatList
         horizontal
+        style={{
+          marginLeft: StatusBar.currentHeight,
+        }}
         showsHorizontalScrollIndicator={false}
         data={brands}
         renderItem={({item}) => (
@@ -114,16 +119,6 @@ const BrandFilter = (props: Props) => {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 12,
-  },
-  headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  scrollContainer: {
-    flexDirection: 'row', // Sắp xếp các TagComponent theo hàng ngang
-    paddingHorizontal: 10,
   },
 });
 

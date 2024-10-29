@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {appColors} from '../constants/appColor';
 import {fontFamilies} from '../constants/fontFamilies';
+import TextComponent from './TextComponent';
 
 interface Props {
   isSelected?: boolean;
