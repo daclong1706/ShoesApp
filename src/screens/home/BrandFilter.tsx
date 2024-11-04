@@ -16,6 +16,7 @@ import {
   Puma,
   UnderArmour,
 } from '../../assets/svg';
+import {appColors} from '../../constants/appColor';
 
 // interface Brand {
 //   id: string;

@@ -12,6 +12,7 @@ import TabBarComponent from './TabBarComponent';
 import TagComponent from './TagComponent';
 import TextComponent from './TextComponent';
 import ShoesCard from './ShoesCard';
+import SizeSelector from './SizeSelector';
 
 export {
   SpaceComponent,
@@ -28,4 +29,5 @@ export {
   TabBarComponent,
   ShoesList,
   ShoesCard,
+  SizeSelector,
 };

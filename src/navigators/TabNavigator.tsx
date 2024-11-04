@@ -8,13 +8,23 @@ import NotificationNavigator from './NotificationNavigator';
 import ProfileNavigator from './ProfileNavigator';
 import DrawerNavigator from './DrawerNavigator';
 import EventNavigator from './EventNavigator';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      tabBar={props => <TabBarBottom {...props} />}
+      tabBar={props => {
+        // Kiểm tra xem màn hình hiện tại có phải là ProductDetail không
+        const routeName =
+          getFocusedRouteNameFromRoute(
+            props.state?.routes[props.state.index],
+          ) || 'Home';
+        const hideTabBar =
+          routeName === 'ProductDetail' || routeName === 'ReviewScreen';
+        return <TabBarBottom {...props} hideTabBar={hideTabBar} />;
+      }}
       screenOptions={{headerShown: false}}>
       <Tab.Screen name="Home" component={HomeNavigator} />
       <Tab.Screen name="Event" component={EventNavigator} />

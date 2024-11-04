@@ -1,9 +1,9 @@
 import {
   View,
-  Text,
   ImageBackground,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 import CardComponent from './ShoesCard';
@@ -14,6 +14,7 @@ import {appColors} from '../constants/appColor';
 import {fontFamilies} from '../constants/fontFamilies';
 import RowComponent from './RowComponent';
 import {Add, Heart} from 'iconsax-react-native';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   item: Shoes;
@@ -36,13 +37,14 @@ const ShoesList = (props: Props) => {
     item.colors[selectedColorIndex]?.discountPercentage ??
     item.discountPercentage;
 
-  // Render component
+  const navigation: any = useNavigation();
+
   return (
     <CardComponent
-      onPress={() => {}}
+      onPress={() => navigation.navigate('ProductDetail', {item})}
       styles={{width: appInfo.sizes.WIDTH * 0.4}}>
       <ImageBackground
-        style={{flex: 1, marginBottom: 12, height: 130, padding: 10}}
+        style={styles.imageBackground}
         source={{uri: item.colors[selectedColorIndex].colorImage}}>
         <RowComponent justify="flex-end">
           <TouchableOpacity>
@@ -86,25 +88,28 @@ const ShoesList = (props: Props) => {
       )}
 
       <RowComponent justify="space-between">
-        {/* Bảng màu sắc */}
-        <View style={{flexDirection: 'row', marginTop: 8}}>
+        {/* Bảng màu sắc với ScrollView */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.colorScrollView}
+          contentContainerStyle={{alignItems: 'center'}}
+          nestedScrollEnabled>
           {item.colors.map((color, index) => (
             <TouchableOpacity
               key={color.colorId}
               onPress={() => setSelectedColorIndex(index)}
-              style={{
-                width: 16,
-                height: 16,
-                borderRadius: 12,
-                backgroundColor: color.colorCode,
-                borderWidth: selectedColorIndex === index ? 2 : 1,
-                borderColor:
-                  selectedColorIndex === index ? appColors.primary : '#ccc',
-                marginHorizontal: 4,
-              }}
+              style={[
+                styles.colorCircle,
+                {
+                  backgroundColor: color.colorCode,
+                  borderColor:
+                    selectedColorIndex === index ? appColors.primary : '#ccc',
+                },
+              ]}
             />
           ))}
-        </View>
+        </ScrollView>
 
         {/* Nút thêm vào giỏ hàng */}
         <TouchableOpacity style={styles.addButton}>
@@ -118,6 +123,23 @@ const ShoesList = (props: Props) => {
 export default ShoesList;
 
 const styles = StyleSheet.create({
+  imageBackground: {
+    flex: 1,
+    marginBottom: 12,
+    height: 130,
+    padding: 10,
+  },
+  colorScrollView: {
+    maxWidth: appInfo.sizes.WIDTH * 0.25,
+    height: 30,
+  },
+  colorCircle: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginHorizontal: 4,
+  },
   addButton: {
     backgroundColor: appColors.primary,
     width: 32,

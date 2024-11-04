@@ -13,6 +13,8 @@ import NotificationScreen from './notifications/NotificationScreen';
 import FavoriteScreen from './favorites/FavoriteScreen';
 import SearchScreen from './events/SearchScreen';
 import EventScreen from './events/EventScreen';
+import ProductDetail from './home/ProductDetail';
+import ReviewScreen from './home/ReviewScreen';
 
 export {
   HomeScreen,
@@ -30,4 +32,6 @@ export {
   NotificationScreen,
   SearchScreen,
   EventScreen,
+  ProductDetail,
+  ReviewScreen,
 };

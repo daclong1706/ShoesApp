@@ -12,8 +12,16 @@ import Svg, {Path} from 'react-native-svg';
 import {appColors} from '../constants/appColor';
 import {globalStyles} from '../styles/globalStyles';
 import CircleComponent from './CircleComponent';
+import {
+  getFocusedRouteNameFromRoute,
+  useNavigationState,
+} from '@react-navigation/native';
 
-const TabBarBottom = ({state, descriptors, navigation}: any) => {
+const TabBarBottom = ({state, descriptors, navigation, hideTabBar}: any) => {
+  if (hideTabBar) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       <Svg width={412} height={114} viewBox={`0 0 472 90`} style={styles.svg}>
@@ -63,26 +71,6 @@ const TabBarBottom = ({state, descriptors, navigation}: any) => {
               <CircleComponent size={75}>
                 <ShoppingBag size={30} color="white" />
               </CircleComponent>
-              // <View
-              //   style={[
-              //     {
-              //       position: 'absolute',
-              //       bottom: 5,
-              //       width: 75,
-              //       height: 75,
-              //       borderRadius: 37.5,
-              //       backgroundColor: appColors.primary,
-              //       justifyContent: 'center',
-              //       alignItems: 'center',
-              //       shadowColor: appColors.primary,
-              //       shadowOpacity: 0.4,
-              //       shadowOffset: {width: 0, height: 0},
-              //       shadowRadius: 15,
-              //       elevation: 10,
-              //     },
-              //   ]}>
-              //   <ShoppingBag size={30} color="white" />
-              // </View>
             );
           }
 
