@@ -1,34 +1,15 @@
 // BrandFilter.tsx
-import React, {ReactNode, useState} from 'react';
-import {FlatList, ScrollView, StatusBar, StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
 import {
-  TagComponent,
-  TextComponent,
-  ButtonComponent,
-  TabBarComponent,
-} from '../../components';
-import {fontFamilies} from '../../constants/fontFamilies';
-import {
-  Adidas,
-  Converse,
-  Fila,
-  Nike,
-  Puma,
-  UnderArmour,
-} from '../../assets/svg';
+  FlatList,
+  StatusBar,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {Adidas, Converse, Nike, Puma, UnderArmour} from '../../assets/svg';
+import {TagComponent} from '../../components';
 import {appColors} from '../../constants/appColor';
-
-// interface Brand {
-//   id: string;
-//   text: string;
-//   icon: React.ReactNode;
-// }
-
-// interface BrandFilterProps {
-//   brands: Brand[];
-//   selectedBrand: string | null;
-//   onPress: (brandId: string) => void;
-// }
 
 interface Brand {
   key: string;
@@ -38,11 +19,13 @@ interface Brand {
 
 interface Props {
   isFill?: boolean;
+  id?: any;
+  onBrandSelect: (brandId: string | null) => void; // Nhận thêm prop này từ ProductScreen
 }
 
 const BrandFilter = (props: Props) => {
-  const {isFill = true} = props;
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null); // Trạng thái nhãn hiệu được chọn
+  const {isFill, onBrandSelect, id} = props;
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(id);
 
   const brands: Brand[] = [
     {key: 'nike', label: 'Nike', icon: <Nike />},
@@ -56,14 +39,15 @@ const BrandFilter = (props: Props) => {
     // Nếu brand đang được chọn, bỏ chọn nó bằng cách đặt lại selectedBrand thành null
     if (selectedBrand === brandId) {
       setSelectedBrand(null);
+      onBrandSelect(null); // Gọi callback với null nếu bỏ chọn nhãn hiệu
     } else {
       setSelectedBrand(brandId);
+      onBrandSelect(brandId); // Gọi callback với nhãn hiệu mới được chọn
     }
   };
 
-  return (
+  return isFill ? (
     <View style={styles.container}>
-      <TabBarComponent title="Select Brand" />
       <FlatList
         horizontal
         style={{
@@ -82,40 +66,44 @@ const BrandFilter = (props: Props) => {
         keyExtractor={item => item.key}
       />
     </View>
+  ) : (
+    <View style={styles.container}>
+      <FlatList
+        horizontal
+        style={{
+          marginLeft: StatusBar.currentHeight,
+        }}
+        showsHorizontalScrollIndicator={false}
+        data={brands}
+        renderItem={({item}) => (
+          <View
+            style={{
+              marginRight: 16,
+              flexDirection: 'row',
+              alignItems: 'center',
+              borderRadius: 50,
+              backgroundColor: '#fff',
+              padding: 8,
+            }}>
+            <TouchableOpacity
+              onPress={() => handlePress(item.key)}
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 300,
+                backgroundColor: '#fff',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              {item.icon}
+            </TouchableOpacity>
+          </View>
+        )}
+        keyExtractor={item => item.key}
+      />
+    </View>
   );
 };
-
-// const BrandFilter: React.FC<BrandFilterProps> = ({
-//   brands,
-//   selectedBrand,
-//   onPress,
-// }) => {
-//   return (
-//     <View style={styles.container}>
-//       <View style={styles.headerRow}>
-//         <TextComponent text="Select Brand" font={fontFamilies.medium} />
-//         <ButtonComponent text="See all" type="link" />
-//       </View>
-
-//       {/* Đảm bảo ScrollView nhận diện các TagComponent */}
-//       <ScrollView
-//         horizontal
-//         showsHorizontalScrollIndicator={false}
-//         contentContainerStyle={styles.scrollContainer} // Sắp xếp các TagComponent theo hàng ngang
-//       >
-//         {brands.map(brand => (
-//           <TagComponent
-//             key={brand.id}
-//             isSelected={selectedBrand === brand.id}
-//             onPress={() => onPress(brand.id)}
-//             text={brand.text}
-//             icon={brand.icon}
-//           />
-//         ))}
-//       </ScrollView>
-//     </View>
-//   );
-// };
 
 const styles = StyleSheet.create({
   container: {

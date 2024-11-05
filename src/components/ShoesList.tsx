@@ -1,20 +1,21 @@
-import {
-  View,
-  ImageBackground,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
-import React, {useState} from 'react';
-import CardComponent from './ShoesCard';
-import TextComponent from './TextComponent';
-import {appInfo} from '../constants/appInfos';
-import {Shoes} from '../models/ShoesModel';
-import {appColors} from '../constants/appColor';
-import {fontFamilies} from '../constants/fontFamilies';
-import RowComponent from './RowComponent';
-import {Add, Heart} from 'iconsax-react-native';
 import {useNavigation} from '@react-navigation/native';
+import {Add, Heart} from 'iconsax-react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import favoriteAPI from '../apis/favoriteAPI'; // Nếu có API quản lý danh sách yêu thích
+import {appColors} from '../constants/appColor';
+import {appInfo} from '../constants/appInfos';
+import {fontFamilies} from '../constants/fontFamilies';
+import {Shoes} from '../models/ShoesModel';
+import RowComponent from './RowComponent';
+import ShoesCard from './ShoesCard';
+import TextComponent from './TextComponent';
 
 interface Props {
   item: Shoes;
@@ -26,6 +27,9 @@ const ShoesList = (props: Props) => {
 
   // State để lưu trữ màu sắc đã chọn
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+
+  // State để lưu trữ trạng thái yêu thích của sản phẩm
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
   // Định dạng giá tiền
   const formatPrice = (price: number) => {
@@ -39,16 +43,65 @@ const ShoesList = (props: Props) => {
 
   const navigation: any = useNavigation();
 
+  // Kiểm tra trạng thái yêu thích của sản phẩm khi component được mount
+  useEffect(() => {
+    const checkFavoriteStatus = async () => {
+      try {
+        const res = await favoriteAPI.getFavorite(); // Lấy dữ liệu từ API
+        if (res) {
+          // Kiểm tra nếu res và res.favorites tồn tại
+          const isFavorited = res.data.favorites.some(
+            (favorite: {productId: string}) =>
+              favorite.productId === item.productId,
+          );
+          setIsFavorite(isFavorited);
+        } else {
+          console.warn('No favorites found in response:', res);
+        }
+        console.log(res.data);
+      } catch (error) {
+        console.error('Failed to fetch favorite status:', error);
+      }
+    };
+
+    checkFavoriteStatus();
+  }, [item.productId]);
+
+  const handleAddToFavorite = async () => {
+    try {
+      // Đảo trạng thái yêu thích
+      const newFavoriteStatus = !isFavorite;
+      setIsFavorite(newFavoriteStatus);
+
+      if (newFavoriteStatus) {
+        // Nếu chuyển sang trạng thái yêu thích
+        const res = await favoriteAPI.addFavorite(item.productId);
+        console.log('Product added to favorites:', res);
+      } else {
+        // Nếu bỏ yêu thích
+        const res = await favoriteAPI.removeFavorite(item.productId);
+        console.log('Removed from favorite:', res);
+      }
+    } catch (error) {
+      console.error('Failed to update favorite status:', error);
+      // Nếu có lỗi, khôi phục trạng thái yêu thích ban đầu
+      setIsFavorite(!isFavorite);
+    }
+  };
+
   return (
-    <CardComponent
+    <ShoesCard
       onPress={() => navigation.navigate('ProductDetail', {item})}
-      styles={{width: appInfo.sizes.WIDTH * 0.4}}>
+      styles={{width: appInfo.sizes.WIDTH * 0.45}}>
       <ImageBackground
         style={styles.imageBackground}
         source={{uri: item.colors[selectedColorIndex].colorImage}}>
         <RowComponent justify="flex-end">
-          <TouchableOpacity>
-            <Heart size={24} color={appColors.gray} />
+          <TouchableOpacity onPress={handleAddToFavorite}>
+            <Heart
+              size={24}
+              color={isFavorite ? appColors.primary : appColors.gray}
+            />
           </TouchableOpacity>
         </RowComponent>
       </ImageBackground>
@@ -116,7 +169,7 @@ const ShoesList = (props: Props) => {
           <Add size={24} color={appColors.white} />
         </TouchableOpacity>
       </RowComponent>
-    </CardComponent>
+    </ShoesCard>
   );
 };
 

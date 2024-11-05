@@ -1,17 +1,19 @@
+import {ArrowDown2, ArrowLeft2, Heart, ShoppingBag} from 'iconsax-react-native';
 import React, {useState} from 'react';
 import {
-  View,
-  Image,
   FlatList,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
+  Image,
   ImageBackground,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
 } from 'react-native';
+import Collapsible from 'react-native-collapsible';
 import Swiper from 'react-native-swiper';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   ButtonComponent,
-  ContainerComponent,
   RowComponent,
   SectionComponent,
   SizeSelector,
@@ -21,18 +23,6 @@ import {
 import {appColors} from '../../constants/appColor';
 import {fontFamilies} from '../../constants/fontFamilies';
 import {globalStyles} from '../../styles/globalStyles';
-import {
-  ArrowDown,
-  ArrowDown2,
-  ArrowLeft2,
-  Heart,
-  Icon,
-  ShoppingBag,
-  Star,
-  Star1,
-} from 'iconsax-react-native';
-import Collapsible from 'react-native-collapsible';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const ProductDetail = ({navigation, route}: any) => {
   const {item: product} = route.params;

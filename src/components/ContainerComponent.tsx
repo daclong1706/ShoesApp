@@ -63,7 +63,7 @@ const ContainerComponent = (props: Props) => {
                   text={title}
                   font={fontFamilies.medium}
                   size={16}
-                  styles={{left: -32}}
+                  styles={{left: -32, textTransform: 'capitalize'}}
                 />
               </View>
             )}

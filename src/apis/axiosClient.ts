@@ -1,5 +1,6 @@
 import axios from 'axios';
 import queryString from 'query-string';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appInfo} from '../constants/appInfos';
 
 const axiosClient = axios.create({
@@ -7,28 +8,43 @@ const axiosClient = axios.create({
   paramsSerializer: params => queryString.stringify(params),
 });
 
-axiosClient.interceptors.request.use(async (config: any) => {
-  config.headers = {
-    Authorization: '',
-    Accept: 'application/json',
-    ...config.headers,
-  };
+// Request Interceptor
+axiosClient.interceptors.request.use(async config => {
+  try {
+    // Lấy accessToken từ AsyncStorage
+    const auth = await AsyncStorage.getItem('auth');
+    let accessToken;
+    if (auth !== null) {
+      accessToken = JSON.parse(auth)?.accesstoken;
+    } else {
+      console.log('Auth Value: Not found');
+    }
 
-  config.data;
+    // Thêm accessToken vào header Authorization nếu có
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
 
-  return config;
+    config.headers.Accept = 'application/json';
+
+    return config;
+  } catch (error) {
+    console.error('Error getting access token:', error);
+    return config;
+  }
 });
 
+// Response Interceptor
 axiosClient.interceptors.response.use(
   res => {
-    if (res.data && res.status === 200) {
-      return res.data;
-    }
-    throw new Error('Error');
+    return res.data;
   },
   error => {
-    console.log(`Error api ${JSON.stringify(error)}`);
-    throw new Error(error.response);
+    console.error(
+      `Error in axios response:`,
+      error.response?.data || error.message,
+    );
+    return Promise.reject(error);
   },
 );
 

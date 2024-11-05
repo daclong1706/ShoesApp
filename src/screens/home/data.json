@@ -1,0 +1,106 @@
+{
+  "productId": "PUMA-392328",
+  "name": "Puma Rebound V6",
+  "type": "Shoes",
+  "brand": "puma",
+  "price": 1799000,
+  "description": "Với sự kết hợp giữa phong cách năng động và thoải mái, đôi giày sneakers Rebound V6 đã nhanh chóng trở thành sự lựa chọn lí tưởng để cùng mọi tín đồ sneakers bứt phá thời trang street-style. Nhờ vào thiết kế đơn giản cùng phom dáng ôm chân, tất cả đã góp phần khiến Rebound V6 dễ dàng mix-match với mọi outfit và phù hợp với đa dạng hoạt động, từ thể thao đến các buổi dạo phố cực chất.",
+  "colors": [
+    {
+      "colorId": "PUMA-392328-101",
+      "colorName": "White/Rose/Black",
+      "colorImage": "https://product.hstatic.net/1000284478/product/19_392328_4_306536d0fbf948678f5ce0f980e6cdb8.jpg",
+      "colorCode": "#FFFFFF",
+      "quantity": 130,
+      "country": ["Đức"],
+      "images": [
+        "https://product.hstatic.net/1000284478/product/19_392328_1_0854c39152d947f5b769aaa0b52b65f7.jpg",
+        "https://product.hstatic.net/1000284478/product/19_392328_2_c190d053583f4c54a06986997daf6904.jpg",
+        "https://product.hstatic.net/1000284478/product/19_392328_3_4274810054314ccb80ddd24f310cbc31.jpg",
+        "https://product.hstatic.net/1000284478/product/19_392328_5_223b813cf8a94bfda0b8724de9ed6be3.jpg",
+        "https://product.hstatic.net/1000284478/product/19_392328_7_bfae9ab3fc0f4120af9e9941b8429a54_small.jpg"
+      ],
+      "discountPercentage": 10
+    },
+    {
+      "colorId": "PUMA-392328-102",
+      "colorName": "White/Blue",
+      "colorImage": "https://product.hstatic.net/1000284478/product/28_392328_5_10bf708cd86048529c1c90f59955843c.jpg",
+      "colorCode": "#FFFFFF",
+      "quantity": 130,
+      "country": ["Đức"],
+      "images": [
+        "https://product.hstatic.net/1000284478/product/28_392328_1_6c2bdc38662947d08776cc86b16ca228.jpg",
+        "https://product.hstatic.net/1000284478/product/28_392328_3_11d94c0fb3034c328a5303ff04a19753.jpg",
+        "https://product.hstatic.net/1000284478/product/28_392328_4_04539be795c244fd95e740c54f8e42a2.jpg",
+        "https://product.hstatic.net/1000284478/product/28_392328_6_2a3d516d38a44de0bf36c4cab5984c25.jpg",
+        "https://product.hstatic.net/1000284478/product/28_392328_7_9ea1dc8f49ee4402824a954657363f2f.jpg",
+        "https://product.hstatic.net/1000284478/product/28_392328_8_74b63c9c49af4875b0d91245f5c9f1ca.jpg"
+      ],
+      "discountPercentage": 10
+    }
+  ],
+
+  "sizes": ["37", "38", "39", "40", "41", "42", "43", "44"],
+  "features": [
+    {
+      "description": "Phần thân giày được làm từ da tổng hợp và vải, mang lại cảm giác thoải mái và bền bỉ cho mọi hoạt động hàng ngày.",
+      "image": "https://product.hstatic.net/1000284478/product/19_392328_3_4274810054314ccb80ddd24f310cbc31.jpg"
+    },
+    {
+      "description": "Đế ngoài cao su giúp tăng độ bám, mang lại sự an toàn khi di chuyển trên mọi địa hình.",
+      "image": "https://product.hstatic.net/1000284478/product/19_392328_2_c190d053583f4c54a06986997daf6904.jpg"
+    },
+    {
+      "description": "Lớp đệm mềm mại bên trong mang đến cảm giác êm ái, hỗ trợ tốt cho đôi chân khi vận động lâu dài.",
+      "image": "https://product.hstatic.net/1000284478/product/19_392328_1_0854c39152d947f5b769aaa0b52b65f7.jpg"
+    }
+  ],
+  "reviews": [
+    {
+      "username": "PhuongAnhTran",
+      "date": "2024-11-10",
+      "rating": 5,
+      "comment": "Thiết kế giày rất đẹp, đi cực kỳ thoải mái và chắc chắn. Rất phù hợp cho những buổi đi dạo hoặc tập nhẹ."
+    },
+    {
+      "username": "VanLinh",
+      "date": "2024-11-08",
+      "rating": 4,
+      "comment": "Giày khá nhẹ và mềm, phần đế rất bám tốt, chỉ có điều phần mũi hơi chật nếu đi tất dày."
+    },
+    {
+      "username": "HuuThang",
+      "date": "2024-11-05",
+      "rating": 5,
+      "comment": "Rất hài lòng với chất lượng của Puma, thiết kế phong cách và phù hợp cho nhiều dịp khác nhau."
+    },
+    {
+      "username": "NguyenHa",
+      "date": "2024-10-31",
+      "rating": 3,
+      "comment": "Giày đẹp nhưng phần đệm hơi cứng, cần đi vài lần để làm mềm hơn."
+    }
+  ],
+
+  "similarProductIds": ["ULTRA4", "BOOST21"],
+  "benefits": [
+    "Thân giày kết hợp da và vải tạo sự thoải mái nhưng vẫn đảm bảo độ bền.",
+    "Đế cao su với độ bám cao giúp giữ vững và an toàn khi di chuyển.",
+    "Thiết kế cổ giày có đệm mềm tạo sự thoải mái, phù hợp cho các hoạt động dài.",
+    "Thân giày linh hoạt giúp dễ dàng di chuyển, phù hợp với nhiều hoạt động từ đi chơi, đi làm đến tập luyện nhẹ nhàng."
+  ],
+  "productDetails": [
+    "Thiết kế regular fit",
+    "Có dây giày",
+    "Thân giày kết hợp giữa da tổng hợp và vải",
+    "Phần đệm mềm mại hỗ trợ bàn chân tốt hơn",
+    "Đế cao su tăng cường độ bám",
+    "Trọng lượng: 290 g (size 42)",
+    "Độ cao đế giữa: 10 mm",
+    "Thích hợp cho các hoạt động hàng ngày hoặc luyện tập nhẹ"
+  ],
+  "origins": "Puma Rebound V6 được ra mắt với cảm hứng từ giày thể thao cổ điển kết hợp với phong cách hiện đại, mang lại sự thoải mái và phong cách cho người dùng trong các hoạt động hàng ngày.",
+
+  "label": "Everyday Comfort"
+}

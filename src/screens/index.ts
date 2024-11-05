@@ -15,6 +15,7 @@ import SearchScreen from './events/SearchScreen';
 import EventScreen from './events/EventScreen';
 import ProductDetail from './home/ProductDetail';
 import ReviewScreen from './home/ReviewScreen';
+import ProductScreen from './home/ProductScreen';
 
 export {
   HomeScreen,
@@ -34,4 +35,5 @@ export {
   EventScreen,
   ProductDetail,
   ReviewScreen,
+  ProductScreen,
 };

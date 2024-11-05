@@ -14,20 +14,23 @@ interface Props {
   title: string;
   size?: number;
   onPress?: () => void;
+  hideSeeAll?: boolean;
 }
 
 const TabBarComponent = (props: Props) => {
-  const {title, size, onPress} = props;
+  const {title, size, onPress, hideSeeAll} = props;
   return (
     <View style={styles.header}>
       <TextComponent text={title} font={fontFamilies.medium} size={size} />
-      <TouchableOpacity onPress={onPress}>
-        <TextComponent
-          text="See all"
-          color={appColors.primary}
-          font={fontFamilies.medium}
-        />
-      </TouchableOpacity>
+      {hideSeeAll ?? (
+        <TouchableOpacity onPress={onPress}>
+          <TextComponent
+            text="See all"
+            color={appColors.primary}
+            font={fontFamilies.medium}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

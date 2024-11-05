@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 50,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
     padding: 8,
   },
   selectedContainer: {

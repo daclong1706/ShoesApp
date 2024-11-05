@@ -22,7 +22,9 @@ const TabNavigator = () => {
             props.state?.routes[props.state.index],
           ) || 'Home';
         const hideTabBar =
-          routeName === 'ProductDetail' || routeName === 'ReviewScreen';
+          routeName === 'ProductDetail' ||
+          routeName === 'ReviewScreen' ||
+          routeName === 'ProductScreen';
         return <TabBarBottom {...props} hideTabBar={hideTabBar} />;
       }}
       screenOptions={{headerShown: false}}>
