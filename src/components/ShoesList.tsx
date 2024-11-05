@@ -16,6 +16,12 @@ import {Shoes} from '../models/ShoesModel';
 import RowComponent from './RowComponent';
 import ShoesCard from './ShoesCard';
 import TextComponent from './TextComponent';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addFavorite,
+  favoriteSelector,
+  removeFavorite,
+} from '../stores/reducers/favoriteSlice';
 
 interface Props {
   item: Shoes;
@@ -24,6 +30,9 @@ interface Props {
 
 const ShoesList = (props: Props) => {
   const {item, type} = props;
+
+  const dispatch = useDispatch();
+  const favorites = useSelector(favoriteSelector);
 
   // State để lưu trữ màu sắc đã chọn
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
@@ -67,21 +76,27 @@ const ShoesList = (props: Props) => {
     checkFavoriteStatus();
   }, [item.productId]);
 
+  useEffect(() => {
+    const isFavorited = favorites.includes(item.productId);
+    setIsFavorite(isFavorited);
+  }, [favorites, item.productId]);
+
   const handleAddToFavorite = async () => {
     try {
       // Đảo trạng thái yêu thích
       const newFavoriteStatus = !isFavorite;
-      setIsFavorite(newFavoriteStatus);
 
       if (newFavoriteStatus) {
         // Nếu chuyển sang trạng thái yêu thích
-        const res = await favoriteAPI.addFavorite(item.productId);
-        console.log('Product added to favorites:', res);
+        await favoriteAPI.addFavorite(item.productId); // Ghi vào cơ sở dữ liệu
+        dispatch(addFavorite(item.productId)); // Cập nhật Redux
       } else {
         // Nếu bỏ yêu thích
-        const res = await favoriteAPI.removeFavorite(item.productId);
-        console.log('Removed from favorite:', res);
+        await favoriteAPI.removeFavorite(item.productId); // Xóa khỏi cơ sở dữ liệu
+        dispatch(removeFavorite(item.productId)); // Cập nhật Redux
       }
+
+      setIsFavorite(newFavoriteStatus); // Cập nhật trạng thái cục bộ
     } catch (error) {
       console.error('Failed to update favorite status:', error);
       // Nếu có lỗi, khôi phục trạng thái yêu thích ban đầu

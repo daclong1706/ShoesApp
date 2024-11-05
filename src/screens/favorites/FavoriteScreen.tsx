@@ -1,13 +1,20 @@
 import {View, Text, FlatList, StyleSheet} from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import {useFocusEffect} from '@react-navigation/native'; // Thêm hook useFocusEffect
+import {useSelector, useDispatch} from 'react-redux';
 import {Shoes} from '../../models/ShoesModel';
 import favoriteAPI from '../../apis/favoriteAPI'; // API layer để gọi backend
 import {ShoesList} from '../../components';
 import productAPI from '../../apis/productAPI';
+import {
+  setFavorites,
+  favoriteSelector,
+} from '../../stores/reducers/favoriteSlice';
 
 const FavoriteScreen = () => {
-  const [shoes, setShoes] = useState<Shoes[]>([]);
+  const dispatch = useDispatch();
+  const favorites = useSelector(favoriteSelector);
+  const [shoes, setShoes] = React.useState<Shoes[]>([]);
 
   const getFavoriteShoes = async () => {
     try {
@@ -23,6 +30,7 @@ const FavoriteScreen = () => {
       );
 
       setShoes(detailedShoes);
+      dispatch(setFavorites(favorites.map((fav: any) => fav.productId)));
     } catch (error) {
       console.error('Failed to fetch favorite shoes:', error);
     }
