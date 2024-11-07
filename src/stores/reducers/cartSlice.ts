@@ -50,7 +50,7 @@ export const updateCartItem = createAsyncThunk(
     updatedData: Partial<CartItem>;
   }) => {
     const response = await cartAPI.updateCartItem(productId, updatedData);
-    return {productId, updatedData: response.data.cart};
+    return {productId, updatedData};
   },
 );
 

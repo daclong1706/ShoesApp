@@ -2,7 +2,6 @@ import {View, Text} from 'react-native';
 import React, {useEffect} from 'react';
 import {
   addToCart,
-  cartSelector,
   fetchCart,
   removeCartItem,
   updateCartItem,
@@ -11,7 +10,6 @@ import {useAppDispatch, useAppSelector} from '../../stores/hook';
 
 const EventScreen = () => {
   const dispatch = useAppDispatch();
-  const cart = useAppSelector(cartSelector);
 
   // Lấy giỏ hàng khi component được mount
   useEffect(() => {

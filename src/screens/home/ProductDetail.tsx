@@ -35,8 +35,9 @@ import {
   addToCart,
   cartSelectorID,
   fetchCart,
+  updateCartItem,
 } from '../../stores/reducers/cartSlice';
-import {LoadingModal} from '../../modals';
+import {AddItemModal, LoadingModal} from '../../modals';
 
 const ProductDetail = ({navigation, route}: any) => {
   const {item: product} = route.params;
@@ -48,6 +49,7 @@ const ProductDetail = ({navigation, route}: any) => {
   const [isMoreInfoCollapsed, setMoreInfoCollapsed] = useState(true);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isAddLoading, setIsAddLoading] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
   const favorites = useAppSelector(favoriteSelectorID);
@@ -122,7 +124,7 @@ const ProductDetail = ({navigation, route}: any) => {
     }
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (selectedSize === null) {
       Toast.show({
         type: 'error',
@@ -130,21 +132,63 @@ const ProductDetail = ({navigation, route}: any) => {
         position: 'bottom',
         visibilityTime: 2000,
       });
+    } else if (product.colors[selectedColorIndex].quantity === 0) {
+      Toast.show({
+        type: 'error',
+        text1: 'Sản phẩm hiện tại đã hết hàng',
+        position: 'bottom',
+        visibilityTime: 2000,
+      });
     } else {
-      // dispatch(
-      //   addToCart({
-      //     productId: product.productId,
-      //     quantity: 1,
-      //     selectedColor: 'red',
-      //     selectedSize: 'M',
-      //   }),
-      // );
       setIsLoading(true);
-      console.log(product.productId);
-      console.log(1);
-      console.log(product.colors[selectedColorIndex].colorId);
-      console.log(selectedSize);
-      setIsLoading(false);
+
+      // Kiểm tra sản phẩm hiện tại
+      const existingItem = cart.find(
+        item =>
+          item.productId === product.productId &&
+          item.selectedColor === product.colors[selectedColorIndex].colorId &&
+          item.selectedSize === selectedSize,
+      );
+
+      try {
+        if (existingItem) {
+          // Cập nhật số lượng và lấy lại giá trị mới từ Redux sau khi dispatch xong
+          await dispatch(
+            updateCartItem({
+              productId: product.productId,
+              updatedData: {
+                quantity: existingItem.quantity + 1,
+                selectedColor: product.colors[selectedColorIndex].colorId,
+                selectedSize: selectedSize,
+              },
+            }),
+          );
+        } else {
+          // Thêm sản phẩm mới
+          await dispatch(
+            addToCart({
+              productId: product.productId,
+              quantity: 1,
+              selectedColor: product.colors[selectedColorIndex].colorId,
+              selectedSize: selectedSize,
+            }),
+          ).unwrap();
+        }
+      } catch (error) {
+        console.error('Lỗi khi thêm/cập nhật giỏ hàng:', error);
+        Toast.show({
+          type: 'error',
+          text1: 'Đã xảy ra lỗi khi thêm sản phẩm',
+          position: 'bottom',
+          visibilityTime: 2000,
+        });
+      } finally {
+        setIsLoading(false);
+        setIsAddLoading(true);
+        setTimeout(() => {
+          setIsAddLoading(false);
+        }, 1000);
+      }
     }
   };
 
@@ -300,7 +344,8 @@ const ProductDetail = ({navigation, route}: any) => {
                     style={{marginLeft: 12}}
                   />
                 ) : (
-                  <Heart
+                  <Octicons
+                    name="heart"
                     size={20}
                     color={appColors.primary}
                     style={{marginLeft: 12}}
@@ -445,6 +490,7 @@ const ProductDetail = ({navigation, route}: any) => {
         </ScrollView>
       </View>
       <LoadingModal visible={isLoading} />
+      <AddItemModal visible={isAddLoading} />
     </>
   );
 };

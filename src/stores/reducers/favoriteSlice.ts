@@ -47,7 +47,7 @@ export const loadFavoriteDetails = createAsyncThunk<
     const detailedShoes = await Promise.all(
       favorites.map(async productId => {
         const productRes = await productAPI.getProductById(productId);
-        return productRes;
+        return productRes.data.shoes;
       }),
     );
     return detailedShoes;

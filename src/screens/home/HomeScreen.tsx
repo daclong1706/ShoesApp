@@ -39,17 +39,17 @@ import productAPI from '../../apis/productAPI';
 import {Shoes} from '../../models/ShoesModel';
 import {fontFamilies} from '../../constants/fontFamilies';
 import {appInfo} from '../../constants/appInfos';
-
-const brands = [
-  {key: 'nike', label: 'Nike', icon: <Nike />},
-  {key: 'puma', label: 'Puma', icon: <Puma />},
-  {key: 'underarmour', label: 'Under Armour', icon: <UnderArmour />},
-  {key: 'adidas', label: 'Adidas', icon: <Adidas />},
-  {key: 'converse', label: 'Converse', icon: <Converse />},
-];
+import {useAppDispatch} from '../../stores/hook';
+import {loadFavorites} from '../../stores/reducers/favoriteSlice';
 
 const HomeScreen = ({navigation}: any) => {
   const [shoes, setShoes] = useState<Shoes[]>([]);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(loadFavorites());
+  }, [dispatch]);
 
   useEffect(() => {
     const getAllProducts = async () => {
@@ -70,11 +70,6 @@ const HomeScreen = ({navigation}: any) => {
 
   const handleSeeAll = () => {
     navigation.navigate('ProductScreen', {shoes, title: 'All Shoes'});
-  };
-
-  const handleAddToCart = (shoeId: string) => {
-    // Logic khi thêm sản phẩm vào giỏ hàng
-    console.log(`Added product with ID: ${shoeId}`);
   };
 
   return (

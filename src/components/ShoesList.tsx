@@ -25,6 +25,7 @@ import {
 } from '../stores/reducers/favoriteSlice';
 import {useAppDispatch, useAppSelector} from '../stores/hook';
 import Toast from 'react-native-toast-message';
+import Octicons from 'react-native-vector-icons/Octicons';
 interface Props {
   item: Shoes;
   type: 'card' | 'list';
@@ -53,9 +54,6 @@ const ShoesList = (props: Props) => {
   const navigation: any = useNavigation();
 
   // Kiểm tra trạng thái yêu thích của sản phẩm
-  useEffect(() => {
-    dispatch(loadFavorites());
-  }, [dispatch]);
 
   useEffect(() => {
     const isFavorited = favorites.includes(item.productId);
@@ -93,11 +91,21 @@ const ShoesList = (props: Props) => {
         style={styles.imageBackground}
         source={{uri: item.colors[selectedColorIndex].colorImage}}>
         <RowComponent justify="flex-end">
-          <TouchableOpacity onPress={handleAddToFavorite}>
-            <Heart
-              size={24}
-              color={isFavorite ? appColors.primary : appColors.gray}
-            />
+          <TouchableOpacity
+            onPress={handleAddToFavorite}
+            style={{
+              backgroundColor: appColors.white,
+              borderRadius: 18,
+              width: 32,
+              height: 32,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            {isFavorite ? (
+              <Octicons name="heart-fill" size={18} color={appColors.primary} />
+            ) : (
+              <Octicons name="heart" size={18} color={appColors.primary} />
+            )}
           </TouchableOpacity>
         </RowComponent>
       </ImageBackground>

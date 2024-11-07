@@ -16,14 +16,16 @@ const AddItemModal = (props: Props) => {
       <View
         style={{
           flex: 1,
-          backgroundColor: 'rgba(0, 0, 0, 0.3)',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <AntDesign name="checkcircle" color={appColors.success} size={32} />
+        <AntDesign name="checkcircle" color={appColors.success} size={48} />
         <TextComponent
           text="Đã thêm sản phẩm vào giỏ hàng"
           color={appColors.white}
+          styles={{marginTop: 24}}
+          size={16}
         />
       </View>
     </Modal>

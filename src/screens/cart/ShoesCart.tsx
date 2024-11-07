@@ -1,147 +1,124 @@
-import {useNavigation} from '@react-navigation/native';
-import {Add, Heart, Trash} from 'iconsax-react-native';
-import React, {useEffect, useState} from 'react';
+import {Trash} from 'iconsax-react-native';
+import React, {useState} from 'react';
 import {
-  Image,
   ImageBackground,
-  ScrollView,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {appInfo} from '../../constants/appInfos';
-import {Shoes} from '../../models/ShoesModel';
-import favoriteAPI from '../../apis/favoriteAPI';
+import {RowComponent, TextComponent} from '../../components';
+import {Cart} from '../../models/CartModel';
 import {
-  ContainerComponent,
-  RowComponent,
-  SectionComponent,
-  ShoesCard,
-  TextComponent,
-} from '../../components';
-import {appColors} from '../../constants/appColor';
+  fetchCart,
+  removeCartItem,
+  updateCartItem,
+} from '../../stores/reducers/cartSlice';
+import {useAppDispatch} from '../../stores/hook';
+import Octicons from 'react-native-vector-icons/Octicons';
 import {fontFamilies} from '../../constants/fontFamilies';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useAppDispatch, useAppSelector} from '../../stores/hook';
-import {favoriteSelectorID} from '../../stores/reducers/favoriteSlice';
+import {appColors} from '../../constants/appColor';
+import {RemoveCartModal} from '../../modals';
 
 interface Props {
-  item?: Shoes;
-  type?: 'card' | 'list';
+  item: Cart;
 }
 
 const ShoesCart = (props: Props) => {
-  const {item, type} = props;
+  const {item} = props;
 
+  const [isModalVisible, setModalVisible] = useState(false);
   const dispatch = useAppDispatch();
-  const favorites = useAppSelector(favoriteSelectorID);
 
-  // State để lưu trữ màu sắc đã chọn
-  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
-
-  // State để lưu trữ trạng thái yêu thích của sản phẩm
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
-
-  // Định dạng giá tiền
   const formatPrice = (price: number) => {
     return price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
   };
 
-  // Lấy discount dựa trên màu sắc đã chọn
-  // const discount =
-  //   item.colors[selectedColorIndex]?.discountPercentage ??
-  //   item.discountPercentage;
+  const handleQuantity = async (increase: boolean) => {
+    // Kiểm tra nếu tăng thì tăng số lượng, nếu giảm thì chỉ giảm nếu quantity > 1
+    const newQuantity = increase ? item.quantity + 1 : item.quantity - 1;
 
-  const navigation: any = useNavigation();
+    if (newQuantity >= 1) {
+      await dispatch(
+        updateCartItem({
+          productId: item.productId,
+          updatedData: {
+            quantity: newQuantity,
+            selectedColor: item.selectedColor,
+            selectedSize: item.selectedSize,
+          },
+        }),
+      );
+    }
+  };
 
-  // // Kiểm tra trạng thái yêu thích của sản phẩm khi component được mount
-  // useEffect(() => {
-  //   const checkFavoriteStatus = async () => {
-  //     try {
-  //       const res = await favoriteAPI.getFavorite(); // Lấy dữ liệu từ API
-  //       if (res) {
-  //         const isFavorited = res.data.favorites.some(
-  //           (favorite: {productId: string}) =>
-  //             favorite.productId === item.productId,
-  //         );
-  //         setIsFavorite(isFavorited);
-  //       } else {
-  //         console.warn('No favorites found in response:', res);
-  //       }
-  //     } catch (error) {
-  //       console.error('Failed to fetch favorite status:', error);
-  //     }
-  //   };
-
-  //   checkFavoriteStatus();
-  // }, [item.productId]);
-
-  // useEffect(() => {
-  //   const isFavorited = favorites.includes(item.productId);
-  //   setIsFavorite(isFavorited);
-  // }, [favorites, item.productId]);
-
-  // const handleAddToFavorite = async () => {
-  //   try {
-  //     // Đảo trạng thái yêu thích
-  //     const newFavoriteStatus = !isFavorite;
-
-  //     if (newFavoriteStatus) {
-  //       // Nếu chuyển sang trạng thái yêu thích
-  //       await favoriteAPI.addFavorite(item.productId); // Ghi vào cơ sở dữ liệu
-  //       dispatch(addFavorite(item.productId)); // Cập nhật Redux
-  //     } else {
-  //       // Nếu bỏ yêu thích
-  //       await favoriteAPI.removeFavorite(item.productId); // Xóa khỏi cơ sở dữ liệu
-  //       dispatch(removeFavorite(item.productId)); // Cập nhật Redux
-  //     }
-
-  //     setIsFavorite(newFavoriteStatus); // Cập nhật trạng thái cục bộ
-  //   } catch (error) {
-  //     console.error('Failed to update favorite status:', error);
-  //     // Nếu có lỗi, khôi phục trạng thái yêu thích ban đầu
-  //     setIsFavorite(!isFavorite);
-  //   }
-  // }
+  const handleRemove = async () => {
+    await dispatch(removeCartItem(item.productId));
+    dispatch(fetchCart());
+    setModalVisible(false);
+  };
 
   return (
-    <View style={styles.container}>
-      <RowComponent>
-        <ImageBackground
-          style={styles.image}
-          source={{
-            uri: 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/f90a69fc-1b25-41de-b008-34a791214918/NIKE+DUNK+LOW+RETRO.png',
-          }}></ImageBackground>
-        <View style={styles.content}>
-          <RowComponent justify="space-between" styles={styles.row}>
-            <TextComponent text="Nike Club Max" font="bold" size={16} />
-            <TextComponent text="size" />
-          </RowComponent>
-          <RowComponent styles={styles.row}>
-            <TextComponent text="2.900.000d" font="bold" />
-          </RowComponent>
-          <RowComponent justify="space-between" styles={{marginTop: 14}}>
-            <RowComponent>
-              <AntDesign
-                name="minuscircle"
-                color={appColors.primary}
-                size={24}
+    <>
+      <View style={styles.container}>
+        <RowComponent>
+          <ImageBackground
+            style={styles.image}
+            source={{
+              uri: item.colorImage,
+            }}></ImageBackground>
+          <View style={styles.content}>
+            <RowComponent justify="space-between" styles={styles.row}>
+              <TextComponent
+                text={item.name}
+                font={fontFamilies.medium}
+                size={16}
               />
-              <TextComponent text="1" styles={styles.number} size={16} />
-              <AntDesign
-                name="pluscircle"
-                color={appColors.primary}
-                size={24}
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
+                <Octicons name="trash" size={24} color="#000" />
+              </TouchableOpacity>
+            </RowComponent>
+            <RowComponent styles={styles.row}>
+              <TextComponent
+                text={'Size | ' + item.selectedSize}
+                font="bold"
+                color={appColors.coolGray}
               />
             </RowComponent>
-            <RowComponent>
-              <Trash size="24" color="#000" />
+            <RowComponent justify="space-between">
+              <TextComponent
+                text={formatPrice(item.price * item.quantity)}
+                font={fontFamilies.medium}
+              />
+              <RowComponent>
+                <View style={styles.containerQuantity}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => handleQuantity(false)}>
+                    <Text style={styles.text}>-</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.quantityText}>{item.quantity}</Text>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => handleQuantity(true)}>
+                    <Text style={styles.text}>+</Text>
+                  </TouchableOpacity>
+                </View>
+              </RowComponent>
+              {/* <RowComponent>
+              
+            </RowComponent> */}
             </RowComponent>
-          </RowComponent>
-        </View>
-      </RowComponent>
-    </View>
+          </View>
+        </RowComponent>
+      </View>
+      <RemoveCartModal
+        visible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        onConfirm={handleRemove}
+        item={item}
+      />
+    </>
   );
 };
 
@@ -160,15 +137,37 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
   image: {
-    height: 100,
-    width: 100,
+    height: 120,
+    width: 120,
     padding: 10,
-    borderRadius: 4,
+    borderRadius: 16,
   },
   row: {
-    marginTop: 6,
+    marginVertical: 6,
   },
   number: {
     marginHorizontal: 20,
+  },
+  containerQuantity: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5', // Màu nền xám nhạt
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 20, // Bo tròn
+  },
+  button: {
+    paddingHorizontal: 10,
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  quantityText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginHorizontal: 10,
+    color: '#000',
   },
 });
