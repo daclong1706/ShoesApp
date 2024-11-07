@@ -18,4 +18,5 @@ export const appColors = {
   link: '#000120',
   darkSlate: '#1A2530',
   danger: '#F87265',
+  success: '#8FD14F',
 };

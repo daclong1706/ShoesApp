@@ -1,32 +1,31 @@
 {
-  "productId": "PUMA-392328",
-  "name": "Puma Rebound V6",
+  "productId": "FZ3863",
+  "name": "Nike C1TY",
   "type": "Shoes",
-  "brand": "puma",
-  "price": 1799000,
-  "description": "Với sự kết hợp giữa phong cách năng động và thoải mái, đôi giày sneakers Rebound V6 đã nhanh chóng trở thành sự lựa chọn lí tưởng để cùng mọi tín đồ sneakers bứt phá thời trang street-style. Nhờ vào thiết kế đơn giản cùng phom dáng ôm chân, tất cả đã góp phần khiến Rebound V6 dễ dàng mix-match với mọi outfit và phù hợp với đa dạng hoạt động, từ thể thao đến các buổi dạo phố cực chất.",
+  "brand": "nike",
+  "price": 2929000,
+  "description": "Nike C1TY is engineered to overcome anything the city throws your way. A mesh upper keeps the fit breathable, while the reinforced sides and toe box help protect your feet from the elements. Each colourway is inspired by the spirit of city life—giving street style a whole new meaning.",
   "colors": [
     {
-      "colorId": "PUMA-392328-101",
-      "colorName": "White/Rose/Black",
-      "colorImage": "https://product.hstatic.net/1000284478/product/19_392328_4_306536d0fbf948678f5ce0f980e6cdb8.jpg",
-      "colorCode": "#FFFFFF",
+      "colorId": "FZ3863-101",
+      "colorName": "Black/Stadium Green/Summit White",
+      "colorImage": "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a3ebbc27-c03d-4a15-adf4-fb57346f4a2c/NIKE+C1TY.png",
+      "colorCode": "#000000",
       "quantity": 130,
-      "country": ["Đức"],
+      "country": ["India"],
       "images": [
-        "https://product.hstatic.net/1000284478/product/19_392328_1_0854c39152d947f5b769aaa0b52b65f7.jpg",
-        "https://product.hstatic.net/1000284478/product/19_392328_2_c190d053583f4c54a06986997daf6904.jpg",
-        "https://product.hstatic.net/1000284478/product/19_392328_3_4274810054314ccb80ddd24f310cbc31.jpg",
-        "https://product.hstatic.net/1000284478/product/19_392328_5_223b813cf8a94bfda0b8724de9ed6be3.jpg",
-        "https://product.hstatic.net/1000284478/product/19_392328_7_bfae9ab3fc0f4120af9e9941b8429a54_small.jpg"
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/185c6d14-3c96-408e-b719-8c1997f01254/NIKE+C1TY.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/9258e4f4-12a6-45ef-8c71-a74748926aeb/NIKE+C1TY.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/18d6dcfb-5948-4512-90fe-3a8e4718e718/NIKE+C1TY.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/51975e51-db31-4c47-9926-aac18dc8439e/NIKE+C1TY.png"
       ],
-      "discountPercentage": 10
+      "discountPercentage": 0
     },
     {
-      "colorId": "PUMA-392328-102",
-      "colorName": "White/Blue",
-      "colorImage": "https://product.hstatic.net/1000284478/product/28_392328_5_10bf708cd86048529c1c90f59955843c.jpg",
-      "colorCode": "#FFFFFF",
+      "colorId": "FZ3863-200",
+      "colorName": "Flax/Sesame/Stadium Green/Black",
+      "colorImage": "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3ea1951b-cf47-4bef-8e96-510ef54b2ec1/NIKE+C1TY.png",
+      "colorCode": "#C0A36D",
       "quantity": 130,
       "country": ["Đức"],
       "images": [

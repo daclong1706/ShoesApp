@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import favoriteAPI from '../apis/favoriteAPI'; // Nếu có API quản lý danh sách yêu thích
+import favoriteAPI from '../apis/favoriteAPI';
 import {appColors} from '../constants/appColor';
 import {appInfo} from '../constants/appInfos';
 import {fontFamilies} from '../constants/fontFamilies';
@@ -18,11 +18,13 @@ import ShoesCard from './ShoesCard';
 import TextComponent from './TextComponent';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-  addFavorite,
-  favoriteSelector,
-  removeFavorite,
+  addFavoriteItem,
+  favoriteSelectorID,
+  loadFavorites,
+  removeFavoriteItem,
 } from '../stores/reducers/favoriteSlice';
-
+import {useAppDispatch, useAppSelector} from '../stores/hook';
+import Toast from 'react-native-toast-message';
 interface Props {
   item: Shoes;
   type: 'card' | 'list';
@@ -31,13 +33,11 @@ interface Props {
 const ShoesList = (props: Props) => {
   const {item, type} = props;
 
-  const dispatch = useDispatch();
-  const favorites = useSelector(favoriteSelector);
+  const dispatch = useAppDispatch();
+  const favorites = useAppSelector(favoriteSelectorID);
 
-  // State để lưu trữ màu sắc đã chọn
+  // State
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
-
-  // State để lưu trữ trạng thái yêu thích của sản phẩm
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
   // Định dạng giá tiền
@@ -52,59 +52,121 @@ const ShoesList = (props: Props) => {
 
   const navigation: any = useNavigation();
 
-  // Kiểm tra trạng thái yêu thích của sản phẩm khi component được mount
+  // Kiểm tra trạng thái yêu thích của sản phẩm
   useEffect(() => {
-    const checkFavoriteStatus = async () => {
-      try {
-        const res = await favoriteAPI.getFavorite(); // Lấy dữ liệu từ API
-        if (res) {
-          // Kiểm tra nếu res và res.favorites tồn tại
-          const isFavorited = res.data.favorites.some(
-            (favorite: {productId: string}) =>
-              favorite.productId === item.productId,
-          );
-          setIsFavorite(isFavorited);
-        } else {
-          console.warn('No favorites found in response:', res);
-        }
-        console.log(res.data);
-      } catch (error) {
-        console.error('Failed to fetch favorite status:', error);
-      }
-    };
-
-    checkFavoriteStatus();
-  }, [item.productId]);
+    dispatch(loadFavorites());
+  }, [dispatch]);
 
   useEffect(() => {
     const isFavorited = favorites.includes(item.productId);
     setIsFavorite(isFavorited);
   }, [favorites, item.productId]);
 
-  const handleAddToFavorite = async () => {
-    try {
-      // Đảo trạng thái yêu thích
-      const newFavoriteStatus = !isFavorite;
-
-      if (newFavoriteStatus) {
-        // Nếu chuyển sang trạng thái yêu thích
-        await favoriteAPI.addFavorite(item.productId); // Ghi vào cơ sở dữ liệu
-        dispatch(addFavorite(item.productId)); // Cập nhật Redux
-      } else {
-        // Nếu bỏ yêu thích
-        await favoriteAPI.removeFavorite(item.productId); // Xóa khỏi cơ sở dữ liệu
-        dispatch(removeFavorite(item.productId)); // Cập nhật Redux
-      }
-
-      setIsFavorite(newFavoriteStatus); // Cập nhật trạng thái cục bộ
-    } catch (error) {
-      console.error('Failed to update favorite status:', error);
-      // Nếu có lỗi, khôi phục trạng thái yêu thích ban đầu
-      setIsFavorite(!isFavorite);
+  const handleAddToFavorite = () => {
+    // Đảo trạng thái yêu thích
+    const newFavoriteStatus = !isFavorite;
+    setIsFavorite(newFavoriteStatus);
+    if (newFavoriteStatus) {
+      dispatch(addFavoriteItem(item.productId));
+      Toast.show({
+        type: 'success',
+        text1: 'Đã thêm vào yêu thích',
+        position: 'bottom',
+        visibilityTime: 2000,
+      });
+    } else {
+      dispatch(removeFavoriteItem(item.productId));
+      Toast.show({
+        type: 'info',
+        text1: 'Đã xóa khỏi yêu thích',
+        position: 'bottom',
+        visibilityTime: 2000,
+      });
     }
   };
 
-  return (
+  return type === 'card' ? (
+    <ShoesCard
+      onPress={() => navigation.navigate('ProductDetail', {item})}
+      styles={{width: appInfo.sizes.WIDTH * 0.45}}>
+      <ImageBackground
+        style={styles.imageBackground}
+        source={{uri: item.colors[selectedColorIndex].colorImage}}>
+        <RowComponent justify="flex-end">
+          <TouchableOpacity onPress={handleAddToFavorite}>
+            <Heart
+              size={24}
+              color={isFavorite ? appColors.primary : appColors.gray}
+            />
+          </TouchableOpacity>
+        </RowComponent>
+      </ImageBackground>
+
+      <TextComponent
+        text={item.label}
+        color={appColors.primary}
+        styles={{textTransform: 'uppercase'}}
+        size={12}
+      />
+
+      <TextComponent
+        numOfLine={1}
+        text={item.name}
+        font={fontFamilies.medium}
+        size={16}
+        styles={{marginVertical: 6, marginBottom: 12}}
+      />
+
+      {/* Hiển thị giá với giảm giá nếu có */}
+      {discount ? (
+        <View>
+          <TextComponent
+            text={formatPrice(item.price - (item.price * discount) / 100)}
+            font={fontFamilies.medium}
+          />
+          <TextComponent
+            text={formatPrice(item.price)}
+            styles={{textDecorationLine: 'line-through', color: appColors.gray}}
+          />
+        </View>
+      ) : (
+        <TextComponent
+          text={formatPrice(item.price)}
+          font={fontFamilies.medium}
+        />
+      )}
+
+      <RowComponent justify="space-between">
+        {/* Bảng màu sắc với ScrollView */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.colorScrollView}
+          contentContainerStyle={{alignItems: 'center'}}
+          nestedScrollEnabled>
+          {item.colors.map((color, index) => (
+            <TouchableOpacity
+              key={color.colorId}
+              onPress={() => setSelectedColorIndex(index)}
+              style={[
+                styles.colorCircle,
+                {
+                  backgroundColor: color.colorCode,
+                  borderColor:
+                    selectedColorIndex === index ? appColors.primary : '#ccc',
+                },
+              ]}
+            />
+          ))}
+        </ScrollView>
+
+        {/* Nút thêm vào giỏ hàng */}
+        <TouchableOpacity style={styles.addButton}>
+          <Add size={24} color={appColors.white} />
+        </TouchableOpacity>
+      </RowComponent>
+    </ShoesCard>
+  ) : (
     <ShoesCard
       onPress={() => navigation.navigate('ProductDetail', {item})}
       styles={{width: appInfo.sizes.WIDTH * 0.45}}>

@@ -1,5 +1,5 @@
 import {ArrowDown2, ArrowLeft2, Heart, ShoppingBag} from 'iconsax-react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -12,6 +12,7 @@ import {
 import Collapsible from 'react-native-collapsible';
 import Swiper from 'react-native-swiper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Octicons from 'react-native-vector-icons/Octicons';
 import {
   ButtonComponent,
   RowComponent,
@@ -22,7 +23,20 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColor';
 import {fontFamilies} from '../../constants/fontFamilies';
+import {useAppDispatch, useAppSelector} from '../../stores/hook';
+import {
+  addFavoriteItem,
+  favoriteSelectorID,
+  removeFavoriteItem,
+} from '../../stores/reducers/favoriteSlice';
 import {globalStyles} from '../../styles/globalStyles';
+import Toast from 'react-native-toast-message';
+import {
+  addToCart,
+  cartSelectorID,
+  fetchCart,
+} from '../../stores/reducers/cartSlice';
+import {LoadingModal} from '../../modals';
 
 const ProductDetail = ({navigation, route}: any) => {
   const {item: product} = route.params;
@@ -32,6 +46,12 @@ const ProductDetail = ({navigation, route}: any) => {
   const [isSizeFitCollapsed, setSizeFitCollapsed] = useState(true);
   const [isReviewsCollapsed, setReviewsCollapsed] = useState(true);
   const [isMoreInfoCollapsed, setMoreInfoCollapsed] = useState(true);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
+  const favorites = useAppSelector(favoriteSelectorID);
+  const cart = useAppSelector(cartSelectorID);
 
   const formatPrice = (price: number) => {
     return price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
@@ -42,7 +62,16 @@ const ProductDetail = ({navigation, route}: any) => {
     product.discountPercentage;
 
   const currentColor = product.colors[selectedColorIndex];
-  const images = [currentColor.colorImage, ...currentColor.images]; // Thêm ảnh gốc vào đầu danh sách các ảnh khác
+  const images = [currentColor.colorImage, ...currentColor.images];
+
+  useEffect(() => {
+    const isFavorited = favorites.includes(product.productId);
+    setIsFavorite(isFavorited);
+  }, [favorites, product.productId]);
+
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, [dispatch]);
 
   const StarRating = ({rating}: any) => {
     return (
@@ -58,271 +87,365 @@ const ProductDetail = ({navigation, route}: any) => {
       </View>
     );
   };
+  // Best Seller
+  // New Arrival
+  // On Sale
+  // Limited Edition
+  // Trending
+  // Back in Stock
+  // Top Rated
+
+  const handleAddToFavorite = () => {
+    // Đảo trạng thái yêu thích
+    const newFavoriteStatus = !isFavorite;
+    setIsFavorite(newFavoriteStatus);
+    if (newFavoriteStatus) {
+      setIsLoading(true);
+      dispatch(addFavoriteItem(product.productId));
+      setIsLoading(false);
+      Toast.show({
+        type: 'success',
+        text1: 'Đã thêm vào yêu thích',
+        position: 'bottom',
+        visibilityTime: 2000,
+      });
+    } else {
+      setIsLoading(true);
+      dispatch(removeFavoriteItem(product.productId));
+      setIsLoading(false);
+      Toast.show({
+        type: 'info',
+        text1: 'Đã xóa khỏi yêu thích',
+        position: 'bottom',
+        visibilityTime: 2000,
+      });
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (selectedSize === null) {
+      Toast.show({
+        type: 'error',
+        text1: 'Vui lòng chọn kích thước sản phẩm',
+        position: 'bottom',
+        visibilityTime: 2000,
+      });
+    } else {
+      // dispatch(
+      //   addToCart({
+      //     productId: product.productId,
+      //     quantity: 1,
+      //     selectedColor: 'red',
+      //     selectedSize: 'M',
+      //   }),
+      // );
+      setIsLoading(true);
+      console.log(product.productId);
+      console.log(1);
+      console.log(product.colors[selectedColorIndex].colorId);
+      console.log(selectedSize);
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#FFF'}}>
-      {/* RowComponent (Header) cố định ở trên */}
-      <View style={[styles.headerContainer, globalStyles.shadow]}>
-        <RowComponent styles={{padding: 16}}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={[globalStyles.shadow, styles.button, {marginRight: 12}]}>
-            <ArrowLeft2 size={24} color={appColors.text} />
-          </TouchableOpacity>
-          <View style={{flex: 1}}>
-            <TextComponent
-              text={product.name}
-              font={fontFamilies.medium}
-              size={16}
-            />
-          </View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Cart')}
-            style={[styles.button, {marginRight: 12}]}>
-            <ShoppingBag size={24} color={appColors.text} />
-          </TouchableOpacity>
-        </RowComponent>
-      </View>
-
-      {/* Nội dung cuộn trong ScrollView */}
-      <ScrollView contentContainerStyle={{paddingTop: 70}}>
-        <Swiper
-          style={styles.swiper}
-          showsPagination={true}
-          loop={false}
-          dotColor={appColors.primaryPastel}
-          activeDotColor={appColors.primary}>
-          {images.map((imageUri: string, index: number) => (
-            <ImageBackground
-              key={index}
-              source={{uri: imageUri}}
-              style={styles.mainImage}
-            />
-          ))}
-        </Swiper>
-
-        {/* Bảng chọn màu sắc với FlatList */}
-        <FlatList
-          data={product.colors}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.colorList}
-          renderItem={({item, index}) => (
+    <>
+      <View style={{flex: 1, backgroundColor: '#FFF'}}>
+        {/* RowComponent (Header) cố định ở trên */}
+        <View style={[styles.headerContainer, globalStyles.shadow]}>
+          <RowComponent styles={{padding: 16}}>
             <TouchableOpacity
-              onPress={() => setSelectedColorIndex(index)}
-              style={[
-                styles.colorOption,
-                {
-                  borderColor:
-                    selectedColorIndex === index
-                      ? appColors.primary
-                      : 'transparent',
-                  opacity: item.quantity > 0 ? 1 : 0.5,
-                },
-              ]}>
-              <Image
-                source={{uri: item.colorImage}}
-                style={styles.colorImage}
-              />
-              {item.quantity === 0 && (
-                <TextComponent text="Hết hàng" styles={styles.outOfStockText} />
-              )}
+              onPress={() => navigation.goBack()}
+              style={[globalStyles.shadow, styles.button, {marginRight: 12}]}>
+              <ArrowLeft2 size={24} color={appColors.text} />
             </TouchableOpacity>
-          )}
-          keyExtractor={item => item.colorId}
-        />
-
-        <SectionComponent styles={{marginHorizontal: 8}}>
-          {product.label && (
-            <TextComponent
-              text={product.label}
-              color={appColors.primary}
-              styles={{textTransform: 'uppercase', marginBottom: 6}}
-              size={14}
-            />
-          )}
-          <TextComponent text={product.name} styles={styles.productName} />
-          {product.type && (
-            <TextComponent text={product.type} styles={styles.productType} />
-          )}
-          {discount ? (
-            <View>
-              <RowComponent>
-                <TextComponent
-                  text={formatPrice(
-                    product.price - (product.price * discount) / 100,
-                  )}
-                  size={18}
-                  font={fontFamilies.medium}
-                />
-                <TextComponent
-                  text={formatPrice(product.price)}
-                  size={18}
-                  styles={{
-                    textDecorationLine: 'line-through',
-                    marginHorizontal: 16,
-                    color: appColors.gray,
-                  }}
-                />
-              </RowComponent>
-            </View>
-          ) : (
-            <TextComponent
-              text={formatPrice(product.price)}
-              font={fontFamilies.medium}
-              size={18}
-            />
-          )}
-          <SizeSelector
-            sizes={product.sizes}
-            onSizeSelected={size => setSelectedSize(size)}
-          />
-          <ButtonComponent
-            text="Add to Cart"
-            type="primary"
-            styles={{marginVertical: 6}}
-            size={16}
-          />
-          <ButtonComponent
-            text="Favorite"
-            type="primary"
-            styles={{
-              backgroundColor: appColors.white,
-              borderColor: appColors.primary,
-              borderWidth: 1,
-              marginVertical: 8,
-              flex: 1,
-            }}
-            textColor={appColors.primary}
-            textStyles={{flex: 0}}
-            size={16}
-            icon={
-              <Heart
-                size={20}
-                color={appColors.primary}
-                style={{marginLeft: 12}}
+            <View style={{flex: 1}}>
+              <TextComponent
+                text={product.name}
+                font={fontFamilies.medium}
+                size={16}
               />
-            }
-            iconFlex="right"
-          />
-          {/* Mô tả sản phẩm */}
-          <TextComponent
-            text={product.description}
-            styles={styles.description}
-          />
-          <View style={styles.infoContainer}>
-            <TextComponent
-              text={`• Màu sắc: ${currentColor.colorName}`}
-              styles={styles.infoText}
-            />
-            <TextComponent
-              text={`• Mã kiểu dáng: ${currentColor.colorId}`}
-              styles={styles.infoText}
-            />
-            <TextComponent
-              text={`• Quốc gia/Nơi sản xuất: ${currentColor.country[0]}`}
-              styles={styles.infoText}
-            />
-          </View>
-        </SectionComponent>
-        <View style={styles.sectionContainer}>
-          <SpaceComponent line />
-          {/* Size & Fit */}
-          <TouchableOpacity
-            onPress={() => setSizeFitCollapsed(!isSizeFitCollapsed)}>
-            <RowComponent justify="space-between">
-              <TextComponent text="Size & Fit" styles={styles.sectionHeader} />
-              <ArrowDown2 size={24} color={appColors.black} />
-            </RowComponent>
-          </TouchableOpacity>
-          <Collapsible collapsed={isSizeFitCollapsed}>
-            <TextComponent
-              text="Thông tin về kích cỡ và phù hợp với sản phẩm này..."
-              styles={styles.sectionContent}
-            />
-          </Collapsible>
-          <SpaceComponent line />
-          {/* Reviews */}
-          <TouchableOpacity
-            onPress={() => setReviewsCollapsed(!isReviewsCollapsed)}>
-            <RowComponent justify="space-between">
-              <TextComponent text="Đánh giá" styles={styles.sectionHeader} />
-              <ArrowDown2 size={24} color={appColors.black} />
-            </RowComponent>
-          </TouchableOpacity>
-          <SpaceComponent line />
-          <Collapsible collapsed={isReviewsCollapsed}>
-            {product.reviews.slice(0, 3).map((review: any, index: any) => (
-              <View key={index} style={styles.reviewContainer}>
-                <RowComponent justify="space-between">
-                  <TextComponent
-                    text={`${review.username}`}
-                    styles={styles.reviewUsername}
-                  />
-                  <TextComponent
-                    text={`${review.date}`}
-                    styles={styles.reviewDate}
-                  />
-                </RowComponent>
+            </View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Cart')}
+              style={[styles.button, {marginRight: 12}]}>
+              <ShoppingBag size={24} color={appColors.text} />
+            </TouchableOpacity>
+          </RowComponent>
+        </View>
 
-                <StarRating rating={review.rating} />
-
-                <TextComponent
-                  text={review.comment}
-                  styles={styles.reviewComment}
-                />
-              </View>
+        {/* Nội dung cuộn trong ScrollView */}
+        <ScrollView contentContainerStyle={{paddingTop: 70}}>
+          <Swiper
+            style={styles.swiper}
+            showsPagination={true}
+            loop={false}
+            dotColor={appColors.primaryPastel}
+            activeDotColor={appColors.primary}>
+            {images.map((imageUri: string, index: number) => (
+              <ImageBackground
+                key={index}
+                source={{uri: imageUri}}
+                style={styles.mainImage}
+              />
             ))}
-            {/* "Xem thêm đánh giá" button */}
-            {product.reviews.length > 3 && (
+          </Swiper>
+
+          {/* Bảng chọn màu sắc với FlatList */}
+          <FlatList
+            data={product.colors}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.colorList}
+            renderItem={({item, index}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate('ReviewScreen', {product})}>
-                <TextComponent text="Xem thêm đánh giá" />
+                onPress={() => setSelectedColorIndex(index)}
+                style={[
+                  styles.colorOption,
+                  {
+                    borderColor:
+                      selectedColorIndex === index
+                        ? appColors.primary
+                        : 'transparent',
+                    opacity: item.quantity > 0 ? 1 : 0.5,
+                  },
+                ]}>
+                <Image
+                  source={{uri: item.colorImage}}
+                  style={styles.colorImage}
+                />
+                {item.quantity === 0 && (
+                  <TextComponent
+                    text="Hết hàng"
+                    styles={styles.outOfStockText}
+                  />
+                )}
               </TouchableOpacity>
             )}
-          </Collapsible>
-          {/* More Information */}
-          <TouchableOpacity
-            onPress={() => setMoreInfoCollapsed(!isMoreInfoCollapsed)}>
-            <RowComponent justify="space-between">
+            keyExtractor={item => item.colorId}
+          />
+
+          <SectionComponent styles={{marginHorizontal: 8}}>
+            {product.label && (
               <TextComponent
-                text="Thông tin thêm"
+                text={product.label}
+                color={appColors.primary}
+                styles={{textTransform: 'uppercase', marginBottom: 6}}
+                size={14}
+              />
+            )}
+            <TextComponent text={product.name} styles={styles.productName} />
+            {product.type && (
+              <TextComponent text={product.type} styles={styles.productType} />
+            )}
+            {discount ? (
+              <View>
+                <RowComponent>
+                  <TextComponent
+                    text={formatPrice(
+                      product.price - (product.price * discount) / 100,
+                    )}
+                    size={18}
+                    font={fontFamilies.medium}
+                  />
+                  <TextComponent
+                    text={formatPrice(product.price)}
+                    size={18}
+                    styles={{
+                      textDecorationLine: 'line-through',
+                      marginHorizontal: 16,
+                      color: appColors.gray,
+                    }}
+                  />
+                </RowComponent>
+              </View>
+            ) : (
+              <TextComponent
+                text={formatPrice(product.price)}
+                font={fontFamilies.medium}
+                size={18}
+              />
+            )}
+            <SizeSelector
+              sizes={product.sizes}
+              onSizeSelected={size => setSelectedSize(size)}
+            />
+            <ButtonComponent
+              onPress={handleAddToCart}
+              text="Add to Cart"
+              type="primary"
+              styles={{marginVertical: 6}}
+              size={16}
+            />
+            <ButtonComponent
+              onPress={handleAddToFavorite}
+              text={isFavorite ? 'Favorited' : 'Favorite'}
+              type="primary"
+              styles={{
+                backgroundColor: appColors.white,
+                borderColor: appColors.primary,
+                borderWidth: 1,
+                marginVertical: 8,
+                flex: 1,
+              }}
+              textColor={appColors.primary}
+              textStyles={{flex: 0}}
+              size={16}
+              icon={
+                isFavorite ? (
+                  <Octicons
+                    name="heart-fill"
+                    size={20}
+                    color={appColors.primary}
+                    style={{marginLeft: 12}}
+                  />
+                ) : (
+                  <Heart
+                    size={20}
+                    color={appColors.primary}
+                    style={{marginLeft: 12}}
+                  />
+                )
+              }
+              iconFlex="right"
+            />
+            {/* Mô tả sản phẩm */}
+            <TextComponent
+              text={product.description}
+              styles={styles.description}
+            />
+            <View style={styles.infoContainer}>
+              <TextComponent
+                text={`• Màu sắc: ${currentColor.colorName}`}
+                styles={styles.infoText}
+              />
+              <TextComponent
+                text={`• Mã kiểu dáng: ${currentColor.colorId}`}
+                styles={styles.infoText}
+              />
+              <TextComponent
+                text={`• Quốc gia/Nơi sản xuất: ${currentColor.country[0]}`}
+                styles={styles.infoText}
+              />
+            </View>
+          </SectionComponent>
+          <View style={styles.sectionContainer}>
+            <SpaceComponent line />
+            {/* Size & Fit */}
+            <TouchableOpacity
+              onPress={() => setSizeFitCollapsed(!isSizeFitCollapsed)}>
+              <RowComponent justify="space-between">
+                <TextComponent
+                  text="Size & Fit"
+                  styles={styles.sectionHeader}
+                />
+                <ArrowDown2 size={24} color={appColors.black} />
+              </RowComponent>
+            </TouchableOpacity>
+            <Collapsible collapsed={isSizeFitCollapsed}>
+              <TextComponent
+                text="Thông tin về kích cỡ và phù hợp với sản phẩm này..."
+                styles={styles.sectionContent}
+              />
+            </Collapsible>
+            <SpaceComponent line />
+            {/* Reviews */}
+            <TouchableOpacity
+              onPress={() => setReviewsCollapsed(!isReviewsCollapsed)}>
+              <RowComponent justify="space-between">
+                <TextComponent text="Đánh giá" styles={styles.sectionHeader} />
+                <ArrowDown2 size={24} color={appColors.black} />
+              </RowComponent>
+            </TouchableOpacity>
+            <SpaceComponent line />
+            <Collapsible collapsed={isReviewsCollapsed}>
+              {product.reviews.slice(0, 3).map((review: any, index: any) => (
+                <View key={index} style={styles.reviewContainer}>
+                  <RowComponent justify="space-between">
+                    <TextComponent
+                      text={`${review.username}`}
+                      styles={styles.reviewUsername}
+                    />
+                    <TextComponent
+                      text={`${review.date}`}
+                      styles={styles.reviewDate}
+                    />
+                  </RowComponent>
+
+                  <StarRating rating={review.rating} />
+
+                  <TextComponent
+                    text={review.comment}
+                    styles={styles.reviewComment}
+                  />
+                </View>
+              ))}
+              {/* "Xem thêm đánh giá" button */}
+              {product.reviews.length > 3 && (
+                <View
+                  style={{justifyContent: 'center', alignItems: 'flex-end'}}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate('ReviewScreen', {product})
+                    }
+                    style={{
+                      backgroundColor: appColors.primary,
+                      borderRadius: 20,
+                    }}>
+                    <TextComponent
+                      text="Xem thêm đánh giá"
+                      color={appColors.white}
+                      styles={{paddingVertical: 6, paddingHorizontal: 12}}
+                      font="bold"
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+            </Collapsible>
+            {/* More Information */}
+            <TouchableOpacity
+              onPress={() => setMoreInfoCollapsed(!isMoreInfoCollapsed)}>
+              <RowComponent justify="space-between">
+                <TextComponent
+                  text="Thông tin thêm"
+                  styles={styles.sectionHeader}
+                />
+                <ArrowDown2 size={24} color={appColors.black} />
+              </RowComponent>
+            </TouchableOpacity>
+            <Collapsible collapsed={isMoreInfoCollapsed}>
+              <TextComponent
+                text="Ký hiệu ® có thể xuất hiện một hoặc hai lần trên lưỡi giày và/hoặc lớp lót giày do sự thay đổi được thực hiện bởi nhà sản xuất. Sản phẩm bạn nhận được có thể có một số chi tiết khác biệt so với hình ảnh hiển thị trên website hoặc ứng dụng của chúng tôi."
+                styles={styles.sectionContent}
+              />
+            </Collapsible>
+            <SpaceComponent line />
+          </View>
+          {/* Features Section */}
+          {product.features && product.features.length > 0 && (
+            <SectionComponent>
+              <TextComponent
+                text="Tính năng nổi bật"
                 styles={styles.sectionHeader}
               />
-              <ArrowDown2 size={24} color={appColors.black} />
-            </RowComponent>
-          </TouchableOpacity>
-          <Collapsible collapsed={isMoreInfoCollapsed}>
-            <TextComponent
-              text="Ký hiệu ® có thể xuất hiện một hoặc hai lần trên lưỡi giày và/hoặc lớp lót giày do sự thay đổi được thực hiện bởi nhà sản xuất. Sản phẩm bạn nhận được có thể có một số chi tiết khác biệt so với hình ảnh hiển thị trên website hoặc ứng dụng của chúng tôi."
-              styles={styles.sectionContent}
-            />
-          </Collapsible>
-          <SpaceComponent line />
-        </View>
-        {/* Features Section */}
-        {product.features && product.features.length > 0 && (
-          <SectionComponent>
-            <TextComponent
-              text="Tính năng nổi bật"
-              styles={styles.sectionHeader}
-            />
-            {product.features.map((feature: any, index: number) => (
-              <View key={index} style={styles.featureContainer}>
-                <Image
-                  source={{uri: feature.image}}
-                  style={styles.featureImage}
-                />
-                <TextComponent
-                  text={feature.description}
-                  styles={styles.featureText}
-                />
-              </View>
-            ))}
-          </SectionComponent>
-        )}
-      </ScrollView>
-    </View>
+              {product.features.map((feature: any, index: number) => (
+                <View key={index} style={styles.featureContainer}>
+                  <Image
+                    source={{uri: feature.image}}
+                    style={styles.featureImage}
+                  />
+                  <TextComponent
+                    text={feature.description}
+                    styles={styles.featureText}
+                  />
+                </View>
+              ))}
+            </SectionComponent>
+          )}
+        </ScrollView>
+      </View>
+      <LoadingModal visible={isLoading} />
+    </>
   );
 };
 

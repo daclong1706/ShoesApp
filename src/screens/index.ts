@@ -8,7 +8,7 @@ import SplashScreen from './SplashScreen';
 import CheckEmailPassword from './auth/CheckEmailPassword';
 import ResetPassword from './auth/ResetPassword';
 import ProfileScreen from './profiles/ProfileScreen';
-import CartScreen from './CartScreen';
+import CartScreen from './cart/CartScreen';
 import NotificationScreen from './notifications/NotificationScreen';
 import FavoriteScreen from './favorites/FavoriteScreen';
 import SearchScreen from './events/SearchScreen';

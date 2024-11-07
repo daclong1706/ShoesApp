@@ -1,52 +1,34 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
-import React, {useCallback} from 'react';
-import {useFocusEffect} from '@react-navigation/native'; // Thêm hook useFocusEffect
-import {useSelector, useDispatch} from 'react-redux';
+import {View, FlatList, StyleSheet} from 'react-native';
+import React, {useCallback, useEffect} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 import {Shoes} from '../../models/ShoesModel';
-import favoriteAPI from '../../apis/favoriteAPI'; // API layer để gọi backend
-import {ShoesList} from '../../components';
-import productAPI from '../../apis/productAPI';
+import {ContainerComponent, ShoesList, SpaceComponent} from '../../components';
+
 import {
-  setFavorites,
-  favoriteSelector,
+  loadFavorites,
+  loadFavoriteDetails,
+  favoriteSelectorDetail,
 } from '../../stores/reducers/favoriteSlice';
+import {useAppDispatch, useAppSelector} from '../../stores/hook';
 
 const FavoriteScreen = () => {
-  const dispatch = useDispatch();
-  const favorites = useSelector(favoriteSelector);
-  const [shoes, setShoes] = React.useState<Shoes[]>([]);
+  const dispatch = useAppDispatch();
+  const favoriteDetails = useSelector(favoriteSelectorDetail);
 
-  const getFavoriteShoes = async () => {
-    try {
-      const res = await favoriteAPI.getFavorite();
-      const favorites = res.data.favorites;
-
-      // Lấy thông tin chi tiết của từng sản phẩm yêu thích
-      const detailedShoes = await Promise.all(
-        favorites.map(async (fav: any) => {
-          const productRes = await productAPI.getProductById(fav.productId);
-          return productRes; // Giả sử productAPI.getProductById trả về thông tin chi tiết của sản phẩm
-        }),
-      );
-
-      setShoes(detailedShoes);
-      dispatch(setFavorites(favorites.map((fav: any) => fav.productId)));
-    } catch (error) {
-      console.error('Failed to fetch favorite shoes:', error);
-    }
-  };
-
+  // Fetch favorites and their details when the screen is focused
   useFocusEffect(
     useCallback(() => {
-      getFavoriteShoes();
-    }, []),
+      dispatch(loadFavorites()).then(() => {
+        dispatch(loadFavoriteDetails());
+      });
+    }, [dispatch]),
   );
 
   return (
-    <View>
-      <Text style={styles.title}>Favorite Shoes</Text>
+    <ContainerComponent title="Favorite" isImageBackground>
       <FlatList
-        data={shoes}
+        data={favoriteDetails}
         renderItem={({item}) => (
           <View style={styles.shoesItem}>
             <ShoesList item={item} type="card" />
@@ -58,7 +40,8 @@ const FavoriteScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
       />
-    </View>
+      <SpaceComponent height={70} />
+    </ContainerComponent>
   );
 };
 
@@ -71,7 +54,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   contentContainer: {
-    paddingVertical: 10,
+    paddingTop: 20,
+    paddingBottom: 30,
   },
   shoesItem: {
     flex: 1,

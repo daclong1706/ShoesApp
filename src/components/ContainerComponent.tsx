@@ -35,7 +35,7 @@ const ContainerComponent = (props: Props) => {
           <RowComponent
             styles={{
               paddingHorizontal: 26,
-              paddingVertical: 10,
+              paddingVertical: 16,
               minWidth: 48,
               minHeight: 48,
             }}>
@@ -62,8 +62,8 @@ const ContainerComponent = (props: Props) => {
                 <TextComponent
                   text={title}
                   font={fontFamilies.medium}
-                  size={16}
-                  styles={{left: -32, textTransform: 'capitalize'}}
+                  size={back ? 16 : 20}
+                  styles={{left: back ? -32 : 0, textTransform: 'capitalize'}}
                 />
               </View>
             )}
