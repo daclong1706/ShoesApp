@@ -26,7 +26,7 @@ const FavoriteScreen = () => {
   );
 
   return (
-    <ContainerComponent title="Favorite" isImageBackground>
+    <ContainerComponent title="Yêu thích" isImageBackground>
       <FlatList
         data={favoriteDetails}
         renderItem={({item}) => (

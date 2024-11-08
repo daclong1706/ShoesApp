@@ -14,7 +14,7 @@ export const appColors = {
   grayLight: '#EEEDEB',
   lightGray: '#E4DFDF',
   darkGray: '#807A7A',
-  coolGray: '#707B81',
+  coolGray: '#B7B7B7',
   link: '#000120',
   darkSlate: '#1A2530',
   danger: '#F87265',

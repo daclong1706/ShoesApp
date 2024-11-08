@@ -96,7 +96,7 @@ const ContainerComponent = (props: Props) => {
     </ImageBackground>
   ) : (
     <SafeAreaView style={[globalStyles.container]}>
-      {headerComponent()}
+      <View style={[globalStyles.container]}>{headerComponent()}</View>
     </SafeAreaView>
   );
 };

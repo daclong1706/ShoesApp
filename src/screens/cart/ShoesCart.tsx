@@ -53,7 +53,13 @@ const ShoesCart = (props: Props) => {
   };
 
   const handleRemove = async () => {
-    await dispatch(removeCartItem(item.productId));
+    await dispatch(
+      removeCartItem({
+        productId: item.productId,
+        selectedColor: item.selectedColor,
+        selectedSize: item.selectedSize,
+      }),
+    );
     dispatch(fetchCart());
     setModalVisible(false);
   };
@@ -82,7 +88,7 @@ const ShoesCart = (props: Props) => {
               <TextComponent
                 text={'Size | ' + item.selectedSize}
                 font="bold"
-                color={appColors.coolGray}
+                color={appColors.darkGray}
               />
             </RowComponent>
             <RowComponent justify="space-between">

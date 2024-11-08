@@ -54,12 +54,20 @@ export const updateCartItem = createAsyncThunk(
   },
 );
 
-// Xóa sản phẩm khỏi giỏ hàng
+// Xóa sản phẩm khỏi giỏ hàng theo `productId`, `selectedColor`, và `selectedSize`
 export const removeCartItem = createAsyncThunk(
   'cart/removeCartItem',
-  async (productId: string) => {
-    await cartAPI.removeCartItem(productId);
-    return productId;
+  async ({
+    productId,
+    selectedColor,
+    selectedSize,
+  }: {
+    productId: string;
+    selectedColor?: string;
+    selectedSize?: string;
+  }) => {
+    await cartAPI.removeCartItem(productId, {selectedColor, selectedSize});
+    return {productId, selectedColor, selectedSize};
   },
 );
 
@@ -96,7 +104,10 @@ const cartSlice = createSlice({
         ) => {
           const {productId, updatedData} = action.payload;
           const itemIndex = state.cart.findIndex(
-            item => item.productId === productId,
+            item =>
+              item.productId === productId &&
+              item.selectedColor === updatedData.selectedColor &&
+              item.selectedSize === updatedData.selectedSize,
           );
           if (itemIndex !== -1) {
             state.cart[itemIndex] = {...state.cart[itemIndex], ...updatedData};
@@ -105,9 +116,22 @@ const cartSlice = createSlice({
       )
       .addCase(
         removeCartItem.fulfilled,
-        (state, action: PayloadAction<string>) => {
+        (
+          state,
+          action: PayloadAction<{
+            productId: string;
+            selectedColor?: string;
+            selectedSize?: string;
+          }>,
+        ) => {
+          const {productId, selectedColor, selectedSize} = action.payload;
           state.cart = state.cart.filter(
-            item => item.productId !== action.payload,
+            item =>
+              !(
+                item.productId === productId &&
+                item.selectedColor === selectedColor &&
+                item.selectedSize === selectedSize
+              ),
           );
         },
       );

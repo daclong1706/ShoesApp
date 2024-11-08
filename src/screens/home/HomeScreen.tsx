@@ -41,11 +41,41 @@ import {fontFamilies} from '../../constants/fontFamilies';
 import {appInfo} from '../../constants/appInfos';
 import {useAppDispatch} from '../../stores/hook';
 import {loadFavorites} from '../../stores/reducers/favoriteSlice';
+import Geolocation from '@react-native-community/geolocation';
+import axios from 'axios';
+import {AddressModel} from '../../models/AddressModel';
+import {it} from 'node:test';
 
 const HomeScreen = ({navigation}: any) => {
   const [shoes, setShoes] = useState<Shoes[]>([]);
+  const [currentLocation, setCurrentLocation] = useState<AddressModel>();
 
   const dispatch = useAppDispatch();
+
+  // useEffect(() => {
+  //   Geolocation.getCurrentPosition(position => {
+  //     if (position.coords) {
+  //       reverseGeoCode({
+  //         lat: position.coords.latitude,
+  //         long: position.coords.longitude,
+  //       });
+  //     }
+  //   });
+  // }, []);
+
+  // const reverseGeoCode = async ({lat, long}: {lat: number; long: number}) => {
+  //   const api = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${long}&lang=vi-VI&apiKey=FDSrRQkvtZ4QPx6QMNN1384RW_SNr8tPZfWsFs-HMS8`;
+  //   try {
+  //     const res = await axios(api);
+  //     if (res && res.status === 200 && res.data) {
+  //       const items = res.data.items;
+  //       console.log(items[0]);
+  //       setCurrentLocation(items[0]);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
     dispatch(loadFavorites());

@@ -45,8 +45,6 @@ const SocialLogin = () => {
           'post',
         );
 
-        console.log(res.data);
-
         dispatch(addAuth(res.data));
         await AsyncStorage.setItem('auth', JSON.stringify(res.data));
       } else {

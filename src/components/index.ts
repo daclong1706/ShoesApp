@@ -13,6 +13,7 @@ import TagComponent from './TagComponent';
 import TextComponent from './TextComponent';
 import ShoesCard from './ShoesCard';
 import SizeSelector from './SizeSelector';
+import ImagePicker from './ImagePicker';
 
 export {
   SpaceComponent,
@@ -30,4 +31,5 @@ export {
   ShoesList,
   ShoesCard,
   SizeSelector,
+  ImagePicker,
 };

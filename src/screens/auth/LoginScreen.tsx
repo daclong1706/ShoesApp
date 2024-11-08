@@ -19,6 +19,7 @@ import {Validate} from '../../utils/validate';
 import {addAuth} from '../../stores/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {formValidator} from './constants/validator';
+import {LoadingModal} from '../../modals';
 
 const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
@@ -26,6 +27,7 @@ const LoginScreen = ({navigation}: any) => {
   const [isRemember, setIsRemember] = useState(true);
   const [errorMessage, setErrorMessage] = useState<any>();
   const [isDisable, setIsDisable] = useState(true);
+  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
     if (
@@ -43,6 +45,7 @@ const LoginScreen = ({navigation}: any) => {
   const dispatch = useDispatch();
 
   const handleLogin = async () => {
+    setisLoading(true);
     try {
       const res = await authenticationAPI.HandleAuthentication(
         '/login',
@@ -54,7 +57,9 @@ const LoginScreen = ({navigation}: any) => {
         'auth',
         isRemember ? JSON.stringify(res.data) : email,
       );
+      setisLoading(false);
     } catch (error) {
+      setisLoading(false);
       formValidator('wrongPass', {}, errorMessage, setErrorMessage);
     }
   };
@@ -192,6 +197,7 @@ const LoginScreen = ({navigation}: any) => {
           />
         </RowComponent>
       </SectionComponent>
+      <LoadingModal visible={isLoading} />
     </ContainerComponent>
   );
 };

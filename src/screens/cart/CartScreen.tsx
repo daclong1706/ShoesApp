@@ -10,7 +10,6 @@ import {Cart} from '../../models/CartModel'; // Import `CartModel` đã được
 const CartScreen = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector(cartSelectorID);
-  const [total, setTotal] = useState(0);
 
   const [shoes, setShoes] = useState<Cart[]>([]);
   useEffect(() => {
@@ -54,8 +53,6 @@ const CartScreen = () => {
       const totalPrice = detailedShoes.reduce((sum, shoe) => {
         return sum + shoe.price * shoe.quantity;
       }, 0);
-
-      console.log('Total Price:', totalPrice);
     };
 
     if (cart.length > 0) {
@@ -64,7 +61,7 @@ const CartScreen = () => {
   }, [cart]);
 
   return (
-    <ContainerComponent title="My Cart" isImageBackground isScroll>
+    <ContainerComponent title="Giỏ hàng" isImageBackground isScroll>
       {shoes.length > 0 ? (
         shoes.map((shoe, index) => (
           <ShoesCart key={shoe.productId + index} item={shoe} />

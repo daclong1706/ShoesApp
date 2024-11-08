@@ -24,7 +24,8 @@ const TabNavigator = () => {
         const hideTabBar =
           routeName === 'ProductDetail' ||
           routeName === 'ReviewScreen' ||
-          routeName === 'ProductScreen';
+          routeName === 'ProductScreen' ||
+          routeName === 'EventScreen';
         return <TabBarBottom {...props} hideTabBar={hideTabBar} />;
       }}
       screenOptions={{headerShown: false}}>

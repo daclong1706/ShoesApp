@@ -27,8 +27,19 @@ class CartAPI {
   };
 
   // Xóa sản phẩm khỏi giỏ hàng
-  removeCartItem = async (productId: String) => {
-    return await axiosClient.delete(`/cart/${productId}`);
+  removeCartItem = async (
+    productId: string,
+    {
+      selectedColor,
+      selectedSize,
+    }: {selectedColor?: string; selectedSize?: string},
+  ) => {
+    return await axiosClient.delete(`/cart/${productId}`, {
+      data: {
+        selectedColor,
+        selectedSize,
+      },
+    });
   };
 }
 
