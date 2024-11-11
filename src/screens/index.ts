@@ -16,6 +16,13 @@ import EventScreen from './events/EventScreen';
 import ProductDetail from './home/ProductDetail';
 import ReviewScreen from './home/ReviewScreen';
 import ProductScreen from './home/ProductScreen';
+import EditProfile from './profiles/EditProfile';
+import OrderListScreen from './orders/OrderListScreen';
+import AddressList from './profiles/AddressList';
+import AddAddress from './profiles/AddAddress';
+import NotificationSettings from './profiles/NotificationSettings';
+import ChangePasswordScreen from './profiles/ChangePasswordScreen';
+import PrivacyPolicyScreen from './profiles/PrivacyPolicyScreen';
 
 export {
   HomeScreen,
@@ -36,4 +43,11 @@ export {
   ProductDetail,
   ReviewScreen,
   ProductScreen,
+  EditProfile,
+  OrderListScreen,
+  AddressList,
+  AddAddress,
+  NotificationSettings,
+  ChangePasswordScreen,
+  PrivacyPolicyScreen,
 };

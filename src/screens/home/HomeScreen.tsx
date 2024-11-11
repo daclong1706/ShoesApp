@@ -41,7 +41,6 @@ import {fontFamilies} from '../../constants/fontFamilies';
 import {appInfo} from '../../constants/appInfos';
 import {useAppDispatch} from '../../stores/hook';
 import {loadFavorites} from '../../stores/reducers/favoriteSlice';
-import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios';
 import {AddressModel} from '../../models/AddressModel';
 import {it} from 'node:test';

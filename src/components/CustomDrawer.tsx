@@ -28,9 +28,11 @@ import RowComponent from './RowComponent';
 import {fontFamilies} from '../constants/fontFamilies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {useAppSelector} from '../stores/hook';
+import {selectUser} from '../stores/reducers/userSlice';
 
 const CustomDrawer = ({navigation}: any) => {
-  const user = useSelector(authSelector);
+  const user: any = useAppSelector(selectUser);
 
   const dispatch = useDispatch();
 
@@ -44,7 +46,6 @@ const CustomDrawer = ({navigation}: any) => {
     }
   };
 
-  // console.log(user);
   const size = 24;
   const color = appColors.gray;
   const profileMenu = [
@@ -75,7 +76,7 @@ const CustomDrawer = ({navigation}: any) => {
       icon: <TruckFast size={size} color={color} />,
     },
     {
-      key: 'Notification',
+      key: 'NotificationScreen',
       title: 'Notifications',
       icon: <Notification size={size} color={color} />,
     },
@@ -123,8 +124,10 @@ const CustomDrawer = ({navigation}: any) => {
           <RowComponent
             styles={[style.listItem]}
             onPress={() => {
-              console.log(item.key);
               navigation.closeDrawer();
+              navigation.navigate(item.key, {
+                screen: 'ProfileScreen',
+              });
             }}>
             {item.icon}
             <TextComponent

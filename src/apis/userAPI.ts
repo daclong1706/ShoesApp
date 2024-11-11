@@ -23,7 +23,7 @@ class UserAPI {
 
   // Cập nhật mật khẩu người dùng
   updatePassword = async (currentPassword: string, newPassword: string) => {
-    return await axiosClient.patch('/user/password', {
+    return await axiosClient.put('/user/password', {
       currentPassword,
       newPassword,
     });

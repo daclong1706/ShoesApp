@@ -11,6 +11,7 @@ const store = configureStore({
     authReducer,
     cartReducer,
     userReducer,
+    //addressReducer,
   },
 });
 

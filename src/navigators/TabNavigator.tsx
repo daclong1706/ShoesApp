@@ -4,28 +4,40 @@ import {TabBarBottom} from '../components';
 import {CartScreen} from '../screens';
 import FavoriteNavigator from './FavoriteNavigator';
 import HomeNavigator from './HomeNavigator';
-import NotificationNavigator from './NotificationNavigator';
-import ProfileNavigator from './ProfileNavigator';
-import DrawerNavigator from './DrawerNavigator';
 import EventNavigator from './EventNavigator';
+import ProfileNavigator from './ProfileNavigator';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+  const shouldHideTabBar = (routeName: string) => {
+    // Danh sách các màn hình mà bạn muốn ẩn tab bar
+    const hideTabBarScreens = [
+      'ProductDetail',
+      'ReviewScreen',
+      'ProductScreen',
+      'EventScreen',
+      'EditProfile',
+      'OrderDetails',
+      'Notification',
+      'CartScreen',
+    ];
+    return hideTabBarScreens.includes(routeName);
+  };
+
   return (
     <Tab.Navigator
       tabBar={props => {
-        // Kiểm tra xem màn hình hiện tại có phải là ProductDetail không
+        // Lấy routeName của màn hình hiện tại
         const routeName =
           getFocusedRouteNameFromRoute(
             props.state?.routes[props.state.index],
           ) || 'Home';
-        const hideTabBar =
-          routeName === 'ProductDetail' ||
-          routeName === 'ReviewScreen' ||
-          routeName === 'ProductScreen' ||
-          routeName === 'EventScreen';
+
+        // Kiểm tra xem có nên ẩn tab bar hay không
+        const hideTabBar = shouldHideTabBar(routeName);
+
         return <TabBarBottom {...props} hideTabBar={hideTabBar} />;
       }}
       screenOptions={{headerShown: false}}>

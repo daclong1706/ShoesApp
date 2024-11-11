@@ -79,8 +79,6 @@ const Verification = ({navigation, route}: any) => {
       setLimit(60);
       setCurrentCode(res.data.code);
       setIsLoading(false);
-
-      console.log(res.data.code);
     } catch (error) {
       setIsLoading(false);
       console.log(`Can not send verification code &{error}`);
@@ -104,6 +102,7 @@ const Verification = ({navigation, route}: any) => {
           data,
           'post',
         );
+        console.log(res.data);
         dispatch(addAuth(res.data));
         await AsyncStorage.setItem('auth', JSON.stringify(res.data));
       } catch (error) {
