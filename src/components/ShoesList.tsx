@@ -5,6 +5,7 @@ import {
   ImageBackground,
   ScrollView,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -26,6 +27,7 @@ import {
 import {useAppDispatch, useAppSelector} from '../stores/hook';
 import Toast from 'react-native-toast-message';
 import Octicons from 'react-native-vector-icons/Octicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 interface Props {
   item: Shoes;
   type: 'card' | 'list';
@@ -50,6 +52,16 @@ const ShoesList = (props: Props) => {
   const discount =
     item.colors[selectedColorIndex]?.discountPercentage ??
     item.discountPercentage;
+
+  const totalStars = Array.isArray(item.reviews)
+    ? item.reviews.reduce(
+        (acc, review) => acc + parseInt(review.rating.toString()),
+        0,
+      )
+    : 0;
+  const totalReviews = Array.isArray(item.reviews) ? item.reviews.length : 0;
+  const averageStars =
+    totalReviews > 0 ? (totalStars / totalReviews).toFixed(1) : '0';
 
   const navigation: any = useNavigation();
 
@@ -83,7 +95,7 @@ const ShoesList = (props: Props) => {
     }
   };
 
-  return type === 'card' ? (
+  return (
     <ShoesCard
       onPress={() => navigation.navigate('ProductDetail', {item})}
       styles={{width: appInfo.sizes.WIDTH * 0.45}}>
@@ -169,90 +181,10 @@ const ShoesList = (props: Props) => {
         </ScrollView>
 
         {/* Nút thêm vào giỏ hàng */}
-        <TouchableOpacity style={styles.addButton}>
-          <Add size={24} color={appColors.white} />
-        </TouchableOpacity>
-      </RowComponent>
-    </ShoesCard>
-  ) : (
-    <ShoesCard
-      onPress={() => navigation.navigate('ProductDetail', {item})}
-      styles={{width: appInfo.sizes.WIDTH * 0.45}}>
-      <ImageBackground
-        style={styles.imageBackground}
-        source={{uri: item.colors[selectedColorIndex].colorImage}}>
-        <RowComponent justify="flex-end">
-          <TouchableOpacity onPress={handleAddToFavorite}>
-            <Heart
-              size={24}
-              color={isFavorite ? appColors.primary : appColors.gray}
-            />
-          </TouchableOpacity>
+        <RowComponent>
+          <AntDesign name="star" size={16} color={appColors.primary} />
+          <TextComponent text={averageStars} styles={{marginHorizontal: 6}} />
         </RowComponent>
-      </ImageBackground>
-
-      <TextComponent
-        text={item.label}
-        color={appColors.primary}
-        styles={{textTransform: 'uppercase'}}
-        size={12}
-      />
-
-      <TextComponent
-        numOfLine={1}
-        text={item.name}
-        font={fontFamilies.medium}
-        size={16}
-        styles={{marginVertical: 6, marginBottom: 12}}
-      />
-
-      {/* Hiển thị giá với giảm giá nếu có */}
-      {discount ? (
-        <View>
-          <TextComponent
-            text={formatPrice(item.price - (item.price * discount) / 100)}
-            font={fontFamilies.medium}
-          />
-          <TextComponent
-            text={formatPrice(item.price)}
-            styles={{textDecorationLine: 'line-through', color: appColors.gray}}
-          />
-        </View>
-      ) : (
-        <TextComponent
-          text={formatPrice(item.price)}
-          font={fontFamilies.medium}
-        />
-      )}
-
-      <RowComponent justify="space-between">
-        {/* Bảng màu sắc với ScrollView */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.colorScrollView}
-          contentContainerStyle={{alignItems: 'center'}}
-          nestedScrollEnabled>
-          {item.colors.map((color, index) => (
-            <TouchableOpacity
-              key={color.colorId}
-              onPress={() => setSelectedColorIndex(index)}
-              style={[
-                styles.colorCircle,
-                {
-                  backgroundColor: color.colorCode,
-                  borderColor:
-                    selectedColorIndex === index ? appColors.primary : '#ccc',
-                },
-              ]}
-            />
-          ))}
-        </ScrollView>
-
-        {/* Nút thêm vào giỏ hàng */}
-        <TouchableOpacity style={styles.addButton}>
-          <Add size={24} color={appColors.white} />
-        </TouchableOpacity>
       </RowComponent>
     </ShoesCard>
   );

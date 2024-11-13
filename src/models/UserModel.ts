@@ -34,7 +34,8 @@ export interface User {
   password?: string; // Để mật khẩu là tùy chọn vì không cần trên frontend
   birthDate?: Date;
   phoneNumber?: string;
-  photo?: string;
+  gender?: 'male' | 'female' | 'other';
+  photo?: string | null;
   role: 'user' | 'admin' | 'guest';
   isActive: boolean;
   isVerified: boolean;

@@ -21,7 +21,10 @@ const TabNavigator = () => {
       'EditProfile',
       'OrderDetails',
       'Notification',
-      'CartScreen',
+      'PrivacyPolicyScreen',
+      'Cart',
+      'ChangePasswordScreen',
+      'NotificationSettings',
     ];
     return hideTabBarScreens.includes(routeName);
   };
@@ -33,7 +36,7 @@ const TabNavigator = () => {
         const routeName =
           getFocusedRouteNameFromRoute(
             props.state?.routes[props.state.index],
-          ) || 'Home';
+          ) || props.state?.routes[props.state.index]['name'];
 
         // Kiểm tra xem có nên ẩn tab bar hay không
         const hideTabBar = shouldHideTabBar(routeName);

@@ -4,12 +4,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {appColors} from '../../constants/appColor';
 import {ButtonComponent, InputComponent} from '../../components';
 import ContaineProfile from './components/ContainerProfile';
-import {selectUserError, updatePassword} from '../../stores/reducers/userSlice';
+import {updatePassword} from '../../stores/reducers/userSlice';
 import {useAppDispatch} from '../../stores/hook';
 
 const ChangePasswordScreen = () => {
   const dispatch = useAppDispatch();
-  const error = useSelector(selectUserError);
 
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');

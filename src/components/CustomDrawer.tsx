@@ -28,11 +28,9 @@ import RowComponent from './RowComponent';
 import {fontFamilies} from '../constants/fontFamilies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {useAppSelector} from '../stores/hook';
-import {selectUser} from '../stores/reducers/userSlice';
 
 const CustomDrawer = ({navigation}: any) => {
-  const user: any = useAppSelector(selectUser);
+  const user = useSelector(authSelector);
 
   const dispatch = useDispatch();
 
@@ -46,6 +44,7 @@ const CustomDrawer = ({navigation}: any) => {
     }
   };
 
+  // console.log(user);
   const size = 24;
   const color = appColors.gray;
   const profileMenu = [

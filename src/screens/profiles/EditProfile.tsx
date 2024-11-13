@@ -1,23 +1,23 @@
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {Calendar, Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
 import {
-  View,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  StyleSheet,
+  View,
 } from 'react-native';
-import {useAppDispatch, useAppSelector} from '../../stores/hook';
-import {selectUser} from '../../stores/reducers/userSlice';
-import {ButtonComponent, InputComponent, TextComponent} from '../../components';
-import {Calendar, Call, Sms} from 'iconsax-react-native';
-import {appColors} from '../../constants/appColor';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import GenderPicker from './components/GenderPicker';
-import CountrySelector from './components/CountrySelector';
 import {CountryCode} from 'react-native-country-picker-modal';
+import {ButtonComponent, TextComponent} from '../../components';
+import {appColors} from '../../constants/appColor';
 import {fontFamilies} from '../../constants/fontFamilies';
+import {useAppDispatch, useAppSelector} from '../../stores/hook';
+import {selectUser, updateUser} from '../../stores/reducers/userSlice';
 import ContainerProfile from './components/ContainerProfile';
+import CountrySelector from './components/CountrySelector';
+import GenderPicker from './components/GenderPicker';
+import Toast from 'react-native-toast-message';
 
 const EditProfileScreen = ({navigation}: any) => {
   const dispatch = useAppDispatch();
@@ -30,7 +30,7 @@ const EditProfileScreen = ({navigation}: any) => {
     new Date(user?.birthDate ?? Date.now()),
   );
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [phone, setPhone] = useState(user?.phone ?? '');
+  const [phone, setPhone] = useState(user?.phoneNumber ?? '');
   const [gender, setGender] = useState(user?.gender ?? '');
 
   // State cho Country Picker
@@ -42,6 +42,39 @@ const EditProfileScreen = ({navigation}: any) => {
     const currentDate = selectedDate || birthDate;
     setShowDatePicker(false);
     setBirthDate(currentDate);
+  };
+
+  const handleUpdateProfile = async () => {
+    try {
+      const validGender =
+        gender === 'male' || gender === 'female' || gender === 'other'
+          ? gender
+          : undefined;
+      await dispatch(
+        updateUser({
+          name: fullName,
+          givenName: firstName,
+          birthDate: birthDate,
+          phoneNumber: phone,
+          gender: validGender,
+        }),
+      ).unwrap();
+
+      Toast.show({
+        type: 'success',
+        text1: 'Cập nhật thành công',
+        position: 'bottom',
+        visibilityTime: 2000,
+      });
+      navigation.goBack();
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Lỗi cập nhật',
+        position: 'bottom',
+        visibilityTime: 2000,
+      });
+    }
   };
 
   //console.log(countryCode, countryName, callingCode);
@@ -109,6 +142,7 @@ const EditProfileScreen = ({navigation}: any) => {
             text="Cập nhật"
             textFont={fontFamilies.regular}
             size={16}
+            onPress={handleUpdateProfile}
           />
         </View>
       </View>

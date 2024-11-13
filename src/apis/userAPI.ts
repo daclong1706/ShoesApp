@@ -1,38 +1,30 @@
 import axiosClient from './axiosClient';
+import {User} from '../models/UserModel';
 
 class UserAPI {
-  // Lấy thông tin người dùng hiện tại
-  getUser = async () => {
+  async getUser(): Promise<{data: {user: User}}> {
     return await axiosClient.get('/user');
-  };
+  }
 
-  // Cập nhật thông tin người dùng
-  updateUser = async (userData: {
-    name?: string;
-    email?: string;
-    phone?: string;
-    address?: string;
-  }) => {
+  async updateUser(userData: Partial<User>): Promise<{data: {user: User}}> {
+    console.log('axios');
+    console.log(userData);
     return await axiosClient.put('/user', userData);
-  };
+  }
 
-  // Xóa tài khoản người dùng
-  deleteUser = async () => {
-    return await axiosClient.delete('/user');
-  };
-
-  // Cập nhật mật khẩu người dùng
-  updatePassword = async (currentPassword: string, newPassword: string) => {
+  async updatePassword(
+    currentPassword: string,
+    newPassword: string,
+  ): Promise<{message: string}> {
     return await axiosClient.put('/user/password', {
       currentPassword,
       newPassword,
     });
-  };
+  }
 
-  // Lấy danh sách đơn hàng của người dùng
-  getUserOrders = async () => {
-    return await axiosClient.get('/user/orders');
-  };
+  async deleteUser(): Promise<{message: string}> {
+    return await axiosClient.delete('/user');
+  }
 }
 
 const userAPI = new UserAPI();

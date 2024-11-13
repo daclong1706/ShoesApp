@@ -1,21 +1,15 @@
 import {
-  ShoppingBag,
+  Calendar,
   Heart,
   Home,
-  Notification,
   Profile,
-  Calendar,
+  ShoppingBag,
 } from 'iconsax-react-native';
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
 import {appColors} from '../constants/appColor';
-import {globalStyles} from '../styles/globalStyles';
 import CircleComponent from './CircleComponent';
-import {
-  getFocusedRouteNameFromRoute,
-  useNavigationState,
-} from '@react-navigation/native';
 
 const TabBarBottom = ({state, descriptors, navigation, hideTabBar}: any) => {
   if (hideTabBar) {

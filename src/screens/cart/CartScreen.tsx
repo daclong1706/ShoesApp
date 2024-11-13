@@ -1,21 +1,35 @@
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {ContainerComponent} from '../../components';
+import {
+  ButtonComponent,
+  ContainerComponent,
+  RowComponent,
+  TextComponent,
+} from '../../components';
 import ShoesCart from './ShoesCart';
 import {useAppDispatch, useAppSelector} from '../../stores/hook';
 import {cartSelectorID, fetchCart} from '../../stores/reducers/cartSlice';
 import productAPI from '../../apis/productAPI';
-import {Cart} from '../../models/CartModel'; // Import `CartModel` đã được tạo ở bước trước
+import {Cart} from '../../models/CartModel';
+import {appColors} from '../../constants/appColor';
+import {appInfo} from '../../constants/appInfos';
+import {useNavigation} from '@react-navigation/native';
 
 const CartScreen = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector(cartSelectorID);
 
+  const navigation: any = useNavigation();
+
   const [shoes, setShoes] = useState<Cart[]>([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  // Lấy dữ liệu giỏ hàng
   useEffect(() => {
     dispatch(fetchCart());
   }, [dispatch]);
 
+  // Lấy thông tin chi tiết sản phẩm và tính tổng giá
   useEffect(() => {
     const fetchDetailedShoes = async () => {
       const detailedShoes = await Promise.all(
@@ -23,7 +37,6 @@ const CartScreen = () => {
           const productRes = await productAPI.getProductById(item.productId);
           const productData = productRes.data.shoes;
 
-          // Tìm màu phù hợp với `selectedColor` trong `colors`
           const selectedColorData = productData.colors.find(
             (color: any) => color.colorId === item.selectedColor,
           );
@@ -34,25 +47,27 @@ const CartScreen = () => {
               (selectedColorData?.discountPercentage ??
                 productData.discountPercentage)) /
               100;
+
           return {
             productId: productData.productId,
             name: productData.name,
             colorName: selectedColorData ? selectedColorData.colorName : '',
             colorImage: selectedColorData ? selectedColorData.colorImage : '',
             price: priceDiscount,
-
             quantity: item.quantity,
             selectedColor: item.selectedColor ?? '',
             selectedSize: item.selectedSize ?? '',
           };
         }),
       );
+
       setShoes(detailedShoes);
 
-      // Tính tổng giá trị của tất cả sản phẩm trong giỏ hàng
-      const totalPrice = detailedShoes.reduce((sum, shoe) => {
+      // Tính tổng giá trị của giỏ hàng
+      const total = detailedShoes.reduce((sum, shoe) => {
         return sum + shoe.price * shoe.quantity;
       }, 0);
+      setTotalPrice(total);
     };
 
     if (cart.length > 0) {
@@ -61,18 +76,62 @@ const CartScreen = () => {
   }, [cart]);
 
   return (
-    <ContainerComponent title="Giỏ hàng" isImageBackground isScroll>
+    <View style={{flex: 1}}>
       {shoes.length > 0 ? (
-        shoes.map((shoe, index) => (
-          <ShoesCart key={shoe.productId + index} item={shoe} />
-        ))
+        <>
+          <ScrollView
+            showsVerticalScrollIndicator={true}
+            style={{marginBottom: 100}}>
+            {shoes.map((shoe, index) => (
+              <ShoesCart key={shoe.productId + index} item={shoe} />
+            ))}
+          </ScrollView>
+
+          {/* Nút "Thanh toán" luôn hiển thị ở dưới cùng */}
+          <View style={styles.checkoutButtonContainer}>
+            <RowComponent justify="space-between">
+              <View>
+                <TextComponent text="Thành tiền" />
+                <TextComponent
+                  text={`${totalPrice.toLocaleString()} đ`}
+                  styles={styles.totalPrice}
+                />
+              </View>
+              <ButtonComponent
+                onPress={() => navigation.navigate('CheckoutScreen')}
+                text="Thanh toán"
+                type="primary"
+                styles={{width: appInfo.sizes.WIDTH * 0.5}}
+              />
+            </RowComponent>
+          </View>
+        </>
       ) : (
         <View style={{alignItems: 'center', marginTop: 20}}>
           <Text>Giỏ hàng của bạn đang trống</Text>
         </View>
       )}
-    </ContainerComponent>
+    </View>
   );
 };
 
 export default CartScreen;
+
+const styles = StyleSheet.create({
+  checkoutButtonContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'white',
+    padding: 25,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    justifyContent: 'center',
+  },
+  totalPrice: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: appColors.primary,
+  },
+});

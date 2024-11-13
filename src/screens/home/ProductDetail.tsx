@@ -1,4 +1,10 @@
-import {ArrowDown2, ArrowLeft2, Heart, ShoppingBag} from 'iconsax-react-native';
+import {
+  ArrowDown2,
+  ArrowLeft2,
+  ArrowUp2,
+  Heart,
+  ShoppingBag,
+} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {
   FlatList,
@@ -38,6 +44,7 @@ import {
   updateCartItem,
 } from '../../stores/reducers/cartSlice';
 import {AddItemModal, LoadingModal} from '../../modals';
+import StarRating from './components/StarRating';
 
 const ProductDetail = ({navigation, route}: any) => {
   const {item: product} = route.params;
@@ -63,6 +70,19 @@ const ProductDetail = ({navigation, route}: any) => {
     product.colors[selectedColorIndex]?.discountPercentage ??
     product.discountPercentage;
 
+  const totalStars = Array.isArray(product.reviews)
+    ? product.reviews.reduce(
+        (acc: any, review: any) => acc + parseInt(review.rating.toString()),
+        0,
+      )
+    : 0;
+  const totalReviews = Array.isArray(product.reviews)
+    ? product.reviews.length
+    : 0;
+
+  const averageStars =
+    totalReviews > 0 ? (totalStars / totalReviews).toFixed(1) : '0';
+
   const currentColor = product.colors[selectedColorIndex];
   const images = [currentColor.colorImage, ...currentColor.images];
 
@@ -75,20 +95,20 @@ const ProductDetail = ({navigation, route}: any) => {
     dispatch(fetchCart());
   }, [dispatch]);
 
-  const StarRating = ({rating}: any) => {
-    return (
-      <View style={styles.starContainer}>
-        {[...Array(5)].map((_, index) => (
-          <AntDesign
-            key={index}
-            name="star"
-            size={16}
-            color={index < rating ? appColors.primary : appColors.gray}
-          />
-        ))}
-      </View>
-    );
-  };
+  // const StarRating = ({rating}: any) => {
+  //   return (
+  //     <View style={styles.starContainer}>
+  //       {[...Array(5)].map((_, index) => (
+  //         <AntDesign
+  //           key={index}
+  //           name="star"
+  //           size={16}
+  //           color={index < rating ? appColors.primary : appColors.gray}
+  //         />
+  //       ))}
+  //     </View>
+  //   );
+  // };
   // Best Seller
   // New Arrival
   // On Sale
@@ -384,7 +404,11 @@ const ProductDetail = ({navigation, route}: any) => {
                   text="Size & Fit"
                   styles={styles.sectionHeader}
                 />
-                <ArrowDown2 size={24} color={appColors.black} />
+                {isSizeFitCollapsed ? (
+                  <ArrowDown2 size={24} color={appColors.black} />
+                ) : (
+                  <ArrowUp2 size={24} color={appColors.black} />
+                )}
               </RowComponent>
             </TouchableOpacity>
             <Collapsible collapsed={isSizeFitCollapsed}>
@@ -398,8 +422,19 @@ const ProductDetail = ({navigation, route}: any) => {
             <TouchableOpacity
               onPress={() => setReviewsCollapsed(!isReviewsCollapsed)}>
               <RowComponent justify="space-between">
-                <TextComponent text="Đánh giá" styles={styles.sectionHeader} />
-                <ArrowDown2 size={24} color={appColors.black} />
+                <TextComponent
+                  text={`Đánh giá (${parseInt(totalReviews)})`}
+                  styles={styles.sectionHeader}
+                />
+                <RowComponent>
+                  <StarRating stars={parseFloat(averageStars)} />
+                  <SpaceComponent width={5} />
+                  {isReviewsCollapsed ? (
+                    <ArrowDown2 size={24} color={appColors.black} />
+                  ) : (
+                    <ArrowUp2 size={24} color={appColors.black} />
+                  )}
+                </RowComponent>
               </RowComponent>
             </TouchableOpacity>
             <SpaceComponent line />
@@ -417,7 +452,7 @@ const ProductDetail = ({navigation, route}: any) => {
                     />
                   </RowComponent>
 
-                  <StarRating rating={review.rating} />
+                  <StarRating stars={review.rating} />
 
                   <TextComponent
                     text={review.comment}
@@ -455,7 +490,11 @@ const ProductDetail = ({navigation, route}: any) => {
                   text="Thông tin thêm"
                   styles={styles.sectionHeader}
                 />
-                <ArrowDown2 size={24} color={appColors.black} />
+                {isMoreInfoCollapsed ? (
+                  <ArrowDown2 size={24} color={appColors.black} />
+                ) : (
+                  <ArrowUp2 size={24} color={appColors.black} />
+                )}
               </RowComponent>
             </TouchableOpacity>
             <Collapsible collapsed={isMoreInfoCollapsed}>

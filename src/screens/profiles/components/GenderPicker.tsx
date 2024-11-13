@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {appColors} from '../../../constants/appColor';
-import {ArrowDown2, ArrowUp2} from 'iconsax-react-native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import {appColors} from '../../../constants/appColor';
 
 interface GenderPickerProps {
   selectedGender: string;
@@ -17,9 +16,9 @@ const GenderPicker: React.FC<GenderPickerProps> = ({
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(selectedGender);
   const [items, setItems] = useState([
-    {label: 'Nam', value: 'Male'},
-    {label: 'Nữ', value: 'Female'},
-    {label: 'Khác', value: 'Other'},
+    {label: 'Nam', value: 'male'},
+    {label: 'Nữ', value: 'female'},
+    {label: 'Khác', value: 'other'},
   ]);
 
   const handleChangeGender = (gender: string) => {

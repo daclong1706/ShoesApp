@@ -1,63 +1,45 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
-  View,
-  Text,
   Image,
   ScrollView,
-  TouchableOpacity,
-  Switch,
-  ActivityIndicator,
   StyleSheet,
-  FlatList,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useAppDispatch, useAppSelector} from '../../stores/hook';
-import {fetchUser, selectUser} from '../../stores/reducers/userSlice';
-import {removeAuth} from '../../stores/reducers/authReducer';
+import {ImageOrVideo} from 'react-native-image-crop-picker';
+import Toast from 'react-native-toast-message';
+import {uploadToCloudinary} from '../../apis/cloudinaryAPI';
 import {
   ButtonComponent,
   ImagePicker,
-  RowComponent,
   SpaceComponent,
+  TextComponent,
 } from '../../components';
-import {uploadToCloudinary} from '../../apis/cloudinaryAPI';
-import {ImageOrVideo} from 'react-native-image-crop-picker';
-import {
-  ArrowRight2,
-  Location,
-  Notification,
-  Profile,
-  SecuritySafe,
-} from 'iconsax-react-native';
 import {appColors} from '../../constants/appColor';
-import {useNavigation} from '@react-navigation/native';
+import {useAppDispatch, useAppSelector} from '../../stores/hook';
+import {removeAuth} from '../../stores/reducers/authReducer';
+import {
+  fetchUser,
+  selectUser,
+  updateUser,
+} from '../../stores/reducers/userSlice';
+import ProfileOptions from './components/ProfileOptions';
+import {LoadingModal} from '../../modals';
 
 const ProfileScreen = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const navigation: any = useNavigation();
-  const [userPhoto, setUserPhoto] = useState(user?.photo ?? '');
+  const [userPhoto, setUserPhoto] = useState(user?.photo);
   const [loading, setLoading] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  // Lấy trạng thái Dark Mode từ AsyncStorage
-  useEffect(() => {
-    const fetchDarkMode = async () => {
-      const storedMode = await AsyncStorage.getItem('darkMode');
-      if (storedMode !== null) setIsDarkMode(storedMode === 'true');
-    };
-    fetchDarkMode();
-  }, []);
+  console.log(userPhoto);
 
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
-
-  const toggleDarkMode = async () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-    await AsyncStorage.setItem('darkMode', newMode.toString());
-  };
 
   // Hàm đăng xuất
   const handleLogout = async () => {
@@ -74,6 +56,28 @@ const ProfileScreen = () => {
     setLoading(true);
     try {
       const uploadedUrl = await uploadToCloudinary(imagePath);
+      try {
+        await dispatch(
+          updateUser({
+            photo: uploadedUrl,
+          }),
+        ).unwrap();
+
+        Toast.show({
+          type: 'success',
+          text1: 'Cập nhật thành công',
+          position: 'bottom',
+          visibilityTime: 2000,
+        });
+        navigation.goBack();
+      } catch (error) {
+        Toast.show({
+          type: 'error',
+          text1: 'Lỗi cập nhật',
+          position: 'bottom',
+          visibilityTime: 2000,
+        });
+      }
       if (uploadedUrl) setUserPhoto(uploadedUrl);
     } catch (error) {
       console.error('Upload failed:', error);
@@ -93,47 +97,6 @@ const ProfileScreen = () => {
       </View>
     );
 
-  // Danh sách các tùy chọn profile
-  const profileOptions = [
-    {
-      label: 'Sửa hồ sơ',
-      onPress: () => navigation.navigate('EditProfile'),
-      icon: <Profile size={24} color={appColors.gray} />,
-    },
-    {
-      label: 'Địa chỉ',
-      onPress: () => navigation.navigate('AddressList'),
-      icon: <Location size={24} color={appColors.gray} />,
-    },
-    {
-      label: 'Thông báo',
-      onPress: () => navigation.navigate('NotificationSettings'),
-      icon: <Notification size={24} color={appColors.gray} />,
-    },
-    {
-      label: 'Đổi mật khẩu',
-      onPress: () => navigation.navigate('ChangePasswordScreen'),
-      icon: <SecuritySafe size={24} color={appColors.gray} />,
-    },
-    {
-      label: 'Dark Mode',
-      isSwitch: true,
-      value: isDarkMode,
-      onSwitchToggle: toggleDarkMode,
-      icon: <Profile size={24} color={appColors.gray} />,
-    },
-    {
-      label: 'Chính sách bảo mật',
-      onPress: () => navigation.navigate('PrivacyPolicyScreen'),
-      icon: <Profile size={24} color={appColors.gray} />,
-    },
-    {
-      label: 'Trung tâm hỗ trợ',
-      onPress: () => {},
-      icon: <Profile size={24} color={appColors.gray} />,
-    },
-  ];
-
   const error = console.error;
   console.error = (...args: any) => {
     if (/VirtualizedLists/.test(args[0])) return;
@@ -145,14 +108,26 @@ const ProfileScreen = () => {
       {/* Header Profile Info */}
       <View style={styles.center}>
         <TouchableOpacity>
-          {loading ? (
-            <ActivityIndicator size="small" color="#0000ff" />
-          ) : (
+          {user?.photo ? (
             <Image
-              source={{uri: userPhoto || 'https://placehold.co/80x80'}}
+              source={{uri: user?.photo || 'https://placehold.co/80x80'}}
               style={styles.avatar}
             />
+          ) : (
+            <View style={[styles.avatar, {backgroundColor: appColors.primary}]}>
+              <TextComponent
+                title
+                size={22}
+                text={
+                  user?.name
+                    ? user.name.trim().split(' ').slice(-1)[0][0].toUpperCase()
+                    : ''
+                }
+                color={appColors.background}
+              />
+            </View>
           )}
+
           <ImagePicker
             onSelect={val =>
               val.type === 'url'
@@ -163,37 +138,18 @@ const ProfileScreen = () => {
         </TouchableOpacity>
         <Text style={styles.userName}>{user.name}</Text>
         <Text style={styles.userInfo}>{user.email}</Text>
-        <Text style={styles.userInfo}>{user.phone}</Text>
+        <Text style={styles.userInfo}>{user.phoneNumber}</Text>
       </View>
       <SpaceComponent line />
 
       {/* Profile Options */}
-      <FlatList
-        data={profileOptions}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({item}) => (
-          <TouchableOpacity style={styles.optionItem} onPress={item.onPress}>
-            <RowComponent>
-              {item.icon}
-              <Text style={styles.optionText}>{item.label}</Text>
-            </RowComponent>
-            <RowComponent>
-              {item.isSwitch && (
-                <Switch
-                  value={item.value}
-                  onValueChange={item.onSwitchToggle}
-                />
-              )}
-              <ArrowRight2 size={24} color={appColors.gray} />
-            </RowComponent>
-          </TouchableOpacity>
-        )}
-      />
+      <ProfileOptions />
 
       {/* Logout Button */}
       <View style={{marginTop: 30}}>
         <ButtonComponent text="Logout" onPress={handleLogout} />
       </View>
+      <LoadingModal visible={loading} />
     </ScrollView>
   );
 };
@@ -203,14 +159,14 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
   container: {flex: 1, padding: 20, backgroundColor: appColors.background},
   center: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-  avatar: {width: 80, height: 80, borderRadius: 40, marginBottom: 10},
+  avatar: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   userName: {fontSize: 20, fontWeight: 'bold'},
   userInfo: {fontSize: 14, color: '#888'},
-  optionItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 15,
-  },
-  optionText: {fontSize: 16, marginLeft: 6, color: appColors.text},
 });

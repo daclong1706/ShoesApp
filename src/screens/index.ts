@@ -23,6 +23,7 @@ import AddAddress from './profiles/AddAddress';
 import NotificationSettings from './profiles/NotificationSettings';
 import ChangePasswordScreen from './profiles/ChangePasswordScreen';
 import PrivacyPolicyScreen from './profiles/PrivacyPolicyScreen';
+import CheckoutScreen from './cart/CheckoutScreen';
 
 export {
   HomeScreen,
@@ -50,4 +51,5 @@ export {
   NotificationSettings,
   ChangePasswordScreen,
   PrivacyPolicyScreen,
+  CheckoutScreen,
 };
