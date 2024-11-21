@@ -24,6 +24,11 @@ import NotificationSettings from './profiles/NotificationSettings';
 import ChangePasswordScreen from './profiles/ChangePasswordScreen';
 import PrivacyPolicyScreen from './profiles/PrivacyPolicyScreen';
 import CheckoutScreen from './cart/CheckoutScreen';
+import ChooseShippingScreen from './cart/ChooseShippingScreen';
+import PaymentMethod from './cart/PaymentMethod';
+import PaypalScreen from './cart/PaypalScreen';
+import MasterCardScreen from './cart/MasterCardScreen';
+import OrderSuccess from '../modals/OrderSuccess';
 
 export {
   HomeScreen,
@@ -52,4 +57,9 @@ export {
   ChangePasswordScreen,
   PrivacyPolicyScreen,
   CheckoutScreen,
+  ChooseShippingScreen,
+  PaymentMethod,
+  PaypalScreen,
+  MasterCardScreen,
+  OrderSuccess,
 };

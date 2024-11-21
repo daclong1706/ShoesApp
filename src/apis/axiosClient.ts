@@ -3,12 +3,6 @@ import queryString from 'query-string';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appInfo} from '../constants/appInfos';
 
-// const getAccessToken = async () => {
-//   const res = await AsyncStorage.getItem('auth');
-//   return res ? JSON.parse(res).accesstoken : '';
-// };
-// getAccessToken();
-
 const axiosClient = axios.create({
   baseURL: appInfo.BASE_URL,
   paramsSerializer: params => queryString.stringify(params),

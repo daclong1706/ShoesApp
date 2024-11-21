@@ -4,6 +4,7 @@ import {favoriteReducer} from './reducers/favoriteSlice';
 import {authReducer} from './reducers/authReducer';
 import {cartReducer} from './reducers/cartSlice';
 import {userReducer} from './reducers/userSlice';
+import {shippingReducer} from './reducers/shippingSlice';
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     authReducer,
     cartReducer,
     userReducer,
+    shippingReducer,
     //addressReducer,
   },
 });

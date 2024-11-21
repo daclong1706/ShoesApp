@@ -14,6 +14,7 @@ import {Cart} from '../../models/CartModel';
 import {appColors} from '../../constants/appColor';
 import {appInfo} from '../../constants/appInfos';
 import {useNavigation} from '@react-navigation/native';
+import ContainerCart from './components/ContainerCart';
 
 const CartScreen = () => {
   const dispatch = useAppDispatch();
@@ -77,40 +78,47 @@ const CartScreen = () => {
 
   return (
     <View style={{flex: 1}}>
-      {shoes.length > 0 ? (
-        <>
-          <ScrollView
-            showsVerticalScrollIndicator={true}
-            style={{marginBottom: 100}}>
-            {shoes.map((shoe, index) => (
-              <ShoesCart key={shoe.productId + index} item={shoe} />
-            ))}
-          </ScrollView>
+      <ContainerCart isButton title="Giỏ hàng của tôi">
+        {shoes.length > 0 ? (
+          <>
+            <ScrollView
+              showsVerticalScrollIndicator={true}
+              style={{marginBottom: 100}}>
+              {shoes.map((shoe, index) => (
+                <ShoesCart key={shoe.productId + index} item={shoe} />
+              ))}
+            </ScrollView>
 
-          {/* Nút "Thanh toán" luôn hiển thị ở dưới cùng */}
-          <View style={styles.checkoutButtonContainer}>
-            <RowComponent justify="space-between">
-              <View>
-                <TextComponent text="Thành tiền" />
-                <TextComponent
-                  text={`${totalPrice.toLocaleString()} đ`}
-                  styles={styles.totalPrice}
+            {/* Nút "Thanh toán" luôn hiển thị ở dưới cùng */}
+            <View style={styles.checkoutButtonContainer}>
+              <RowComponent justify="space-between">
+                <View>
+                  <TextComponent text="Thành tiền" />
+                  <TextComponent
+                    text={`${totalPrice.toLocaleString()} đ`}
+                    styles={styles.totalPrice}
+                  />
+                </View>
+                <ButtonComponent
+                  onPress={() =>
+                    navigation.navigate('CheckoutScreen', {
+                      shoes: shoes,
+                      total: totalPrice,
+                    })
+                  }
+                  text="Thanh toán"
+                  type="primary"
+                  styles={{width: appInfo.sizes.WIDTH * 0.5}}
                 />
-              </View>
-              <ButtonComponent
-                onPress={() => navigation.navigate('CheckoutScreen')}
-                text="Thanh toán"
-                type="primary"
-                styles={{width: appInfo.sizes.WIDTH * 0.5}}
-              />
-            </RowComponent>
+              </RowComponent>
+            </View>
+          </>
+        ) : (
+          <View style={{alignItems: 'center', marginTop: 20}}>
+            <Text>Giỏ hàng của bạn đang trống</Text>
           </View>
-        </>
-      ) : (
-        <View style={{alignItems: 'center', marginTop: 20}}>
-          <Text>Giỏ hàng của bạn đang trống</Text>
-        </View>
-      )}
+        )}
+      </ContainerCart>
     </View>
   );
 };
@@ -128,6 +136,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     justifyContent: 'center',
+    borderColor: '#EEEEEE',
+    borderWidth: 1,
   },
   totalPrice: {
     fontSize: 18,

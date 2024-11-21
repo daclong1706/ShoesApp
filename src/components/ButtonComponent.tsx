@@ -7,7 +7,7 @@ import TextComponent from './TextComponent';
 
 interface Props {
   icon?: ReactNode;
-  text: string;
+  text?: string;
   type?: 'primary' | 'text' | 'link';
   color?: string;
   styles?: StyleProp<ViewStyle>;

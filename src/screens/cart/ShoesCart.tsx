@@ -22,10 +22,11 @@ import {RemoveCartModal} from '../../modals';
 
 interface Props {
   item: Cart;
+  isOrder?: boolean;
 }
 
 const ShoesCart = (props: Props) => {
-  const {item} = props;
+  const {item, isOrder} = props;
 
   const [isModalVisible, setModalVisible] = useState(false);
   const dispatch = useAppDispatch();
@@ -78,16 +79,19 @@ const ShoesCart = (props: Props) => {
               <TextComponent
                 text={item.name}
                 font={fontFamilies.medium}
-                size={16}
+                size={14}
               />
-              <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Octicons name="trash" size={24} color="#000" />
-              </TouchableOpacity>
+              {isOrder || (
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
+                  <Octicons name="trash" size={24} color="#000" />
+                </TouchableOpacity>
+              )}
             </RowComponent>
             <RowComponent styles={styles.row}>
               <TextComponent
                 text={'Size | ' + item.selectedSize}
                 font="bold"
+                size={12}
                 color={appColors.darkGray}
               />
             </RowComponent>
@@ -97,19 +101,25 @@ const ShoesCart = (props: Props) => {
                 font={fontFamilies.medium}
               />
               <RowComponent>
-                <View style={styles.containerQuantity}>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => handleQuantity(false)}>
-                    <Text style={styles.text}>-</Text>
-                  </TouchableOpacity>
-                  <Text style={styles.quantityText}>{item.quantity}</Text>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => handleQuantity(true)}>
-                    <Text style={styles.text}>+</Text>
-                  </TouchableOpacity>
-                </View>
+                {isOrder ? (
+                  <View style={styles.containerQuantityOrder}>
+                    <Text style={styles.quantityText}>{item.quantity}</Text>
+                  </View>
+                ) : (
+                  <View style={styles.containerQuantity}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => handleQuantity(false)}>
+                      <Text style={styles.text}>-</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.quantityText}>{item.quantity}</Text>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => handleQuantity(true)}>
+                      <Text style={styles.text}>+</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
               </RowComponent>
               {/* <RowComponent>
               
@@ -161,6 +171,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 20, // Bo tròn
+  },
+  containerQuantityOrder: {
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5', // Màu nền xám nhạt
+    paddingHorizontal: 1,
+    paddingVertical: 5,
+    borderRadius: 40, // Bo tròn
   },
   button: {
     paddingHorizontal: 10,
