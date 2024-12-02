@@ -1,24 +1,10 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Button,
-  Alert,
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  ImageBackground,
-} from 'react-native';
 import {CardField, useStripe} from '@stripe/stripe-react-native';
-import stripeAPI from '../../apis/stripeAPI';
-import ContainerCart from './components/ContainerCart';
-import {appColors} from '../../constants/appColor';
-import {TextComponent} from '../../components';
+import React, {useState} from 'react';
+import {Alert, StyleSheet, View} from 'react-native';
 import Toast from 'react-native-toast-message';
-import {LoadingModal} from '../../modals';
-import OrderSuccess from '../../modals/OrderSuccess';
+import stripeAPI from '../../apis/stripeAPI';
+import {appColors} from '../../constants/appColor';
+import ContainerCart from './components/ContainerCart';
 
 const PaymentScreen = ({navigation}: any) => {
   const {confirmPayment} = useStripe();
@@ -69,7 +55,7 @@ const PaymentScreen = ({navigation}: any) => {
   };
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <ContainerCart
         onPress={handlePayment}
         buttonText="Thanh toán"
@@ -84,11 +70,11 @@ const PaymentScreen = ({navigation}: any) => {
           cardStyle={styles.cardInputStyle}
         />
       </ContainerCart>
-      <OrderSuccess
-        visible={true}
+      {/* <OrderSuccess
+        visible={visible}
         onOrder={() => {}}
         onShop={() => navigation.navigate('HomeScreen')}
-      />
+      /> */}
     </View>
   );
 };

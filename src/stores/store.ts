@@ -5,6 +5,8 @@ import {authReducer} from './reducers/authReducer';
 import {cartReducer} from './reducers/cartSlice';
 import {userReducer} from './reducers/userSlice';
 import {shippingReducer} from './reducers/shippingSlice';
+import {orderReducer} from './reducers/orderSlice';
+import {addressReducer} from './reducers/addressSlice';
 
 const store = configureStore({
   reducer: {
@@ -13,7 +15,8 @@ const store = configureStore({
     cartReducer,
     userReducer,
     shippingReducer,
-    //addressReducer,
+    orderReducer,
+    addressReducer,
   },
 });
 

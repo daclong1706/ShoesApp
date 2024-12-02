@@ -17,10 +17,12 @@ import {
   shippingSelector,
 } from '../../stores/reducers/shippingSlice';
 import Toast from 'react-native-toast-message';
+import {addressSelector} from '../../stores/reducers/addressSlice';
 
 const CheckoutScreen = ({navigation, route}: any) => {
   const {shoes, total} = route.params;
   const selectedShippingMethod = useSelector(shippingSelector);
+  const selectedAddressMethod = useSelector(addressSelector);
 
   const handlePayment = () => {
     if (!selectedShippingMethod) {
@@ -52,10 +54,9 @@ const CheckoutScreen = ({navigation, route}: any) => {
           />
           <TouchableOpacity
             style={[styles.shipping, {padding: 15}]}
-            // onPress={() => navigation.navigate('ChooseShippingScreen')}
-          >
+            onPress={() => navigation.navigate('ChooseAddressScreen')}>
             <RowComponent justify="space-between">
-              <RowComponent>
+              <RowComponent styles={{flex: 1}}>
                 <View
                   style={[
                     styles.iconContainer,
@@ -68,13 +69,18 @@ const CheckoutScreen = ({navigation, route}: any) => {
                   />
                 </View>
 
-                <View>
+                <View style={{flex: 1}}>
                   <TextComponent
                     text={'Home'}
                     styles={{fontWeight: 'bold', marginLeft: 12}}
                   />
+
                   <TextComponent
-                    text="Vinh Loc A"
+                    text={
+                      selectedAddressMethod
+                        ? `Đường ${selectedAddressMethod.street}, ${selectedAddressMethod.city}, ${selectedAddressMethod.country}`
+                        : ''
+                    }
                     styles={{marginLeft: 12, marginTop: 6}}
                   />
                 </View>

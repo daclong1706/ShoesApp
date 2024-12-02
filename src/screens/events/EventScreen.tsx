@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet, Button} from 'react-native';
 import React, {useEffect} from 'react';
 import {
   addToCart,
@@ -7,34 +7,45 @@ import {
   updateCartItem,
 } from '../../stores/reducers/cartSlice';
 import {useAppDispatch, useAppSelector} from '../../stores/hook';
+import {createOrder} from '../../stores/reducers/orderSlice';
 
 const EventScreen = () => {
   const dispatch = useAppDispatch();
 
-  // Lấy giỏ hàng khi component được mount
-  useEffect(() => {
-    dispatch(fetchCart());
-  }, [dispatch]);
+  const handleCreateOrder = () => {
+    const shippingAddress = {
+      method: 'Normal',
+      price: 15000,
+      street: '123 Main St',
+      city: 'Hanoi',
+      state: 'HN',
+      postalCode: '100000',
+      country: 'Vietnam',
+    };
 
-  // Thêm sản phẩm vào giỏ hàng
-  const handleAddToCart = (productId: any) => {
-    dispatch(addToCart({productId, quantity: 1}));
-  };
+    const paymentDetails = {
+      method: 'Credit Card',
+      status: 'Paid',
+      transactionId: 'TXN123456789',
+    };
 
-  // Cập nhật sản phẩm trong giỏ hàng
-  const handleUpdateCartItem = (productId: string, quantity: number) => {
-    dispatch(updateCartItem({productId, updatedData: {quantity}}));
-  };
-
-  // Xóa sản phẩm khỏi giỏ hàng
-  const handleRemoveCartItem = (productId: any) => {
-    dispatch(removeCartItem(productId));
+    // Dispatch action tạo đơn hàng
+    console.log('done');
+    dispatch(createOrder({shippingAddress, paymentDetails}));
   };
   return (
-    <View>
-      <Text>EventScreen</Text>
+    <View style={styles.container}>
+      <Button title="Tạo đơn hàng" onPress={handleCreateOrder} />
     </View>
   );
 };
 
 export default EventScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

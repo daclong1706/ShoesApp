@@ -29,6 +29,8 @@ import PaymentMethod from './cart/PaymentMethod';
 import PaypalScreen from './cart/PaypalScreen';
 import MasterCardScreen from './cart/MasterCardScreen';
 import OrderSuccess from '../modals/OrderSuccess';
+import OrderDetailScreen from './orders/OrderDetailScreen';
+import ChooseAddressScreen from './cart/ChooseAddressScreen';
 
 export {
   HomeScreen,
@@ -62,4 +64,6 @@ export {
   PaypalScreen,
   MasterCardScreen,
   OrderSuccess,
+  OrderDetailScreen,
+  ChooseAddressScreen,
 };

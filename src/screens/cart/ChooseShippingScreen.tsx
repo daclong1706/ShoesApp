@@ -24,7 +24,7 @@ interface ShippingMethod {
 // Danh sách phương thức vận chuyển
 const shippingMethods: ShippingMethod[] = [
   {
-    id: '1',
+    id: 'Economy',
     label: 'Tiết kiệm',
     minDays: 7,
     maxDays: 10,
@@ -32,7 +32,7 @@ const shippingMethods: ShippingMethod[] = [
     icon: 'coins',
   },
   {
-    id: '2',
+    id: 'Normal',
     label: 'Bình thường',
     minDays: 5,
     maxDays: 7,
@@ -40,7 +40,7 @@ const shippingMethods: ShippingMethod[] = [
     icon: 'box',
   },
   {
-    id: '3',
+    id: 'Delivery',
     label: 'Chuyển phát nhanh',
     minDays: 3,
     maxDays: 5,
@@ -48,7 +48,7 @@ const shippingMethods: ShippingMethod[] = [
     icon: 'truck',
   },
   {
-    id: '4',
+    id: 'Express',
     label: 'Hỏa tốc',
     minDays: 1,
     maxDays: 2,

@@ -39,7 +39,7 @@ import {globalStyles} from '../../styles/globalStyles';
 import Toast from 'react-native-toast-message';
 import {
   addToCart,
-  cartSelectorID,
+  cartSelector,
   fetchCart,
   updateCartItem,
 } from '../../stores/reducers/cartSlice';
@@ -60,7 +60,7 @@ const ProductDetail = ({navigation, route}: any) => {
 
   const dispatch = useAppDispatch();
   const favorites = useAppSelector(favoriteSelectorID);
-  const cart = useAppSelector(cartSelectorID);
+  const cart = useAppSelector(cartSelector);
 
   const formatPrice = (price: number) => {
     return price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
@@ -188,6 +188,8 @@ const ProductDetail = ({navigation, route}: any) => {
           await dispatch(
             addToCart({
               productId: product.productId,
+              productName: product.name,
+              unitPrice: product.price - (product.price * discount) / 100,
               quantity: 1,
               selectedColor: product.colors[selectedColorIndex].colorId,
               selectedSize: selectedSize,

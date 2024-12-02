@@ -143,7 +143,7 @@ export default ShoesCart;
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    marginHorizontal: 16,
+    // marginHorizontal: 16,
     marginVertical: 12,
     marginRight: 32,
   },

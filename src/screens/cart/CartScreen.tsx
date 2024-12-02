@@ -8,7 +8,7 @@ import {
 } from '../../components';
 import ShoesCart from './ShoesCart';
 import {useAppDispatch, useAppSelector} from '../../stores/hook';
-import {cartSelectorID, fetchCart} from '../../stores/reducers/cartSlice';
+import {cartSelector, fetchCart} from '../../stores/reducers/cartSlice';
 import productAPI from '../../apis/productAPI';
 import {Cart} from '../../models/CartModel';
 import {appColors} from '../../constants/appColor';
@@ -18,7 +18,7 @@ import ContainerCart from './components/ContainerCart';
 
 const CartScreen = () => {
   const dispatch = useAppDispatch();
-  const cart = useAppSelector(cartSelectorID);
+  const cart = useAppSelector(cartSelector);
 
   const navigation: any = useNavigation();
 
@@ -83,7 +83,7 @@ const CartScreen = () => {
           <>
             <ScrollView
               showsVerticalScrollIndicator={true}
-              style={{marginBottom: 100}}>
+              style={{marginBottom: 100, paddingHorizontal: 16}}>
               {shoes.map((shoe, index) => (
                 <ShoesCart key={shoe.productId + index} item={shoe} />
               ))}

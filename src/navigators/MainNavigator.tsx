@@ -7,8 +7,10 @@ import {Host} from 'react-native-portalize';
 import {
   CartScreen,
   CheckoutScreen,
+  ChooseAddressScreen,
   ChooseShippingScreen,
   MasterCardScreen,
+  OrderDetailScreen,
   OrderListScreen,
   PaymentMethod,
   PaypalScreen,
@@ -26,7 +28,14 @@ const MainNavigator = () => {
           }}>
           <Stack.Screen name="Main" component={DrawerNavigator} />
           <Stack.Screen name="Order" component={OrderListScreen} />
+          <Stack.Screen name="OrderDetail" component={OrderDetailScreen} />
+
           <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
+          <Stack.Screen
+            name="ChooseAddressScreen"
+            component={ChooseAddressScreen}
+          />
+
           <Stack.Screen
             name="ChooseShippingScreen"
             component={ChooseShippingScreen}
