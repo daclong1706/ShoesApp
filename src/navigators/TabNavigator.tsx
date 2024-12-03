@@ -25,6 +25,7 @@ const TabNavigator = () => {
       'Cart',
       'ChangePasswordScreen',
       'NotificationSettings',
+      'SearchScreen',
     ];
     return hideTabBarScreens.includes(routeName);
   };

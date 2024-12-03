@@ -31,21 +31,21 @@ const paymentMethods = [
     iconType: 'FontAwesome',
   },
   {
-    id: 'googlepay',
-    name: 'Google Pay',
-    icon: 'google-pay',
-    iconType: 'FontAwesome5Brands',
-  },
-  {
     id: 'mastercard',
-    name: '**** **** **** 4679',
+    name: 'Thẻ tín dụng',
     icon: 'cc-mastercard',
     iconType: 'FontAwesome',
+  },
+  {
+    id: 'cash',
+    name: 'Tiền mặt',
+    icon: 'money-bill-alt',
+    iconType: 'FontAwesome5',
   },
 ];
 
 const PaymentMethod = ({navigation, route}: any) => {
-  const {pay} = route.params;
+  const {pay, shipping, address} = route.params;
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
 
   const handleSelect = (id: string) => {
@@ -54,16 +54,16 @@ const PaymentMethod = ({navigation, route}: any) => {
 
   const handleConfirmPayment = () => {
     if (selectedMethod === 'paypal') {
-      navigation.navigate('PaypalScreen', {pay});
+      navigation.navigate('PaypalScreen', {pay, shipping, address});
     } else if (selectedMethod === 'mastercard') {
-      navigation.navigate('MasterCardScreen', {pay});
+      navigation.navigate('MasterCardScreen', {pay, shipping, address});
     } else {
       Alert.alert('Phương thức thanh toán chưa được hỗ trợ.');
     }
   };
 
   const renderIcon = (icon: string, iconType: string, isSelected: boolean) => {
-    const iconColor = isSelected ? appColors.primary : '#888';
+    const iconColor = appColors.primary;
     const iconSize = 24;
 
     switch (iconType) {
@@ -110,7 +110,10 @@ const PaymentMethod = ({navigation, route}: any) => {
       buttonText="Xác nhận thanh toán"
       onPress={handleConfirmPayment}>
       <View style={{padding: 25}}>
-        <TextComponent text="Chọn phương thức thanh toán bạn muốn sử dụng" />
+        <TextComponent
+          text="Chọn phương thức thanh toán bạn muốn sử dụng"
+          styles={{marginBottom: 12, textAlign: 'center'}}
+        />
         <FlatList
           data={paymentMethods}
           renderItem={renderItem}

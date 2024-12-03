@@ -1,16 +1,35 @@
 import {CardField, useStripe} from '@stripe/stripe-react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import Toast from 'react-native-toast-message';
 import stripeAPI from '../../apis/stripeAPI';
 import {appColors} from '../../constants/appColor';
 import ContainerCart from './components/ContainerCart';
+import {useAppDispatch, useAppSelector} from '../../stores/hook';
+import {
+  createOrder,
+  currentOrderSelector,
+  fetchOrderById,
+  ordersSelector,
+} from '../../stores/reducers/orderSlice';
+import OrderSuccess from '../../modals/OrderSuccess';
+import {
+  cartSelector,
+  clearCart,
+  fetchCart,
+} from '../../stores/reducers/cartSlice';
 
-const PaymentScreen = ({navigation}: any) => {
+const PaymentScreen = ({navigation, route}: any) => {
+  const {pay, shipping, address} = route.params;
   const {confirmPayment} = useStripe();
+  const dispatch = useAppDispatch();
+  const item = useAppSelector(currentOrderSelector);
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState('10.00');
   const [visible, setVisible] = useState(false);
+  // console.log('Pay: ', pay);
+  // console.log('Shipping: ', shipping);
+  // console.log('Address: ', address);
 
   const handlePayment = async () => {
     setLoading(true);
@@ -30,7 +49,21 @@ const PaymentScreen = ({navigation}: any) => {
       const {error, paymentIntent} = await confirmPayment(clientSecret, {
         paymentMethodType: 'Card',
       });
-
+      // console.log('ID :', paymentIntent);
+      const shippingAddress = {
+        method: shipping.id,
+        price: shipping.price,
+        street: '123 Main St',
+        city: 'Hanoi',
+        state: 'HN',
+        postalCode: '100000',
+        country: 'Vietnam',
+      };
+      const paymentDetails = {
+        method: 'Credit Card',
+        status: 'Paid',
+        transactionId: paymentIntent?.id,
+      };
       if (error) {
         Toast.show({
           type: 'error',
@@ -39,7 +72,13 @@ const PaymentScreen = ({navigation}: any) => {
           visibilityTime: 2000,
         });
       } else if (paymentIntent) {
-        console.log('Done');
+        const res = await dispatch(
+          createOrder({shippingAddress, paymentDetails}),
+        );
+        const orderID = res.payload._id;
+        dispatch(fetchOrderById(orderID));
+        dispatch(clearCart());
+        dispatch(fetchCart());
         setVisible(true);
       }
     } catch (error) {
@@ -53,6 +92,11 @@ const PaymentScreen = ({navigation}: any) => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if (item) {
+      console.log('Order details:', item); // In ra chi tiết đơn hàng sau khi lấy thành công
+    }
+  }, [item]);
 
   return (
     <View style={{flex: 1}}>
@@ -70,11 +114,17 @@ const PaymentScreen = ({navigation}: any) => {
           cardStyle={styles.cardInputStyle}
         />
       </ContainerCart>
-      {/* <OrderSuccess
+      <OrderSuccess
         visible={visible}
-        onOrder={() => {}}
-        onShop={() => navigation.navigate('HomeScreen')}
-      /> */}
+        onOrder={() => {
+          dispatch(fetchCart());
+          navigation.navigate('OrderDetail', {item: item, success: true});
+        }}
+        onShop={() => {
+          dispatch(fetchCart());
+          navigation.navigate('HomeScreen');
+        }}
+      />
     </View>
   );
 };

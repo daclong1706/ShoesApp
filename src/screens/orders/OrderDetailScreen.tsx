@@ -22,6 +22,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import InfoRow from './components/InfoRow';
 import {fontFamilies} from '../../constants/fontFamilies';
 import {it} from 'node:test';
+import {useNavigation} from '@react-navigation/native';
 
 interface ShippingMethod {
   id: string;
@@ -53,7 +54,7 @@ const shippingMethods: ShippingMethod[] = [
 ];
 
 const OrderDetailScreen = ({navigation, route}: any) => {
-  const {item}: any = route.params;
+  const {item: item, success: success}: any = route.params;
   const [shoes, setShoes] = useState<Cart[]>([]);
   const [shipping, setShipping] = useState<ShippingMethod>();
 
@@ -121,9 +122,20 @@ const OrderDetailScreen = ({navigation, route}: any) => {
     }
   }, [item]);
 
+  const handleBack = () => {
+    if (success) {
+      navigation.navigate('HomeScreen');
+    } else {
+      navigation.goBack();
+    }
+  };
   return (
     <View style={{flex: 1}}>
-      <ContainerComponent title="Chi tiết hóa đơn" back isScroll>
+      <ContainerComponent
+        title="Chi tiết hóa đơn"
+        back
+        isScroll
+        onPress={handleBack}>
         <View style={styles.container}>
           <Text style={styles.title}>Thông tin hóa đơn</Text>
           <SpaceComponent line />

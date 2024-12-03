@@ -10,32 +10,32 @@ import {useAppDispatch, useAppSelector} from '../../stores/hook';
 import {createOrder} from '../../stores/reducers/orderSlice';
 
 const EventScreen = () => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  const handleCreateOrder = () => {
-    const shippingAddress = {
-      method: 'Normal',
-      price: 15000,
-      street: '123 Main St',
-      city: 'Hanoi',
-      state: 'HN',
-      postalCode: '100000',
-      country: 'Vietnam',
-    };
+  // const handleCreateOrder = () => {
+  //   const shippingAddress = {
+  //     method: 'Normal',
+  //     price: 15000,
+  //     street: '123 Main St',
+  //     city: 'Hanoi',
+  //     state: 'HN',
+  //     postalCode: '100000',
+  //     country: 'Vietnam',
+  //   };
 
-    const paymentDetails = {
-      method: 'Credit Card',
-      status: 'Paid',
-      transactionId: 'TXN123456789',
-    };
+  //   const paymentDetails = {
+  //     method: 'Credit Card',
+  //     status: 'Paid',
+  //     transactionId: 'TXN123456789',
+  //   };
 
-    // Dispatch action tạo đơn hàng
-    console.log('done');
-    dispatch(createOrder({shippingAddress, paymentDetails}));
-  };
+  //   // Dispatch action tạo đơn hàng
+  //   console.log('done');
+  //   dispatch(createOrder({shippingAddress, paymentDetails}));
+  // };
   return (
     <View style={styles.container}>
-      <Button title="Tạo đơn hàng" onPress={handleCreateOrder} />
+      {/* <Button title="Tạo đơn hàng" onPress={handleCreateOrder} /> */}
     </View>
   );
 };

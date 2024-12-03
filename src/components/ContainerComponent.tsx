@@ -21,10 +21,11 @@ interface Props {
   title?: string;
   children: ReactNode;
   back?: boolean;
+  onPress?: () => void;
 }
 
 const ContainerComponent = (props: Props) => {
-  const {isImageBackground, isScroll, children, back, title} = props;
+  const {isImageBackground, isScroll, children, back, title, onPress} = props;
 
   const navigation: any = useNavigation();
 
@@ -42,7 +43,7 @@ const ContainerComponent = (props: Props) => {
             {back && (
               <RowComponent>
                 <TouchableOpacity
-                  onPress={() => navigation.goBack()}
+                  onPress={onPress ? onPress : () => navigation.goBack()}
                   style={[
                     styles.button,
                     globalStyles.shadow,

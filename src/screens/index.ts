@@ -11,7 +11,7 @@ import ProfileScreen from './profiles/ProfileScreen';
 import CartScreen from './cart/CartScreen';
 import NotificationScreen from './notifications/NotificationScreen';
 import FavoriteScreen from './favorites/FavoriteScreen';
-import SearchScreen from './events/SearchScreen';
+import SearchScreen from './home/SearchScreen';
 import EventScreen from './events/EventScreen';
 import ProductDetail from './home/ProductDetail';
 import ReviewScreen from './home/ReviewScreen';

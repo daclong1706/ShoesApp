@@ -30,6 +30,13 @@ const CartScreen = () => {
     dispatch(fetchCart());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (cart.length === 0) {
+      setShoes([]); // Đảm bảo không có sản phẩm nào được hiển thị khi giỏ hàng trống
+      setTotalPrice(0);
+    }
+  }, [cart]);
+
   // Lấy thông tin chi tiết sản phẩm và tính tổng giá
   useEffect(() => {
     const fetchDetailedShoes = async () => {

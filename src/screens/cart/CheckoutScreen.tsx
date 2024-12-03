@@ -34,7 +34,11 @@ const CheckoutScreen = ({navigation, route}: any) => {
       });
     } else {
       const pay = selectedShippingMethod.price + total;
-      navigation.navigate('PaymentMethod', {pay});
+      navigation.navigate('PaymentMethod', {
+        pay: pay,
+        shipping: selectedShippingMethod,
+        address: selectedAddressMethod,
+      });
     }
   };
 

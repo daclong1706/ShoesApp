@@ -107,10 +107,15 @@ const orderSlice = createSlice({
   initialState,
   reducers: {
     setOrders: (state, action: PayloadAction<Order[]>) => {
-      state.orders = action.payload; // Cập nhật danh sách đơn hàng
+      state.orders = action.payload;
     },
     clearCurrentOrder: state => {
-      state.currentOrder = null; // Xóa đơn hàng hiện tại
+      state.currentOrder = null;
+    },
+    setCurrentOrderID: (state, action: PayloadAction<string>) => {
+      if (state.currentOrder) {
+        state.currentOrder._id = action.payload; // Lưu orderID vào currentOrder
+      }
     },
   },
   extraReducers: builder => {
@@ -118,16 +123,17 @@ const orderSlice = createSlice({
       .addCase(
         fetchOrders.fulfilled,
         (state, action: PayloadAction<Order[]>) => {
-          state.orders = action.payload; // Lưu danh sách đơn hàng vào state
+          state.orders = action.payload;
         },
       )
       .addCase(createOrder.fulfilled, (state, action: PayloadAction<Order>) => {
-        state.orders.push(action.payload); // Thêm đơn hàng mới vào danh sách
+        state.orders.push(action.payload); // Thêm đơn hàng vào danh sách
+        state.currentOrder = action.payload; // Lưu đơn hàng mới vào currentOrder
       })
       .addCase(
         fetchOrderById.fulfilled,
         (state, action: PayloadAction<Order>) => {
-          state.currentOrder = action.payload; // Lưu chi tiết đơn hàng vào state
+          state.currentOrder = action.payload;
         },
       )
       .addCase(
@@ -136,7 +142,7 @@ const orderSlice = createSlice({
           const {orderId, status} = action.payload;
           const order = state.orders.find(order => order._id === orderId);
           if (order) {
-            order.status = status; // Cập nhật trạng thái đơn hàng
+            order.status = status;
           }
         },
       )
@@ -148,17 +154,20 @@ const orderSlice = createSlice({
             order => order._id === orderId,
           );
           if (orderIndex >= 0) {
-            state.orders[orderIndex].status = status; // Cập nhật trạng thái "canceled"
+            state.orders[orderIndex].status = status;
           }
         },
       );
   },
 });
 
-export const {setOrders, clearCurrentOrder} = orderSlice.actions;
+export const {setOrders, clearCurrentOrder, setCurrentOrderID} =
+  orderSlice.actions;
 export const orderReducer = orderSlice.reducer;
 
 // Selectors để lấy dữ liệu từ Redux store
 export const ordersSelector = (state: RootState) => state.orderReducer.orders;
 export const currentOrderSelector = (state: RootState) =>
   state.orderReducer.currentOrder;
+export const currentOrderIDSelector = (state: RootState) =>
+  state.orderReducer.currentOrder?._id;

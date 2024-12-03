@@ -2,7 +2,6 @@ import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import productAPI from '../../apis/productAPI';
 import {
   ButtonComponent,
   ContainerComponent,
@@ -10,7 +9,6 @@ import {
   TextComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColor';
-import {Cart} from '../../models/CartModel';
 import {useAppDispatch, useAppSelector} from '../../stores/hook';
 import {fetchOrders, ordersSelector} from '../../stores/reducers/orderSlice';
 const OrderListScreen = () => {
@@ -47,7 +45,8 @@ const OrderListScreen = () => {
         <ButtonComponent
           onPress={() =>
             navigation.navigate('OrderDetail', {
-              item,
+              item: item,
+              success: false,
             })
           }
           text="Xem chi tiết"

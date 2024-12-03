@@ -44,9 +44,11 @@ import {loadFavorites} from '../../stores/reducers/favoriteSlice';
 import axios from 'axios';
 import {AddressModel} from '../../models/AddressModel';
 import {it} from 'node:test';
+import Geolocation from '@react-native-community/geolocation';
 
 const HomeScreen = ({navigation}: any) => {
   const [shoes, setShoes] = useState<Shoes[]>([]);
+  const [brand, setBrand] = useState<string | null>(null);
   const [currentLocation, setCurrentLocation] = useState<AddressModel>();
 
   const dispatch = useAppDispatch();
@@ -94,6 +96,10 @@ const HomeScreen = ({navigation}: any) => {
   }, []);
 
   const handleBrandSelect = (brandId: string | null) => {
+    setBrand(brandId);
+  };
+
+  const handleBrandSelectSeeAll = (brandId: string | null) => {
     navigation.navigate('ProductScreen', {shoes: shoes, title: brandId});
   };
 
@@ -131,10 +137,10 @@ const HomeScreen = ({navigation}: any) => {
             <View style={styles.notificationDot} />
           </CircleComponent>
         </RowComponent>
-        <RowComponent styles={{marginTop: 20}}>
+        <RowComponent styles={{marginVertical: 20}}>
           <RowComponent
             styles={styles.searchBox}
-            onPress={() => navigation.navigate('SearchScreen')}>
+            onPress={() => navigation.navigate('SearchScreen', {shoes: shoes})}>
             <SearchNormal1
               size={24}
               color={appColors.gray}
@@ -146,16 +152,36 @@ const HomeScreen = ({navigation}: any) => {
       </View>
       <ScrollView>
         {/* Brand Filter */}
-        <BrandFilter onBrandSelect={handleBrandSelect} />
-
-        {/* Popular Shoes */}
+        <BrandFilter onBrandSelect={handleBrandSelect} isFill id={brand} />
         <SectionComponent>
-          <TabBarComponent title="Popular" onPress={handleSeeAll} />
-
           <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={shoes.slice(0, 5)} // Hiển thị tối đa 5 sản phẩm
+            data={[...shoes]
+              .sort(() => Math.random() - 0.5)
+              .filter(item => item.brand?.includes(brand as string))
+              .slice(0, 5)}
+            renderItem={({item, index}) => (
+              <ShoesList key={`Shoes ${index}`} item={item} type="card" />
+            )}
+            keyExtractor={item => item.productId}
+            ListFooterComponent={
+              shoes.filter(item => item.brand?.includes(brand as string))
+                .length > 5 ? (
+                <SeeAllButton onPress={() => handleBrandSelectSeeAll(brand)} />
+              ) : null
+            }
+            nestedScrollEnabled
+          />
+        </SectionComponent>
+
+        {/* Popular Shoes */}
+        <TabBarComponent title="Popular" onPress={handleSeeAll} />
+        <SectionComponent>
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={[...shoes].sort(() => Math.random() - 0.5).slice(0, 5)}
             renderItem={({item, index}) => (
               <ShoesList key={`Shoes ${index}`} item={item} type="card" />
             )}
