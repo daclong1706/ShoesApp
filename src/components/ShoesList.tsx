@@ -28,6 +28,7 @@ import {useAppDispatch, useAppSelector} from '../stores/hook';
 import Toast from 'react-native-toast-message';
 import Octicons from 'react-native-vector-icons/Octicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import SpaceComponent from './SpaceComponent';
 interface Props {
   item: Shoes;
   type: 'card' | 'list';
@@ -125,14 +126,15 @@ const ShoesList = (props: Props) => {
       <TextComponent
         text={item.label}
         color={appColors.primary}
+        font="UnicaOne"
         styles={{textTransform: 'uppercase'}}
-        size={12}
+        size={14}
       />
 
       <TextComponent
         numOfLine={1}
         text={item.name}
-        font={fontFamilies.medium}
+        font={fontFamilies.semiMedium}
         size={16}
         styles={{marginVertical: 6, marginBottom: 12}}
       />
@@ -142,48 +144,60 @@ const ShoesList = (props: Props) => {
         <View>
           <TextComponent
             text={formatPrice(item.price - (item.price * discount) / 100)}
-            font={fontFamilies.medium}
+            font={fontFamilies.semiMedium}
           />
           <TextComponent
             text={formatPrice(item.price)}
+            font={fontFamilies.semiRegular}
             styles={{textDecorationLine: 'line-through', color: appColors.gray}}
           />
         </View>
       ) : (
-        <TextComponent
-          text={formatPrice(item.price)}
-          font={fontFamilies.medium}
-        />
+        <View>
+          <TextComponent
+            text={formatPrice(item.price)}
+            font={fontFamilies.medium}
+          />
+          <SpaceComponent height={20} />
+        </View>
       )}
 
       <RowComponent justify="space-between">
         {/* Bảng màu sắc với ScrollView */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.colorScrollView}
-          contentContainerStyle={{alignItems: 'center'}}
-          nestedScrollEnabled>
-          {item.colors.map((color, index) => (
-            <TouchableOpacity
-              key={color.colorId}
-              onPress={() => setSelectedColorIndex(index)}
-              style={[
-                styles.colorCircle,
-                {
-                  backgroundColor: color.colorCode,
-                  borderColor:
-                    selectedColorIndex === index ? appColors.primary : '#ccc',
-                },
-              ]}
-            />
-          ))}
-        </ScrollView>
+        {item.colors.length > 1 ? (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.colorScrollView}
+            contentContainerStyle={{alignItems: 'center'}}
+            nestedScrollEnabled>
+            {item.colors.map((color, index) => (
+              <TouchableOpacity
+                key={color.colorId}
+                onPress={() => setSelectedColorIndex(index)}
+                style={[
+                  styles.colorCircle,
+                  {
+                    backgroundColor: color.colorCode,
+                    borderColor:
+                      selectedColorIndex === index ? appColors.primary : '#ccc',
+                  },
+                ]}
+              />
+            ))}
+          </ScrollView>
+        ) : (
+          <SpaceComponent height={30} />
+        )}
 
         {/* Nút thêm vào giỏ hàng */}
         <RowComponent>
           <AntDesign name="star" size={16} color={appColors.primary} />
-          <TextComponent text={averageStars} styles={{marginHorizontal: 6}} />
+          <TextComponent
+            text={averageStars}
+            styles={{marginHorizontal: 6}}
+            font={fontFamilies.semiMedium}
+          />
         </RowComponent>
       </RowComponent>
     </ShoesCard>

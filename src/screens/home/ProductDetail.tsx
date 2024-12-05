@@ -162,7 +162,7 @@ const ProductDetail = ({navigation, route}: any) => {
       Toast.show({
         type: 'success',
         text1: 'Đã thêm vào yêu thích',
-        position: 'bottom',
+        position: 'top',
         visibilityTime: 2000,
       });
     } else {
@@ -172,7 +172,7 @@ const ProductDetail = ({navigation, route}: any) => {
       Toast.show({
         type: 'info',
         text1: 'Đã xóa khỏi yêu thích',
-        position: 'bottom',
+        position: 'top',
         visibilityTime: 2000,
       });
     }
@@ -183,14 +183,14 @@ const ProductDetail = ({navigation, route}: any) => {
       Toast.show({
         type: 'error',
         text1: 'Vui lòng chọn kích thước sản phẩm',
-        position: 'bottom',
+        position: 'top',
         visibilityTime: 2000,
       });
     } else if (product.colors[selectedColorIndex].quantity === 0) {
       Toast.show({
         type: 'error',
         text1: 'Sản phẩm hiện tại đã hết hàng',
-        position: 'bottom',
+        position: 'top',
         visibilityTime: 2000,
       });
     } else {
@@ -235,7 +235,7 @@ const ProductDetail = ({navigation, route}: any) => {
         Toast.show({
           type: 'error',
           text1: 'Đã xảy ra lỗi khi thêm sản phẩm',
-          position: 'bottom',
+          position: 'top',
           visibilityTime: 2000,
         });
       } finally {
@@ -262,7 +262,7 @@ const ProductDetail = ({navigation, route}: any) => {
             <View style={{flex: 1}}>
               <TextComponent
                 text={product.name}
-                font={fontFamilies.medium}
+                font={fontFamilies.semiSemiBold}
                 size={16}
               />
             </View>
@@ -281,7 +281,17 @@ const ProductDetail = ({navigation, route}: any) => {
             showsPagination={true}
             loop={false}
             dotColor={appColors.primaryPastel}
-            activeDotColor={appColors.primary}>
+            activeDotColor={appColors.primary}
+            dotStyle={{
+              width: 30,
+              height: 5,
+              borderRadius: 0,
+            }}
+            activeDotStyle={{
+              width: 50,
+              height: 5,
+              borderRadius: 0,
+            }}>
             {images.map((imageUri: string, index: number) => (
               <ImageBackground
                 key={index}
@@ -330,6 +340,7 @@ const ProductDetail = ({navigation, route}: any) => {
               <TextComponent
                 text={product.label}
                 color={appColors.primary}
+                font="octin sports rg"
                 styles={{textTransform: 'uppercase', marginBottom: 6}}
                 size={14}
               />
@@ -565,15 +576,10 @@ const ProductDetail = ({navigation, route}: any) => {
             </SectionComponent>
           )}
           <SectionComponent>
-            <Text
-              style={{
-                marginVertical: 16,
-                color: 'black',
-                fontSize: 18,
-                fontWeight: '500',
-              }}>
-              Có thể bạn cũng thích
-            </Text>
+            <TextComponent
+              text="Có thể bạn cũng thích"
+              styles={styles.sectionHeader}
+            />
             <FlatList
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -675,7 +681,7 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: fontFamilies.bold,
     marginVertical: 10,
     color: '#333',
   },

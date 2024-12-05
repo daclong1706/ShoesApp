@@ -1,130 +1,133 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
-import axios from 'axios';
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
-import {WebView} from 'react-native-webview';
-
-const HERE_API_KEY = 'FDSrRQkvtZ4QPx6QMNN1384RW_SNr8tPZfWsFs-HMS8';
+import MapView, {Marker} from 'react-native-maps';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {Location} from 'iconsax-react-native';
 
 const LocationComponent = () => {
-  const [currentLocation, setCurrentLocation] = useState<any>(null);
-  const [latitude, setLatitude] = useState<number | null>(null);
-  const [longitude, setLongitude] = useState<number | null>(null);
+  const [location, setLocation] = useState<any>(null); // Lưu thông tin vị trí hiện tại
+  const [isLocationReady, setIsLocationReady] = useState(false); // Cờ kiểm tra vị trí đã sẵn sàng
+  const [mapRef, setMapRef] = useState<MapView | null>(null); // Ref cho bản đồ
+  const [selectedLocation, setSelectedLocation] = useState<any>(null); // Vị trí marker đỏ
 
+  // Lấy vị trí hiện tại khi load
   useEffect(() => {
     Geolocation.getCurrentPosition(
       position => {
-        if (position.coords) {
-          const {latitude, longitude} = position.coords;
-          setLatitude(latitude);
-          setLongitude(longitude);
-          reverseGeoCode(latitude, longitude);
-        }
+        const {latitude, longitude} = position.coords;
+        setLocation({latitude, longitude}); // Lưu vị trí hiện tại
+        setSelectedLocation({latitude, longitude}); // Đặt vị trí marker đỏ
+        setIsLocationReady(true);
       },
       error => console.error(error),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
   }, []);
 
-  const reverseGeoCode = async (lat: number, long: number) => {
-    const api = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${long}&lang=vi-VI&apiKey=${HERE_API_KEY}`;
-    try {
-      const res = await axios.get(api);
-      if (res && res.status === 200 && res.data) {
-        const items = res.data.items;
-        if (items.length > 0) {
-          setCurrentLocation(items[0]);
-        }
-      }
-    } catch (error) {
-      console.log('Error fetching address:', error);
+  // Xử lý khi nhấn nút OK
+  const handleOkPress = () => {
+    if (selectedLocation) {
+      Alert.alert(
+        `Vị trí bạn chọn: Vĩ độ: ${selectedLocation.latitude}, Kinh độ: ${selectedLocation.longitude}`,
+      );
+      // Bạn có thể sử dụng vị trí này trong các thao tác khác hoặc gửi đến server
     }
   };
 
-  const handleMapClick = (event: any) => {
-    const data = JSON.parse(event.nativeEvent.data);
-    if (data.lat && data.lng) {
-      setLatitude(data.lat);
-      setLongitude(data.lng);
-      reverseGeoCode(data.lat, data.lng);
-    }
+  // Xử lý khi bản đồ thay đổi vị trí
+  const handleRegionChange = (region: any) => {
+    // Cập nhật lại vị trí marker đỏ để luôn ở giữa màn hình
+    setSelectedLocation({
+      latitude: region.latitude,
+      longitude: region.longitude,
+    });
   };
-
-  const mapHtml = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
-      <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
-      <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
-      <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
-      <style>
-        html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
-        #map { width: 100%; height: 100%; }
-      </style>
-    </head>
-    <body>
-      <div id="map"></div>
-      <script>
-        const platform = new H.service.Platform({ apikey: '${HERE_API_KEY}' });
-        const defaultLayers = platform.createDefaultLayers();
-        const map = new H.Map(
-          document.getElementById('map'),
-          defaultLayers.vector.normal.map,
-          {
-            center: { lat: ${latitude || 10.8231}, lng: ${
-    longitude || 106.6297
-  } },
-            zoom: 14,
-          }
-        );
-        const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-        const ui = H.ui.UI.createDefault(map, defaultLayers);
-
-        map.addEventListener('tap', function (evt) {
-          const coords = map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
-          window.ReactNativeWebView.postMessage(JSON.stringify({ lat: coords.lat, lng: coords.lng }));
-        });
-      </script>
-    </body>
-    </html>
-  `;
 
   return (
     <View style={styles.container}>
-      <View style={{height: 400, width: '100%'}}>
-        <WebView
-          source={{html: mapHtml}}
-          style={{flex: 1}}
-          onMessage={handleMapClick}
-        />
-      </View>
-      <View style={styles.infoContainer}>
-        {currentLocation ? (
-          <>
-            <Text style={styles.title}>{currentLocation.title}</Text>
-            <Text style={styles.label}>{currentLocation.address.label}</Text>
-          </>
-        ) : (
-          <Text>Loading current location...</Text>
-        )}
-      </View>
+      {isLocationReady ? (
+        <MapView
+          ref={ref => setMapRef(ref)}
+          style={styles.map}
+          region={{
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          }}
+          showsUserLocation={true}
+          onRegionChangeComplete={handleRegionChange} // Cập nhật vị trí marker khi bản đồ thay đổi
+        >
+          {/* Marker đỏ cố định ở giữa màn hình */}
+          <Marker
+            coordinate={{
+              latitude: selectedLocation.latitude,
+              longitude: selectedLocation.longitude,
+            }}
+            title="Vị trí bạn chọn"
+            pinColor="red"
+          />
+        </MapView>
+      ) : (
+        <Text>Đang tải vị trí...</Text>
+      )}
+      {isLocationReady ? (
+        <View style={styles.infoContainer}>
+          <MaterialIcons name="location-pin" size={44} color="red" />
+        </View>
+      ) : (
+        <View></View>
+      )}
+
+      {/* Nút OK */}
+      <TouchableOpacity style={styles.button} onPress={handleOkPress}>
+        <Text style={styles.buttonText}>OK</Text>
+      </TouchableOpacity>
+
+      {/* <View style={styles.infoContainer}>
+        <Text style={styles.title}>Thông tin vị trí</Text>
+        <Text style={styles.label}>
+          Vị trí hiện tại: Vĩ độ {location ? location.latitude : 'Chưa có'} |
+          Kinh độ {location ? location.longitude : 'Chưa có'}
+        </Text>
+        <Text style={styles.label}>
+          Vị trí bạn chọn: Vĩ độ{' '}
+          {selectedLocation ? selectedLocation.latitude : 'Chưa có'} | Kinh độ{' '}
+          {selectedLocation ? selectedLocation.longitude : 'Chưa có'}
+        </Text>
+      </View> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
   },
-  infoContainer: {marginTop: 20, alignItems: 'center'},
+  map: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  infoContainer: {alignItems: 'center', marginBottom: 40},
   title: {fontSize: 18, fontWeight: 'bold'},
-  label: {fontSize: 14, color: '#888'},
+  label: {fontSize: 14, color: '#000'},
+  button: {
+    position: 'absolute',
+    bottom: 20,
+    left: '50%',
+    transform: [{translateX: -40}],
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    padding: 10,
+    borderRadius: 50,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
 });
 
 export default LocationComponent;

@@ -1,0 +1,26 @@
+{
+  "access": [{"lat": 10.81963, "lng": 106.56305}],
+  "address": {
+    "city": "Huyện Bình Chánh",
+    "countryCode": "VNM",
+    "countryName": "Việt Nam",
+    "county": "Hồ Chí Minh",
+    "district": "Xã Vĩnh Lộc A",
+    "houseNumber": "10",
+    "label": "10 Ấp B1 2, Xã Vĩnh Lộc A, Huyện Bình Chánh, Hồ Chí Minh, Việt Nam",
+    "postalCode": "71821",
+    "street": "Ấp B1 2"
+  },
+  "distance": 15,
+  "houseNumberType": "PA",
+  "id": "here:af:streetsection:bZNJTyDPbVs7saXkUzZzWA:CggIBCDGjee2AxABGgIxMA",
+  "mapView": {
+    "east": 106.56378,
+    "north": 10.82102,
+    "south": 10.81911,
+    "west": 106.56171
+  },
+  "position": {"lat": 10.81962, "lng": 106.56308},
+  "resultType": "houseNumber",
+  "title": "10 Ấp B1 2, Xã Vĩnh Lộc A, Huyện Bình Chánh, Hồ Chí Minh, Việt Nam"
+}

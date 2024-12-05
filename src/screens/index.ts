@@ -33,6 +33,8 @@ import OrderDetailScreen from './orders/OrderDetailScreen';
 import ChooseAddressScreen from './cart/ChooseAddressScreen';
 import OrderCancel from '../modals/OrderCancel';
 import DiscoverScreen from './home/DiscoverScreen';
+import CashScreen from './cart/CashScreen';
+import MapScreen from './profiles/MapScreen';
 
 export {
   HomeScreen,
@@ -70,4 +72,6 @@ export {
   ChooseAddressScreen,
   OrderCancel,
   DiscoverScreen,
+  CashScreen,
+  MapScreen,
 };

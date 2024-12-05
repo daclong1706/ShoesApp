@@ -1,33 +1,24 @@
 import {useNavigation} from '@react-navigation/native';
-import {Add, Heart} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {
   ImageBackground,
-  ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import favoriteAPI from '../apis/favoriteAPI';
+import Toast from 'react-native-toast-message';
 import {appColors} from '../constants/appColor';
 import {appInfo} from '../constants/appInfos';
 import {fontFamilies} from '../constants/fontFamilies';
 import {Shoes} from '../models/ShoesModel';
-import RowComponent from './RowComponent';
-import ShoesCard from './ShoesCard';
-import TextComponent from './TextComponent';
-import {useDispatch, useSelector} from 'react-redux';
+import {useAppDispatch, useAppSelector} from '../stores/hook';
 import {
   addFavoriteItem,
   favoriteSelectorID,
-  loadFavorites,
   removeFavoriteItem,
 } from '../stores/reducers/favoriteSlice';
-import {useAppDispatch, useAppSelector} from '../stores/hook';
-import Toast from 'react-native-toast-message';
-import Octicons from 'react-native-vector-icons/Octicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import SpaceComponent from './SpaceComponent';
+import TextComponent from './TextComponent';
 interface Props {
   item: Shoes;
   type: 'card' | 'list';
@@ -134,10 +125,13 @@ const ShoesSimilar = (props: Props) => {
           />
         </View>
       ) : (
-        <TextComponent
-          text={formatPrice(item.price)}
-          font={fontFamilies.medium}
-        />
+        <View>
+          <TextComponent
+            text={formatPrice(item.price)}
+            font={fontFamilies.medium}
+          />
+          <SpaceComponent height={20} />
+        </View>
       )}
     </TouchableOpacity>
   );

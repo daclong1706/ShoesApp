@@ -51,11 +51,7 @@ const CheckoutScreen = ({navigation, route}: any) => {
       <View style={{padding: 25}}>
         {/* Thông tin địa chỉ giao hàng */}
         <View>
-          <TextComponent
-            text="Địa chỉ giao hàng"
-            size={16}
-            styles={{fontWeight: 'bold'}}
-          />
+          <TextComponent text="Địa chỉ giao hàng" size={18} title />
           <TouchableOpacity
             style={[styles.shipping, {padding: 15}]}
             onPress={() => navigation.navigate('ChooseAddressScreen')}>
@@ -97,11 +93,7 @@ const CheckoutScreen = ({navigation, route}: any) => {
 
         {/* Danh sách đặt hàng */}
         <View>
-          <TextComponent
-            text="Danh sách đặt hàng"
-            size={16}
-            styles={{fontWeight: 'bold'}}
-          />
+          <TextComponent text="Danh sách đặt hàng" size={18} title />
           {shoes.map((shoe: any, index: any) => (
             <ShoesCart key={shoe.productId + index} item={shoe} isOrder />
           ))}
@@ -111,11 +103,7 @@ const CheckoutScreen = ({navigation, route}: any) => {
 
         {/* Phần chọn phương thức vận chuyển */}
         <View>
-          <TextComponent
-            text="Vận chuyển"
-            size={16}
-            styles={{fontWeight: 'bold'}}
-          />
+          <TextComponent text="Vận chuyển" size={18} title />
           <TouchableOpacity
             style={styles.shipping}
             onPress={() => navigation.navigate('ChooseShippingScreen')}>
@@ -143,7 +131,9 @@ const CheckoutScreen = ({navigation, route}: any) => {
                       ? selectedShippingMethod.label
                       : 'Chọn phương thức vận chuyển'
                   }
-                  styles={{fontWeight: 'bold', marginLeft: 12}}
+                  styles={{marginLeft: 12}}
+                  title
+                  size={16}
                 />
               </RowComponent>
               <ArrowRight2 size={22} color={appColors.primary} />

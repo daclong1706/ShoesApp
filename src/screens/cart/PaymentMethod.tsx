@@ -15,6 +15,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome5Brands from 'react-native-vector-icons/FontAwesome5Pro';
 import {appColors} from '../../constants/appColor';
 import getExchangeRate from '../../apis/exchangeRateAPI';
+import {fontFamilies} from '../../constants/fontFamilies';
 
 const paymentMethods = [
   {
@@ -57,6 +58,8 @@ const PaymentMethod = ({navigation, route}: any) => {
       navigation.navigate('PaypalScreen', {pay, shipping, address});
     } else if (selectedMethod === 'mastercard') {
       navigation.navigate('MasterCardScreen', {pay, shipping, address});
+    } else if (selectedMethod === 'cash') {
+      navigation.navigate('CashScreen', {pay, shipping, address});
     } else {
       Alert.alert('Phương thức thanh toán chưa được hỗ trợ.');
     }
@@ -149,12 +152,12 @@ const styles = StyleSheet.create({
   },
   paymentText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontFamily: fontFamilies.medium,
     color: '#333',
   },
   selectedText: {
     color: appColors.primary,
-    fontWeight: 'bold',
+    fontFamily: fontFamilies.bold,
   },
   balanceText: {
     fontSize: 14,

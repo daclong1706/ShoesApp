@@ -34,7 +34,7 @@ const ContaineProfile = (props: Props) => {
         <RowComponent
           styles={{
             paddingHorizontal: 26,
-            paddingVertical: 16,
+            paddingVertical: 6,
             minWidth: 48,
             minHeight: 48,
           }}>

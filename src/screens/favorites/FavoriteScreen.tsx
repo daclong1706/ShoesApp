@@ -11,6 +11,7 @@ import {
   favoriteSelectorDetail,
 } from '../../stores/reducers/favoriteSlice';
 import {useAppDispatch, useAppSelector} from '../../stores/hook';
+import {fontFamilies} from '../../constants/fontFamilies';
 
 const FavoriteScreen = () => {
   const dispatch = useAppDispatch();
@@ -56,7 +57,9 @@ const FavoriteScreen = () => {
             }}
             resizeMode="contain"
           />
-          <Text>Chưa có sản phẩm nào được yêu thích</Text>
+          <Text style={{fontFamily: fontFamilies.regular}}>
+            Chưa có sản phẩm nào được yêu thích
+          </Text>
         </View>
       )}
     </ContainerComponent>

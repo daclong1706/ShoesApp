@@ -141,14 +141,14 @@ const DiscoverScreen = () => {
           dotColor={appColors.primaryPastel}
           activeDotColor={appColors.primary}
           dotStyle={{
-            width: 60, // Điều chỉnh chiều dài dot thành đường thẳng
-            height: 5, // Điều chỉnh chiều cao dot
-            borderRadius: 0, // Không làm tròn dot
+            width: 60,
+            height: 5,
+            borderRadius: 0,
           }}
           activeDotStyle={{
-            width: 80, // Chiều dài dot khi active
-            height: 5, // Chiều cao dot khi active
-            borderRadius: 0, // Không làm tròn dot khi active
+            width: 80,
+            height: 5,
+            borderRadius: 0,
           }}>
           {images.map((imageUri: string, index: number) => (
             <ImageBackground

@@ -19,8 +19,11 @@ import {
   fetchCart,
 } from '../../stores/reducers/cartSlice';
 import {fontFamilies} from '../../constants/fontFamilies';
+import {RowComponent, TextComponent} from '../../components';
 
-const PaymentScreen = ({navigation, route}: any) => {
+const HERE_API_KEY = 'FDSrRQkvtZ4QPx6QMNN1384RW_SNr8tPZfWsFs-HMS8';
+
+const CashScreen = ({navigation, route}: any) => {
   const {pay, shipping, address} = route.params;
   const {confirmPayment} = useStripe();
   const dispatch = useAppDispatch();
@@ -32,25 +35,27 @@ const PaymentScreen = ({navigation, route}: any) => {
   // console.log('Shipping: ', shipping);
   // console.log('Address: ', address);
 
+  // // Reverse geocoding: Chuyển vĩ độ, kinh độ thành địa chỉ
+  // const reverseGeoCode = async (lat: number, long: number) => {
+  //   const api = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${long}&lang=vi-VI&apiKey=${HERE_API_KEY}`;
+  //   try {
+  //     const res = await axios.get(api);
+  //     if (res && res.status === 200 && res.data) {
+  //       const items = res.data.items;
+  //       if (items.length > 0) {
+  //         setLocation(items[0]); // Cập nhật địa chỉ
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log('Error fetching address:', error);
+  //   }
+  // };
+
   const handlePayment = async () => {
     setLoading(true);
 
     try {
-      const {clientSecret} = await stripeAPI.createPaymentIntent(amount);
-
-      console.log('Client Secret:', clientSecret);
-
-      if (!clientSecret) {
-        Alert.alert('Error', 'Failed to create payment intent');
-        setLoading(false);
-        return;
-      }
-
-      // Sử dụng Stripe SDK để xác nhận thanh toán
-      const {error, paymentIntent} = await confirmPayment(clientSecret, {
-        paymentMethodType: 'Card',
-      });
-      // console.log('ID :', paymentIntent);
+      const randomDigits = Math.floor(1000000000 + Math.random() * 9000000000);
       const shippingAddress = {
         method: shipping.id,
         price: shipping.price,
@@ -63,26 +68,19 @@ const PaymentScreen = ({navigation, route}: any) => {
       const paymentDetails = {
         method: 'Credit Card',
         status: 'Paid',
-        transactionId: paymentIntent?.id,
+        transactionId: 'TM' + randomDigits,
       };
-      if (error) {
-        Toast.show({
-          type: 'error',
-          text1: 'Lỗi khi thanh toán',
-          position: 'bottom',
-          visibilityTime: 2000,
-        });
-      } else if (paymentIntent) {
-        const res = await dispatch(
-          createOrder({shippingAddress, paymentDetails}),
-        );
-        const orderID = res.payload._id;
-        dispatch(fetchOrderById(orderID));
-        dispatch(clearCart());
-        dispatch(fetchCart());
-        setVisible(true);
-      }
+
+      const res = await dispatch(
+        createOrder({shippingAddress, paymentDetails}),
+      );
+      const orderID = res.payload._id;
+      dispatch(fetchOrderById(orderID));
+      dispatch(clearCart());
+      dispatch(fetchCart());
+      setVisible(true);
     } catch (error) {
+      console.log(error);
       Toast.show({
         type: 'error',
         text1: 'Thanh toán không thành công',
@@ -103,17 +101,19 @@ const PaymentScreen = ({navigation, route}: any) => {
     <View style={{flex: 1}}>
       <ContainerCart
         onPress={handlePayment}
-        buttonText="Thanh toán"
-        title="Thanh toán bằng thẻ">
-        {/* Thẻ thanh toán với hình ảnh nền */}
-
-        {/* Form nhập thông tin thẻ */}
-
-        <CardField
-          postalCodeEnabled={false}
-          style={styles.cardField}
-          cardStyle={styles.cardInputStyle}
-        />
+        buttonText="Xác nhận thanh toán bằng tiền mặt"
+        title="Tiền mặt">
+        <View style={styles.contain}>
+          <RowComponent>
+            <TextComponent text="Địa chỉ nhận hàng: " />
+          </RowComponent>
+        </View>
+        <View style={{alignItems: 'center'}}>
+          <TextComponent
+            text="Vui lòng kiểm tra hàng trước khi thanh toán!"
+            color={appColors.danger}
+          />
+        </View>
       </ContainerCart>
       <OrderSuccess
         visible={visible}
@@ -130,33 +130,19 @@ const PaymentScreen = ({navigation, route}: any) => {
   );
 };
 
+export default CashScreen;
+
 const styles = StyleSheet.create({
-  cardField: {
-    height: 60,
-    margin: 20,
-  },
-  cardInputStyle: {
-    fontFamily: fontFamilies.medium,
-    backgroundColor: appColors.grayTint,
+  contain: {
+    backgroundColor: appColors.white,
+    padding: 24,
     borderRadius: 12,
-    color: '#000000',
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  addButton: {
-    backgroundColor: '#007AFF',
-    borderRadius: 8,
-    paddingVertical: 16,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  addButtonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 16,
+    shadowColor: 'rgba(0, 0, 0, 0.8)',
+    shadowOffset: {width: 0, height: -4},
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+    marginVertical: 12,
+    marginHorizontal: 12,
   },
 });
-
-export default PaymentScreen;

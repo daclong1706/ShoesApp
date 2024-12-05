@@ -1,9 +1,9 @@
 export interface Address {
-  street: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
+  name: string; // Tên người nhận
+  phone: string; // Số điện thoại
+  address: string; // Địa chỉ (gồm xã, phường, quận, huyện, tỉnh, thành phố)
+  street?: string; // Tên đường (optional)
+  isDefault: boolean; // Đặt làm địa chỉ mặc định hay không
 }
 
 export interface CartItem {
@@ -33,7 +33,7 @@ export interface User {
   email: string;
   password?: string; // Để mật khẩu là tùy chọn vì không cần trên frontend
   birthDate?: Date;
-  phoneNumber?: string;
+  phoneNumber?: string | null; // Số điện thoại (optional và nullable)
   gender?: 'male' | 'female' | 'other';
   photo?: string | null;
   role: 'user' | 'admin' | 'guest';

@@ -28,6 +28,7 @@ import {
 } from '../../stores/reducers/userSlice';
 import ProfileOptions from './components/ProfileOptions';
 import {LoadingModal} from '../../modals';
+import {fontFamilies} from '../../constants/fontFamilies';
 
 const ProfileScreen = () => {
   const dispatch = useAppDispatch();
@@ -167,6 +168,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  userName: {fontSize: 20, fontWeight: 'bold'},
-  userInfo: {fontSize: 14, color: '#888'},
+  userName: {fontSize: 20, fontFamily: fontFamilies.extraBold},
+  userInfo: {
+    fontSize: 14,
+    color: '#888',
+    fontFamily: fontFamilies.semiMediumItalic,
+  },
 });

@@ -4,9 +4,10 @@ import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {ButtonComponent} from '../../components';
 import AddressItem from './components/AddressItem';
+import ContaineProfile from './components/ContainerProfile';
 
 const AddressList = () => {
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   const [addresses, setAddresses] = useState([
     {
       id: '1',
@@ -23,24 +24,27 @@ const AddressList = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={addresses}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <AddressItem
-            name={item.name}
-            address={item.address}
-            isDefault={item.isDefault}
-            onEdit={() => handleEdit(item.id)}
-          />
-        )}
-      />
-      <ButtonComponent
-        text="Add New Address"
-        onPress={() => navigation.navigate('AddAddress')}
-      />
-    </View>
+    <ContaineProfile title="Địa chỉ">
+      <View style={styles.container}>
+        <FlatList
+          data={addresses}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <AddressItem
+              name={item.name}
+              address={item.address}
+              isDefault={item.isDefault}
+              onEdit={() => handleEdit(item.id)}
+            />
+          )}
+        />
+        <ButtonComponent
+          text="Thêm địa chỉ mới"
+          type="primary"
+          onPress={() => navigation.navigate('AddAddress')}
+        />
+      </View>
+    </ContaineProfile>
   );
 };
 

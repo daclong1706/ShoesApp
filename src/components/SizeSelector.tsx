@@ -3,6 +3,7 @@ import {appColors} from '../constants/appColor';
 import TextComponent from './TextComponent';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import RowComponent from './RowComponent';
+import {fontFamilies} from '../constants/fontFamilies';
 
 interface SizeSelectorProps {
   sizes: string[];
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
   },
   sizeLabel: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: fontFamilies.bold,
     color: appColors.text,
     marginBottom: 10,
   },
@@ -100,6 +101,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   sizeText: {
+    fontFamily: fontFamilies.medium,
     fontSize: 16,
     color: appColors.gray,
   },

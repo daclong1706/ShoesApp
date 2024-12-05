@@ -28,6 +28,9 @@ const TabNavigator = () => {
       'NotificationSettings',
       'SearchScreen',
       'DiscoverScreen',
+      'AddressList',
+      'AddAddress',
+      'MapScreen',
     ];
     return hideTabBarScreens.includes(routeName);
   };

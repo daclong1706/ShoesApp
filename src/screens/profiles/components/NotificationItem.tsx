@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, Switch, StyleSheet} from 'react-native';
 import {appColors} from '../../../constants/appColor';
+import {fontFamilies} from '../../../constants/fontFamilies';
 
 interface NotificationItemProps {
   label: string;
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     color: '#333',
+    fontFamily: fontFamilies.regular,
   },
 });
 

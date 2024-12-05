@@ -5,6 +5,7 @@ import {
   AddressList,
   ChangePasswordScreen,
   EditProfile,
+  MapScreen,
   NotificationSettings,
   PrivacyPolicyScreen,
   ProfileScreen,
@@ -18,6 +19,7 @@ const ProfileNavigator = () => {
       <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="AddressList" component={AddressList} />
       <Stack.Screen name="AddAddress" component={AddAddress} />
+      <Stack.Screen name="MapScreen" component={MapScreen} />
       <Stack.Screen
         name="NotificationSettings"
         component={NotificationSettings}

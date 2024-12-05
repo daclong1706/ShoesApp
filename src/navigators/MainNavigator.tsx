@@ -6,6 +6,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Host} from 'react-native-portalize';
 import {
   CartScreen,
+  CashScreen,
   CheckoutScreen,
   ChooseAddressScreen,
   ChooseShippingScreen,
@@ -43,7 +44,7 @@ const MainNavigator = () => {
           <Stack.Screen name="PaymentMethod" component={PaymentMethod} />
           <Stack.Screen name="PaypalScreen" component={PaypalScreen} />
           <Stack.Screen name="MasterCardScreen" component={MasterCardScreen} />
-
+          <Stack.Screen name="CashScreen" component={CashScreen} />
           {/* <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="Setting" component={SettingScreen} /> */}
         </Stack.Navigator>

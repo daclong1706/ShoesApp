@@ -90,7 +90,6 @@ const ShoesCart = (props: Props) => {
             <RowComponent styles={styles.row}>
               <TextComponent
                 text={'Size | ' + item.selectedSize}
-                font="bold"
                 size={12}
                 color={appColors.darkGray}
               />
@@ -175,7 +174,7 @@ const styles = StyleSheet.create({
   containerQuantityOrder: {
     alignItems: 'center',
     backgroundColor: '#f5f5f5', // Màu nền xám nhạt
-    paddingHorizontal: 1,
+    paddingHorizontal: 2,
     paddingVertical: 5,
     borderRadius: 40, // Bo tròn
   },
@@ -189,8 +188,8 @@ const styles = StyleSheet.create({
   },
   quantityText: {
     fontSize: 14,
-    fontWeight: 'bold',
     marginHorizontal: 10,
     color: '#000',
+    fontFamily: fontFamilies.bold,
   },
 });

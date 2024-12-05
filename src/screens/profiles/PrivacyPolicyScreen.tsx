@@ -2,14 +2,14 @@ import React from 'react';
 import {View, ScrollView, StyleSheet} from 'react-native';
 import ContaineProfile from './components/ContainerProfile';
 import {appColors} from '../../constants/appColor';
-import {TextComponent} from '../../components';
+import {FooterComponent, TextComponent} from '../../components';
 import {fontFamilies} from '../../constants/fontFamilies';
 
 const PrivacyPolicyScreen = () => {
   return (
     <ContaineProfile title="Chính Sách Bảo Mật">
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={styles.content}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           {/* Phần 1 */}
           <TextComponent
             text="1. Loại Thông Tin Chúng Tôi Thu Thập"
@@ -83,10 +83,11 @@ const PrivacyPolicyScreen = () => {
             styles={{marginVertical: 12}}
           />
           <TextComponent
-            text="Nếu bạn có bất kỳ câu hỏi nào về chính sách bảo mật này, vui lòng liên hệ với chúng tôi qua email: support@example.com."
+            text="Nếu bạn có bất kỳ câu hỏi nào về chính sách bảo mật này, vui lòng liên hệ với chúng tôi qua email: daclong.k17@gmail.com"
             size={16}
             styles={{marginBottom: 16}}
           />
+          <FooterComponent />
         </ScrollView>
       </View>
     </ContaineProfile>
@@ -99,9 +100,6 @@ const styles = StyleSheet.create({
     backgroundColor: appColors.background,
     paddingHorizontal: 16,
     paddingTop: 20,
-  },
-  content: {
-    paddingBottom: 40,
   },
 });
 

@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import {RowComponent} from '../../../components';
 import {appColors} from '../../../constants/appColor';
+import {fontFamilies} from '../../../constants/fontFamilies';
 
 const ProfileOptions = () => {
   const navigation: any = useNavigation();
@@ -107,5 +108,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 15,
   },
-  optionText: {fontSize: 16, marginLeft: 6, color: appColors.text},
+  optionText: {
+    fontSize: 18,
+    marginLeft: 6,
+    color: appColors.text,
+    fontFamily: fontFamilies.medium,
+  },
 });

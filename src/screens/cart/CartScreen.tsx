@@ -15,6 +15,7 @@ import {appColors} from '../../constants/appColor';
 import {appInfo} from '../../constants/appInfos';
 import {useNavigation} from '@react-navigation/native';
 import ContainerCart from './components/ContainerCart';
+import {fontFamilies} from '../../constants/fontFamilies';
 
 const CartScreen = () => {
   const dispatch = useAppDispatch();
@@ -132,7 +133,9 @@ const CartScreen = () => {
               }}
               resizeMode="contain"
             />
-            <Text>Giỏ hàng của bạn đang trống</Text>
+            <Text style={{fontFamily: fontFamilies.regular}}>
+              Giỏ hàng của bạn đang trống
+            </Text>
           </View>
         )}
       </ContainerCart>
