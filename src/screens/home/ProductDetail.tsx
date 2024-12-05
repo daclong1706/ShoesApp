@@ -12,6 +12,7 @@ import {
   ImageBackground,
   ScrollView,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -21,10 +22,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Octicons from 'react-native-vector-icons/Octicons';
 import {
   ButtonComponent,
+  FooterComponent,
   RowComponent,
   SectionComponent,
+  ShoesList,
+  ShoesSimilar,
   SizeSelector,
   SpaceComponent,
+  TabBarComponent,
   TextComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColor';
@@ -45,6 +50,8 @@ import {
 } from '../../stores/reducers/cartSlice';
 import {AddItemModal, LoadingModal} from '../../modals';
 import StarRating from './components/StarRating';
+import productAPI from '../../apis/productAPI';
+import {Shoes} from '../../models/ShoesModel';
 
 const ProductDetail = ({navigation, route}: any) => {
   const {item: product} = route.params;
@@ -57,6 +64,33 @@ const ProductDetail = ({navigation, route}: any) => {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isAddLoading, setIsAddLoading] = useState<boolean>(false);
+
+  const [shoes, setShoes] = useState<Shoes[]>([]);
+
+  const getProduct = async () => {
+    try {
+      const similarProductIds = product.similarProductIds;
+
+      for (const id of similarProductIds) {
+        const productData = await productAPI.getProductById(id);
+        // console.log(productData);
+
+        // Kiểm tra nếu data không phải là null và có shoes hợp lệ
+        if (productData?.data !== null) {
+          setShoes(prevShoes => [...prevShoes, productData.data.shoes]);
+          // console.log(productData.data.shoes);
+        }
+      }
+    } catch (error) {
+      console.error('Lỗi khi lấy sản phẩm:', error);
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, []);
+
+  // console.log('Shoes Similar: ', shoes);
 
   const dispatch = useAppDispatch();
   const favorites = useAppSelector(favoriteSelectorID);
@@ -526,8 +560,34 @@ const ProductDetail = ({navigation, route}: any) => {
                   />
                 </View>
               ))}
+              <SpaceComponent height={32} />
+              <SpaceComponent line />
             </SectionComponent>
           )}
+          <SectionComponent>
+            <Text
+              style={{
+                marginVertical: 16,
+                color: 'black',
+                fontSize: 18,
+                fontWeight: '500',
+              }}>
+              Có thể bạn cũng thích
+            </Text>
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={shoes}
+              renderItem={({item, index}) => (
+                <ShoesSimilar item={item} type="card" />
+              )}
+              keyExtractor={(item, index) => `${item.productId}-${index}`}
+              nestedScrollEnabled
+              maxToRenderPerBatch={5} // Số item tối đa render cùng lúc
+              windowSize={5} // Tối ưu hóa cuộn mượt mà
+            />
+          </SectionComponent>
+          <FooterComponent />
         </ScrollView>
       </View>
       <LoadingModal visible={isLoading} />
@@ -555,7 +615,8 @@ const styles = StyleSheet.create({
   },
   productName: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: 'DAGGERSQUARE',
+    // fontWeight: 'bold',
   },
   productType: {
     fontSize: 16,

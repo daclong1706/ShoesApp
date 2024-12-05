@@ -34,7 +34,7 @@ const DiscoverScreen = () => {
       // Giả sử 'NIKE-026' là productId bạn cần lấy
       const product = await productAPI.getProductById('NIKE-026');
       setShoes(product.data.shoes); // Cập nhật state shoes nếu cần, nhưng không dùng ngay lập tức
-
+      setMuted(true);
       // Truyền trực tiếp sản phẩm lấy được vào navigation
       navigation.navigate('ProductDetail', {item: product.data.shoes});
     } catch (error) {

@@ -118,8 +118,144 @@
       "sha1": "7056f216b0602cfb1a82fd5fc073350c1ef571d3"
     },
     {
+      "path": "assets/fonts/OpenSans_Condensed-Bold.ttf",
+      "sha1": "5ca9b1fed6fa826bcd74a90624fe0fa2d9b10db9"
+    },
+    {
+      "path": "assets/fonts/OpenSans_Condensed-BoldItalic.ttf",
+      "sha1": "4d48baf883294e634b40fab13ae773c1a89b4ecf"
+    },
+    {
+      "path": "assets/fonts/OpenSans_Condensed-ExtraBold.ttf",
+      "sha1": "2f37cb86645df10affdaefe32e0d367c61487d73"
+    },
+    {
+      "path": "assets/fonts/OpenSans_Condensed-ExtraBoldItalic.ttf",
+      "sha1": "82e86c63a13c4f0158d3e7e2bedf42db1fae92dc"
+    },
+    {
+      "path": "assets/fonts/OpenSans_Condensed-Italic.ttf",
+      "sha1": "d2366db9c0ac58643156c629409edba4097f36d7"
+    },
+    {
+      "path": "assets/fonts/OpenSans_Condensed-Light.ttf",
+      "sha1": "36514e24ba6ec85d65770310c0c6dc345f8df204"
+    },
+    {
+      "path": "assets/fonts/OpenSans_Condensed-LightItalic.ttf",
+      "sha1": "5bb1046e22abbbfe9b581ca6d725f11f87ab6cbf"
+    },
+    {
+      "path": "assets/fonts/OpenSans_Condensed-Medium.ttf",
+      "sha1": "ab5f2c2782a0375d3ac7b834cf5e4bd5a34e0596"
+    },
+    {
+      "path": "assets/fonts/OpenSans_Condensed-MediumItalic.ttf",
+      "sha1": "6aa4579a321ac50e472d365292e2c8655e060850"
+    },
+    {
+      "path": "assets/fonts/OpenSans_Condensed-Regular.ttf",
+      "sha1": "02ff457da3d6a5cbd9b724d67ddfe04a475629e4"
+    },
+    {
+      "path": "assets/fonts/OpenSans_Condensed-SemiBold.ttf",
+      "sha1": "4cdfa2d1c0f59e850270303fba59a2ee9c7fa9b6"
+    },
+    {
+      "path": "assets/fonts/OpenSans_Condensed-SemiBoldItalic.ttf",
+      "sha1": "17ed332f677efa739bf69db84ff5701a4670b9f1"
+    },
+    {
+      "path": "assets/fonts/OpenSans_SemiCondensed-Bold.ttf",
+      "sha1": "0eaebb398eb9c4b76a4a4b35e14bfce27143a343"
+    },
+    {
+      "path": "assets/fonts/OpenSans_SemiCondensed-BoldItalic.ttf",
+      "sha1": "5e7958bb61e18669f5b027e5a7dd241c5f7501ac"
+    },
+    {
+      "path": "assets/fonts/OpenSans_SemiCondensed-ExtraBold.ttf",
+      "sha1": "0cb7f90387d655115f7e616225351ca28c4281e4"
+    },
+    {
+      "path": "assets/fonts/OpenSans_SemiCondensed-ExtraBoldItalic.ttf",
+      "sha1": "5615756fffe5247fb28cf40f06ea6f5bce314af8"
+    },
+    {
+      "path": "assets/fonts/OpenSans_SemiCondensed-Italic.ttf",
+      "sha1": "f5e3e1b9b2fbe64c6da453a4d254760d9a118da7"
+    },
+    {
+      "path": "assets/fonts/OpenSans_SemiCondensed-Light.ttf",
+      "sha1": "b11092193079ea83836e2ec3a03e8604853281af"
+    },
+    {
+      "path": "assets/fonts/OpenSans_SemiCondensed-LightItalic.ttf",
+      "sha1": "99d36fab637575161c4bd49a610df1a24a43b537"
+    },
+    {
+      "path": "assets/fonts/OpenSans_SemiCondensed-Medium.ttf",
+      "sha1": "4cb07b1df33da931e34dd4ee8b05bad1176fe015"
+    },
+    {
+      "path": "assets/fonts/OpenSans_SemiCondensed-MediumItalic.ttf",
+      "sha1": "3750342910ad3d1162dd5854807e68c8984529d7"
+    },
+    {
+      "path": "assets/fonts/OpenSans_SemiCondensed-Regular.ttf",
+      "sha1": "c0db672a3020eac972b232c55b830a38654ba0e1"
+    },
+    {
+      "path": "assets/fonts/OpenSans_SemiCondensed-SemiBold.ttf",
+      "sha1": "26a2922ed8ae1463e9d3ba0db9c2ad3eac38681b"
+    },
+    {
+      "path": "assets/fonts/OpenSans_SemiCondensed-SemiBoldItalic.ttf",
+      "sha1": "44c7798ee52de7a6249a30d6675862785814298e"
+    },
+    {
+      "path": "assets/fonts/PatrickHandSC.ttf",
+      "sha1": "d1892c0b858b35942e0f354563938e7babb0edba"
+    },
+    {
+      "path": "assets/fonts/Radlush.ttf",
+      "sha1": "779e4ebed3e716d0c9ba9ff7fcd0b3ca8b4208fb"
+    },
+    {
       "path": "assets/fonts/SimpleLineIcons.ttf",
       "sha1": "9ffb81a5a11112e292f2cc323e98486bad597599"
+    },
+    {
+      "path": "assets/fonts/UnicaOne.ttf",
+      "sha1": "b7d90ad1591f1b4f24a13955bbf903eb8d5f9ce4"
+    },
+    {
+      "path": "assets/fonts/UTM-Dense.ttf",
+      "sha1": "f39acf443b25cffd1f153b91bb655e63564bc952"
+    },
+    {
+      "path": "assets/fonts/YanoneKaffeesatz-Bold.ttf",
+      "sha1": "dda20e0e12a234e1e810a6897730dd7fbdf45b6b"
+    },
+    {
+      "path": "assets/fonts/YanoneKaffeesatz-ExtraLight.ttf",
+      "sha1": "b2fc722c041dd54c6836674bdff040b65b958a1f"
+    },
+    {
+      "path": "assets/fonts/YanoneKaffeesatz-Light.ttf",
+      "sha1": "d22d1c06dcbf3b8adad4f64465827a255624eaa3"
+    },
+    {
+      "path": "assets/fonts/YanoneKaffeesatz-Medium.ttf",
+      "sha1": "1342eb2a8ae400a993927e4cbdfa1a5bf0d10b8a"
+    },
+    {
+      "path": "assets/fonts/YanoneKaffeesatz-Regular.ttf",
+      "sha1": "8e52d8409fb1b576362596d9df5b012b11ad145e"
+    },
+    {
+      "path": "assets/fonts/YanoneKaffeesatz-SemiBold.ttf",
+      "sha1": "efb8e3936801b1e2e12023fe44f9b9131b8388e8"
     },
     {
       "path": "assets/fonts/Zocial.ttf",

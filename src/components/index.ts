@@ -14,6 +14,8 @@ import TextComponent from './TextComponent';
 import ShoesCard from './ShoesCard';
 import SizeSelector from './SizeSelector';
 import ImagePicker from './ImagePicker';
+import FooterComponent from './FooterComponent';
+import ShoesSimilar from './ShoesSimilar';
 
 export {
   SpaceComponent,
@@ -32,4 +34,6 @@ export {
   ShoesCard,
   SizeSelector,
   ImagePicker,
+  FooterComponent,
+  ShoesSimilar,
 };
