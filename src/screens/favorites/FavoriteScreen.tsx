@@ -1,4 +1,4 @@
-import {View, FlatList, StyleSheet} from 'react-native';
+import {View, FlatList, StyleSheet, Text, Image} from 'react-native';
 import React, {useCallback, useEffect} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
@@ -27,20 +27,38 @@ const FavoriteScreen = () => {
 
   return (
     <ContainerComponent title="Yêu thích" isImageBackground>
-      <FlatList
-        data={favoriteDetails}
-        renderItem={({item}) => (
-          <View style={styles.shoesItem}>
-            <ShoesList item={item} type="card" />
-          </View>
-        )}
-        keyExtractor={item => item.productId}
-        numColumns={2}
-        nestedScrollEnabled
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainer}
-      />
-      <SpaceComponent height={70} />
+      {favoriteDetails.length > 0 ? (
+        <>
+          <FlatList
+            data={favoriteDetails}
+            renderItem={({item}) => (
+              <View style={styles.shoesItem}>
+                <ShoesList item={item} type="card" />
+              </View>
+            )}
+            keyExtractor={item => item.productId}
+            numColumns={2}
+            nestedScrollEnabled
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.contentContainer}
+          />
+          <SpaceComponent height={70} />
+        </>
+      ) : (
+        <View style={{alignItems: 'center', marginTop: 20}}>
+          <Image
+            source={require('../../assets/images/no-favorites-gray.png')}
+            style={{
+              width: 250,
+              height: 250,
+              marginTop: 100,
+              marginBottom: 50,
+            }}
+            resizeMode="contain"
+          />
+          <Text>Chưa có sản phẩm nào được yêu thích</Text>
+        </View>
+      )}
     </ContainerComponent>
   );
 };

@@ -23,6 +23,9 @@ import InfoRow from './components/InfoRow';
 import {fontFamilies} from '../../constants/fontFamilies';
 import {it} from 'node:test';
 import {useNavigation} from '@react-navigation/native';
+import {useAppDispatch} from '../../stores/hook';
+import {cancelOrder} from '../../stores/reducers/orderSlice';
+import OrderCancel from '../../modals/OrderCancel';
 
 interface ShippingMethod {
   id: string;
@@ -57,6 +60,9 @@ const OrderDetailScreen = ({navigation, route}: any) => {
   const {item: item, success: success}: any = route.params;
   const [shoes, setShoes] = useState<Cart[]>([]);
   const [shipping, setShipping] = useState<ShippingMethod>();
+  const [visible, setVisible] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -193,7 +199,7 @@ const OrderDetailScreen = ({navigation, route}: any) => {
             </RowComponent>
           </RowComponent>
         </View>
-        <View style={[styles.container, {marginBottom: 100}]}>
+        <View style={[styles.container]}>
           <RowComponent justify="space-between">
             <TextComponent text="Thành tiền" />
             <TextComponent text={`${item.totalAmount.toLocaleString()} ₫`} />
@@ -215,7 +221,31 @@ const OrderDetailScreen = ({navigation, route}: any) => {
             />
           </RowComponent>
         </View>
+
+        <View style={[{marginBottom: 30, marginTop: 20, padding: 20}]}>
+          {item.status == 'Pending' || item.status == 'Shipped' ? (
+            <ButtonComponent
+              type="primary"
+              text="Hủy đơn hàng"
+              onPress={() => {
+                setVisible(true);
+              }}
+            />
+          ) : (
+            ''
+          )}
+        </View>
       </ContainerComponent>
+      <OrderCancel
+        visible={visible}
+        onClose={() => {
+          setVisible(false);
+        }}
+        onCancel={() => {
+          dispatch(cancelOrder(item._id));
+          handleBack;
+        }}
+      />
     </View>
   );
 };

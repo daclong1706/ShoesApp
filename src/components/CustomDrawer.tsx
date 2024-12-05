@@ -46,42 +46,42 @@ const CustomDrawer = ({navigation}: any) => {
 
   // console.log(user);
   const size = 24;
-  const color = appColors.gray;
+  const color = appColors.primary;
   const profileMenu = [
     {
       key: 'Profile',
-      title: 'My Profile',
+      title: 'Hồ sơ cá nhân',
       icon: <Profile size={size} color={color} />,
     },
-    {key: 'Home', title: 'Home', icon: <Home size={size} color={color} />},
+    {key: 'Home', title: 'Trang chủ', icon: <Home size={size} color={color} />},
     {
       key: 'Event',
-      title: 'Events',
+      title: 'Sự kiện',
       icon: <Calendar size={size} color={color} />,
     },
     {
       key: 'Cart',
-      title: 'Cart',
+      title: 'Giỏ hàng',
       icon: <ShoppingBag size={size} color={color} />,
     },
     {
       key: 'Favorite',
-      title: 'Favorites',
+      title: 'Yêu thích',
       icon: <Heart size={size} color={color} />,
     },
     {
       key: 'Order',
-      title: 'Orders',
+      title: 'Hóa đơn',
       icon: <TruckFast size={size} color={color} />,
     },
     {
       key: 'NotificationScreen',
-      title: 'Notifications',
+      title: 'Thông báo',
       icon: <Notification size={size} color={color} />,
     },
     {
       key: 'Setting',
-      title: 'Settings',
+      title: 'Cài đặt',
       icon: <Setting2 size={size} color={color} />,
     },
   ];
@@ -132,7 +132,6 @@ const CustomDrawer = ({navigation}: any) => {
             <TextComponent
               text={item.title}
               size={16}
-              font={fontFamilies.medium}
               styles={[style.listItemText]}
             />
           </RowComponent>
@@ -142,9 +141,8 @@ const CustomDrawer = ({navigation}: any) => {
       <RowComponent styles={[style.listItem]} onPress={handleLogout}>
         <LogoutCurve size={size} color={color} />
         <TextComponent
-          text={'Sign Out'}
+          text={'Đăng xuất'}
           size={16}
-          font={fontFamilies.medium}
           styles={[style.listItemText]}
         />
       </RowComponent>
@@ -173,6 +171,7 @@ const style = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   listItemText: {
+    fontWeight: '600',
     paddingLeft: 17,
   },
 });

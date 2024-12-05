@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, Image, View} from 'react-native';
+import {ActivityIndicator, Image, Text, View} from 'react-native';
 import {appInfo} from '../constants/appInfos';
 import {SpaceComponent} from '../components';
 import {appColors} from '../constants/appColor';
@@ -16,14 +16,18 @@ const SplashScreen = () => {
       }}>
       {/* imageStyle={{flex: 1}}> */}
       <Image
-        source={require('../assets/images/nike.png')}
+        source={require('../assets/images/logo-shoes.png')}
         style={{
           width: appInfo.sizes.WIDTH * 0.4,
           resizeMode: 'contain',
         }}
         tintColor="#fff"
       />
-      <SpaceComponent height={0} />
+      <Text
+        style={{marginTop: -10, fontFamily: 'octin sports rg', color: '#fff'}}>
+        Fashionable Shoes Store
+      </Text>
+      <SpaceComponent height={24} />
       <ActivityIndicator color={appColors.gray} size={25} />
     </View>
   );

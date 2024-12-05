@@ -39,6 +39,12 @@
 		6032279F06AA4274A38230A2 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB482BCCA05D488E81BA7B82 /* Octicons.ttf */; };
 		6D1A0A5A4095441888DA3683 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23E744260DA640DA84EE45CA /* SimpleLineIcons.ttf */; };
 		1B1F4FB3FC81488DA0A05908 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFEF65699E974E0BAD2EAA9B /* Zocial.ttf */; };
+		F8332CAEFC714D00B79E92BA /* DAGGERSQUARE.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9DC8A973423440C2B8193CAC /* DAGGERSQUARE.otf */; };
+		DB822A8573AD4D978E3AF135 /* LaOriental.otf in Resources */ = {isa = PBXBuildFile; fileRef = 17A0DE98849544679E9EB17A /* LaOriental.otf */; };
+		F8A25274924E4E6AB56840C9 /* octin sports rg.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4E5FD12E50E44578A8C85DD9 /* octin sports rg.otf */; };
+		646BDB27092F4328ACD4832B /* Facon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 68E5B085DE0D479C8230640D /* Facon.ttf */; };
+		E12201E3450B4CB2BB195F85 /* Higher Jump.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7FE1B5843DF4BC39578579F /* Higher Jump.ttf */; };
+		661E3E2884664D2C8815D9A0 /* MaverickGrotesk.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37764C78B5D547B5981A28CF /* MaverickGrotesk.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +101,12 @@
 		FB482BCCA05D488E81BA7B82 /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../assets/fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		23E744260DA640DA84EE45CA /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../assets/fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		EFEF65699E974E0BAD2EAA9B /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../assets/fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9DC8A973423440C2B8193CAC /* DAGGERSQUARE.otf */ = {isa = PBXFileReference; name = "DAGGERSQUARE.otf"; path = "../assets/fonts/DAGGERSQUARE.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		17A0DE98849544679E9EB17A /* LaOriental.otf */ = {isa = PBXFileReference; name = "LaOriental.otf"; path = "../assets/fonts/LaOriental.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4E5FD12E50E44578A8C85DD9 /* octin sports rg.otf */ = {isa = PBXFileReference; name = "octin sports rg.otf"; path = "../assets/fonts/octin sports rg.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		68E5B085DE0D479C8230640D /* Facon.ttf */ = {isa = PBXFileReference; name = "Facon.ttf"; path = "../assets/fonts/Facon.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B7FE1B5843DF4BC39578579F /* Higher Jump.ttf */ = {isa = PBXFileReference; name = "Higher Jump.ttf"; path = "../assets/fonts/Higher Jump.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		37764C78B5D547B5981A28CF /* MaverickGrotesk.otf */ = {isa = PBXFileReference; name = "MaverickGrotesk.otf"; path = "../assets/fonts/MaverickGrotesk.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,6 +241,12 @@
 				FB482BCCA05D488E81BA7B82 /* Octicons.ttf */,
 				23E744260DA640DA84EE45CA /* SimpleLineIcons.ttf */,
 				EFEF65699E974E0BAD2EAA9B /* Zocial.ttf */,
+				9DC8A973423440C2B8193CAC /* DAGGERSQUARE.otf */,
+				17A0DE98849544679E9EB17A /* LaOriental.otf */,
+				4E5FD12E50E44578A8C85DD9 /* octin sports rg.otf */,
+				68E5B085DE0D479C8230640D /* Facon.ttf */,
+				B7FE1B5843DF4BC39578579F /* Higher Jump.ttf */,
+				37764C78B5D547B5981A28CF /* MaverickGrotesk.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -354,6 +372,12 @@
 				6032279F06AA4274A38230A2 /* Octicons.ttf in Resources */,
 				6D1A0A5A4095441888DA3683 /* SimpleLineIcons.ttf in Resources */,
 				1B1F4FB3FC81488DA0A05908 /* Zocial.ttf in Resources */,
+				F8332CAEFC714D00B79E92BA /* DAGGERSQUARE.otf in Resources */,
+				DB822A8573AD4D978E3AF135 /* LaOriental.otf in Resources */,
+				F8A25274924E4E6AB56840C9 /* octin sports rg.otf in Resources */,
+				646BDB27092F4328ACD4832B /* Facon.ttf in Resources */,
+				E12201E3450B4CB2BB195F85 /* Higher Jump.ttf in Resources */,
+				661E3E2884664D2C8815D9A0 /* MaverickGrotesk.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

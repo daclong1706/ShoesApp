@@ -1,7 +1,7 @@
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import {
   ButtonComponent,
   ContainerComponent,
@@ -65,7 +65,7 @@ const OrderListScreen = () => {
   if (orders.length === 0) {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>Không có đơn hàng nào</Text>
+        <Text>Hiện tại bạn không có đơn đặt hàng nào</Text>
       </View>
     );
   }
@@ -97,8 +97,21 @@ const OrderListScreen = () => {
             style={styles.flatList}
           />
         ) : (
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <Text>Không có đơn hàng nào</Text>
+          <View
+            style={{
+              alignItems: 'center',
+            }}>
+            <Image
+              source={require('../../assets/images/no-item.png')}
+              style={{
+                width: 250,
+                height: 250,
+                marginTop: 100,
+                marginBottom: 50,
+              }}
+              resizeMode="contain"
+            />
+            <Text>Hiện tại bạn không có đơn đặt hàng nào</Text>
           </View>
         )}
       </View>

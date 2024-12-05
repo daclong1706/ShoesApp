@@ -31,6 +31,8 @@ import MasterCardScreen from './cart/MasterCardScreen';
 import OrderSuccess from '../modals/OrderSuccess';
 import OrderDetailScreen from './orders/OrderDetailScreen';
 import ChooseAddressScreen from './cart/ChooseAddressScreen';
+import OrderCancel from '../modals/OrderCancel';
+import DiscoverScreen from './home/DiscoverScreen';
 
 export {
   HomeScreen,
@@ -66,4 +68,6 @@ export {
   OrderSuccess,
   OrderDetailScreen,
   ChooseAddressScreen,
+  OrderCancel,
+  DiscoverScreen,
 };

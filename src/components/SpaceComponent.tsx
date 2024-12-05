@@ -6,16 +6,17 @@ interface Props {
   width?: number;
   height?: number;
   line?: boolean;
+  color?: string;
 }
 
 const SpaceComponent = (props: Props) => {
-  const {width, height, line} = props;
+  const {width, height, line, color} = props;
 
   return line ? (
     <View
       style={{
         height: 1,
-        backgroundColor: appColors.grayLight,
+        backgroundColor: color ? color : appColors.grayLight,
         marginVertical: 8,
       }}
     />

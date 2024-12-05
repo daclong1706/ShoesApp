@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
   ButtonComponent,
@@ -122,6 +122,16 @@ const CartScreen = () => {
           </>
         ) : (
           <View style={{alignItems: 'center', marginTop: 20}}>
+            <Image
+              source={require('../../assets/images/cart-empty.png')}
+              style={{
+                width: 250,
+                height: 250,
+                marginTop: 100,
+                marginBottom: 50,
+              }}
+              resizeMode="contain"
+            />
             <Text>Giỏ hàng của bạn đang trống</Text>
           </View>
         )}

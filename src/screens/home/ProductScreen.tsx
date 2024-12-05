@@ -5,8 +5,14 @@ import {ContainerComponent, ShoesList} from '../../components';
 import BrandFilter from './BrandFilter';
 
 const ProductScreen = ({navigation, route}: any) => {
-  const {shoes: originalShoes, title: title} = route.params;
-  const [brand, setBrand] = useState<string | null>(title);
+  const {
+    shoes: originalShoes,
+    title: title,
+    brand: isBrand,
+    label: isLabel,
+  } = route.params;
+  const [brand, setBrand] = useState<string | null>(isBrand ? title : '');
+  const [label, setLabel] = useState<string | null>(isLabel ? title : '');
   const [filteredShoes, setFilteredShoes] = useState(originalShoes);
 
   // Hàm xử lý khi chọn nhãn hiệu từ BrandFilter
@@ -18,24 +24,29 @@ const ProductScreen = ({navigation, route}: any) => {
   useEffect(() => {
     if (title === 'All Shoes') {
       setFilteredShoes(originalShoes);
-    } else if (brand) {
-      // Lọc shoes theo brand được chọn
-      const filtered = originalShoes.filter(
-        (shoe: any) => shoe.brand.toLowerCase() === brand.toLowerCase(),
-      );
-      setFilteredShoes(filtered);
     } else {
-      // Nếu không có brand nào được chọn, hiển thị tất cả
-      setFilteredShoes(originalShoes);
+      // Lọc shoes theo brand, label và rated nếu có
+      const filtered = originalShoes.filter((shoe: any) => {
+        const matchesBrand = brand
+          ? shoe.brand.toLowerCase() === brand.toLowerCase()
+          : true;
+        const matchesLabel = label
+          ? shoe.label.toLowerCase().includes(label.toLowerCase())
+          : true;
+        // const matchesRated = rated ? shoe.rated >= rated : true;
+
+        return matchesBrand && matchesLabel;
+      });
+
+      setFilteredShoes(filtered);
     }
-  }, [brand, originalShoes]);
+  }, [brand, label, originalShoes]);
 
   return (
     <ContainerComponent
       isImageBackground
       back
       title={brand ? brand : 'All Shoes'}>
-      <BrandFilter onBrandSelect={handleBrandSelect} isFill id={brand} />
       <FlatList
         data={filteredShoes}
         renderItem={({item}) => (

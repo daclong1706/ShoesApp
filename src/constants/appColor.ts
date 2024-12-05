@@ -4,7 +4,7 @@ export const appColors = {
   primarySoft: '#7AB2E9',
   primaryPale: '#B8D9F5',
   primaryTint: '#A3CFF0',
-  primaryPastel: '#C9E4FA',
+  primaryPastel: '#FFF',
   background: '#FFF',
   secondary: '#1A183E',
   white: '#fff',

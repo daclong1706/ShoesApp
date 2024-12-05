@@ -30,12 +30,20 @@
       "sha1": "4e77868439280fb434d4697c7b911271406c81f3"
     },
     {
+      "path": "assets/fonts/DAGGERSQUARE.otf",
+      "sha1": "e44e031413c10b81da49421f18a337e6443875bd"
+    },
+    {
       "path": "assets/fonts/Entypo.ttf",
       "sha1": "12b5670eb178138f77285d5f2c246d3cc5fa67d6"
     },
     {
       "path": "assets/fonts/EvilIcons.ttf",
       "sha1": "91d377ea3cf47490b256c2ed081704a7dabdae0c"
+    },
+    {
+      "path": "assets/fonts/Facon.ttf",
+      "sha1": "87f58934a1b432ac270f162f9b884e80b07ed3d4"
     },
     {
       "path": "assets/fonts/Feather.ttf",
@@ -78,8 +86,16 @@
       "sha1": "4b2bce6c792493a4a5716b6fec2dbefe89492c3f"
     },
     {
+      "path": "assets/fonts/Higher Jump.ttf",
+      "sha1": "c47b837ca4f242e2473cd0723144c59ae15741b2"
+    },
+    {
       "path": "assets/fonts/Ionicons.ttf",
       "sha1": "86e07c3d974eb09099e6e5a9b3b8310303cf0feb"
+    },
+    {
+      "path": "assets/fonts/LaOriental.otf",
+      "sha1": "26ae2346f0808bc7f978bf630f0a688b61256552"
     },
     {
       "path": "assets/fonts/MaterialCommunityIcons.ttf",
@@ -90,8 +106,16 @@
       "sha1": "7e02c3f005532ff4d24148567c84089756a7848a"
     },
     {
+      "path": "assets/fonts/MaverickGrotesk.otf",
+      "sha1": "c9160e57637a2a281f762e4eb320a51d5021dba6"
+    },
+    {
       "path": "assets/fonts/Octicons.ttf",
       "sha1": "56acefc0731f35ee23b195b1c8cb5fa94a0db97b"
+    },
+    {
+      "path": "assets/fonts/octin sports rg.otf",
+      "sha1": "7056f216b0602cfb1a82fd5fc073350c1ef571d3"
     },
     {
       "path": "assets/fonts/SimpleLineIcons.ttf",

@@ -97,8 +97,8 @@ export const updateOrderStatus = createAsyncThunk(
 export const cancelOrder = createAsyncThunk(
   'orders/cancelOrder',
   async (orderId: string) => {
-    const response = await orderAPI.updateOrderStatus(orderId, 'canceled'); // Cập nhật trạng thái thành "canceled"
-    return {orderId, status: 'canceled'}; // Trả về orderId và trạng thái "canceled"
+    const response = await orderAPI.updateOrderStatus(orderId, 'Cancelled'); // Cập nhật trạng thái thành "canceled"
+    return {orderId, status: 'Cancelled'}; // Trả về orderId và trạng thái "canceled"
   },
 );
 

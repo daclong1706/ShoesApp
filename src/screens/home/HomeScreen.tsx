@@ -1,5 +1,5 @@
 // HomeScreen.tsx
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   StatusBar,
@@ -8,6 +8,8 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  ImageSourcePropType,
+  Text,
 } from 'react-native';
 import {
   Adidas,
@@ -19,11 +21,14 @@ import {
 } from '../../assets/svg';
 import {appColors} from '../../constants/appColor';
 import {
+  ButtonComponent,
   CircleComponent,
   RowComponent,
   SectionComponent,
   ShoesCard,
   ShoesList,
+  SpaceComponent,
+  TabBarBottom,
   TabBarComponent,
   TextComponent,
 } from '../../components';
@@ -45,11 +50,20 @@ import axios from 'axios';
 import {AddressModel} from '../../models/AddressModel';
 import {it} from 'node:test';
 import Geolocation from '@react-native-community/geolocation';
+import ProductLabel from './components/ProductLabel';
+import productLabelsData from './data/productLabels.json';
+import Video from 'react-native-video';
+
+const shuffleArray = (array: any[]) => {
+  return array.sort(() => Math.random() - 0.5);
+};
 
 const HomeScreen = ({navigation}: any) => {
   const [shoes, setShoes] = useState<Shoes[]>([]);
   const [brand, setBrand] = useState<string | null>(null);
   const [currentLocation, setCurrentLocation] = useState<AddressModel>();
+  const [currentVideo, setCurrentVideo] = useState(null);
+  const videoRefs = useRef([]);
 
   const dispatch = useAppDispatch();
 
@@ -78,6 +92,10 @@ const HomeScreen = ({navigation}: any) => {
   //   }
   // };
 
+  const handleVideoPress = (videoSource: any) => {
+    setCurrentVideo(videoSource); // Khi người dùng chạm vào video, thay đổi video đang phát
+  };
+
   useEffect(() => {
     dispatch(loadFavorites());
   }, [dispatch]);
@@ -99,13 +117,46 @@ const HomeScreen = ({navigation}: any) => {
     setBrand(brandId);
   };
 
-  const handleBrandSelectSeeAll = (brandId: string | null) => {
-    navigation.navigate('ProductScreen', {shoes: shoes, title: brandId});
+  const handleBrandSelectSeeAll = (
+    title: string | null,
+    brand: boolean,
+    label: boolean,
+  ) => {
+    navigation.navigate('ProductScreen', {
+      shoes: shoes,
+      title: title,
+      brand: brand,
+      label: label,
+    });
   };
 
   const handleSeeAll = () => {
     navigation.navigate('ProductScreen', {shoes, title: 'All Shoes'});
   };
+
+  const imageSources: Record<string, ImageSourcePropType> = {
+    'nike-blue.png': require('../../assets/images/nike-blue.png'),
+    'nike-green-x1.png': require('../../assets/images/nike-green-x1.png'),
+    'nike-red.png': require('../../assets/images/nike-red.png'),
+    'nike-yellow.png': require('../../assets/images/nike-yellow.png'),
+    'nike-black.png': require('../../assets/images/nike-black.png'),
+    'nike-pink.png': require('../../assets/images/nike-pink.png'),
+    'nike-orange-2.png': require('../../assets/images/nike-orange-2.png'),
+  };
+
+  const randomProductLabels = shuffleArray(productLabelsData).slice(0, 4);
+
+  const renderProductLabels = randomProductLabels.map((item, index) => (
+    <ProductLabel
+      key={index}
+      imageSource={imageSources[item.imageSource]} // Lấy đúng đường dẫn từ imageSources
+      label={item.label}
+      color={item.color}
+      width={item.width}
+      height={item.height}
+      onPress={() => handleBrandSelectSeeAll(item.label, false, true)}
+    />
+  ));
 
   return (
     <View style={styles.container}>
@@ -146,7 +197,7 @@ const HomeScreen = ({navigation}: any) => {
               color={appColors.gray}
               style={styles.searchIcon}
             />
-            <TextComponent text="Looking for shoes" size={14} />
+            <TextComponent text="Tìm kiếm giày ..." size={14} />
           </RowComponent>
         </RowComponent>
       </View>
@@ -168,7 +219,9 @@ const HomeScreen = ({navigation}: any) => {
             ListFooterComponent={
               shoes.filter(item => item.brand?.includes(brand as string))
                 .length > 5 ? (
-                <SeeAllButton onPress={() => handleBrandSelectSeeAll(brand)} />
+                <SeeAllButton
+                  onPress={() => handleBrandSelectSeeAll(brand, true, false)}
+                />
               ) : null
             }
             nestedScrollEnabled
@@ -177,7 +230,7 @@ const HomeScreen = ({navigation}: any) => {
 
         {/* Popular Shoes */}
         <TabBarComponent title="Popular" onPress={handleSeeAll} />
-        <SectionComponent>
+        <SectionComponent styles={{marginBottom: 10}}>
           <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -192,43 +245,111 @@ const HomeScreen = ({navigation}: any) => {
             nestedScrollEnabled
           />
 
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={
-              [...shoes] // Tạo bản sao mảng để tránh thay đổi mảng gốc
-                .sort(() => Math.random() - 0.5) // Sắp xếp ngẫu nhiên
-                .slice(0, 5) // Giới hạn tối đa 5 sản phẩm
-            }
-            renderItem={({item, index}) => (
-              <ShoesList key={`Shoes ${index}`} item={item} type="card" />
-            )}
-            keyExtractor={item => item.productId}
-            ListFooterComponent={
-              shoes.length > 5 ? <SeeAllButton onPress={handleSeeAll} /> : null
-            }
-            nestedScrollEnabled
-          />
-
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={shoes
-              .filter(item => item.label?.includes('Best Seller')) // Lọc chỉ Best Seller
-              .slice(0, 5)} // Hiển thị tối đa 5 sản phẩm
-            renderItem={({item, index}) => (
-              <ShoesList key={`Shoes ${index}`} item={item} type="card" />
-            )}
-            keyExtractor={item => item.productId}
-            ListFooterComponent={
-              shoes.filter(item => item.label?.includes('Best Seller')).length >
-              5 ? (
-                <SeeAllButton onPress={handleSeeAll} />
-              ) : null
-            }
-            nestedScrollEnabled
-          />
+          {renderProductLabels}
+          <SpaceComponent line color={appColors.coolGray} />
         </SectionComponent>
+        <TabBarComponent title="Explore" hideSeeAll size={20} />
+        <View style={styles.containerVideo}>
+          <TouchableOpacity
+            onPress={() =>
+              handleVideoPress(
+                require('../../assets/videos/Nike-Air-Max-270.mp4'),
+              )
+            }>
+            <Video
+              source={require('../../assets/videos/Nike-Air-Max-270.mp4')}
+              style={styles.backgroundVideo}
+              muted={true}
+              repeat={true}
+              resizeMode="cover"
+              paused={
+                currentVideo !==
+                require('../../assets/videos/Nike-Air-Max-270.mp4')
+              } // Kiểm tra xem video này có phải là video đang phát không
+            />
+          </TouchableOpacity>
+
+          <View style={styles.viewOverlay}>
+            <Text style={styles.textOverlay}>Nike</Text>
+            <Text style={styles.textTitleOverlay}>AIR MAX 270</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                console.log('Ò');
+                navigation.navigate('DiscoverScreen');
+              }}>
+              <Text style={styles.buttonText}>Khám phá</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.containerVideo}>
+          <TouchableOpacity
+            onPress={() =>
+              handleVideoPress(
+                require('../../assets/videos/Adidas-Ultraboost.mp4'),
+              )
+            }>
+            <Video
+              source={require('../../assets/videos/Adidas-Ultraboost.mp4')}
+              style={styles.backgroundVideo}
+              muted={true}
+              repeat={true}
+              resizeMode="cover"
+              paused={
+                currentVideo !==
+                require('../../assets/videos/Adidas-Ultraboost.mp4')
+              } // Kiểm tra xem video này có phải là video đang phát không
+            />
+          </TouchableOpacity>
+
+          <View style={styles.viewOverlay}>
+            <Text style={styles.textOverlay}>Adidas</Text>
+            <Text style={styles.textTitleOverlay}>Ultraboost</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.native('DiscoverScreen');
+              }}>
+              <Text style={styles.buttonText}>Khám phá</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.containerVideo}>
+          <TouchableOpacity
+            onPress={() =>
+              handleVideoPress(
+                require('../../assets/videos/Puma-FOREVER-FASTER.mp4'),
+              )
+            }>
+            <Video
+              source={require('../../assets/videos/Puma-FOREVER-FASTER.mp4')}
+              style={styles.backgroundVideo}
+              muted={true}
+              repeat={true}
+              resizeMode="cover"
+              paused={
+                currentVideo !==
+                require('../../assets/videos/Puma-FOREVER-FASTER.mp4')
+              } // Kiểm tra xem video này có phải là video đang phát không
+            />
+          </TouchableOpacity>
+
+          <View style={styles.viewOverlay}>
+            <Text style={styles.textOverlay}>Puma</Text>
+            <Text style={styles.textTitleOverlay}>FOREVER-FASTER</Text>
+            <TouchableOpacity style={styles.button} onPress={() => {}}>
+              <Text style={styles.buttonText}>Xem thêm...</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <SpaceComponent line />
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>
+            © 2024 Đắc Long. All Rights Reserved.
+          </Text>
+        </View>
       </ScrollView>
     </View>
   );
@@ -302,5 +423,54 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 10,
     paddingVertical: 70,
+  },
+  containerVideo: {
+    marginBottom: 10,
+    position: 'relative',
+  },
+  backgroundVideo: {
+    width: '100%',
+    height: 300,
+  },
+  viewOverlay: {
+    position: 'absolute',
+    bottom: 30,
+    left: 20,
+  },
+  textOverlay: {
+    color: 'white',
+    fontSize: 16,
+    marginBottom: 6,
+    fontFamily: 'LaOriental',
+  },
+  textTitleOverlay: {
+    color: 'white',
+    fontSize: 24,
+    fontFamily: 'Facon',
+  },
+  button: {
+    backgroundColor: appColors.white,
+    paddingVertical: 8, // Padding dọc để button không bị quá rộng hoặc hẹp
+    borderRadius: 25, // Đảm bảo bo góc đẹp
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 12,
+    maxWidth: 140, // Thiết lập chiều rộng tối thiểu nếu cần
+  },
+  buttonText: {
+    color: appColors.primary,
+    fontSize: 14,
+    fontWeight: '600',
+  },
+
+  footer: {
+    padding: 10,
+    alignItems: 'center',
+
+    height: 150,
+  },
+  footerText: {
+    color: '#000',
+    fontSize: 12,
   },
 });

@@ -1,0 +1,51 @@
+[
+  {
+    "imageSource": "nike-blue.png",
+    "label": "New Arrival",
+    "color": "#5476E0",
+    "width": 170,
+    "height": 150
+  },
+  {
+    "imageSource": "nike-green-x1.png",
+    "label": "Limited Edition",
+    "color": "#40726F",
+    "width": 170,
+    "height": 150
+  },
+  {
+    "imageSource": "nike-red.png",
+    "label": "Best Seller",
+    "color": "#C53D3C",
+    "width": 200,
+    "height": 150
+  },
+  {
+    "imageSource": "nike-yellow.png",
+    "label": "Trending",
+    "color": "#E39B1E",
+    "width": 200,
+    "height": 150
+  },
+  {
+    "imageSource": "nike-black.png",
+    "label": "Top Rated",
+    "color": "#404349",
+    "width": 200,
+    "height": 150
+  },
+  {
+    "imageSource": "nike-pink.png",
+    "label": "Back in Stock",
+    "color": "#D76C82",
+    "width": 200,
+    "height": 150
+  },
+  {
+    "imageSource": "nike-orange-2.png",
+    "label": "On Sale",
+    "color": "#E07B39",
+    "width": 180,
+    "height": 150
+  }
+]

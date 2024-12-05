@@ -1,105 +1,178 @@
 {
-  "productId": "FZ3863",
-  "name": "Nike C1TY",
-  "type": "Shoes",
+  "productId": "NIKE-001",
+  "name": "Nike Dunk Low Retro",
+  "type": "Men's Shoes",
   "brand": "nike",
-  "price": 2929000,
-  "description": "Nike C1TY is engineered to overcome anything the city throws your way. A mesh upper keeps the fit breathable, while the reinforced sides and toe box help protect your feet from the elements. Each colourway is inspired by the spirit of city life—giving street style a whole new meaning.",
+  "price": {"$numberInt": "2929000"},
+  "description": "Tôn vinh cội nguồn của Dunk như một biểu tượng của giày thể thao đại học hàng đầu, bộ sưu tập \"Be True To Your School\" lấy cảm hứng từ chiến dịch quảng cáo nguyên bản. Màu sắc đại diện cho các trường đại học danh tiếng, trong khi chất da bóng mượt tạo nên vẻ đẹp hoàn hảo, giúp bạn nổi bật ngay từ ánh nhìn đầu tiên. Vậy nên hãy xỏ giày vào, thể hiện tinh thần đại học của mình. Bạn đã sẵn sàng chưa?",
   "colors": [
     {
-      "colorId": "FZ3863-101",
-      "colorName": "Black/Stadium Green/Summit White",
-      "colorImage": "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a3ebbc27-c03d-4a15-adf4-fb57346f4a2c/NIKE+C1TY.png",
-      "colorCode": "#000000",
-      "quantity": 130,
-      "country": ["India"],
+      "colorId": "NIKE-001-101",
+      "colorName": "White/Black/Dusty Cactus",
+      "colorImage": "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/f90a69fc-1b25-41de-b008-34a791214918/NIKE+DUNK+LOW+RETRO.png",
+      "colorCode": "#00B0C1",
+      "quantity": {"$numberInt": "10"},
+      "country": ["Việt Nam"],
       "images": [
-        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/185c6d14-3c96-408e-b719-8c1997f01254/NIKE+C1TY.png",
-        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/9258e4f4-12a6-45ef-8c71-a74748926aeb/NIKE+C1TY.png",
-        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/18d6dcfb-5948-4512-90fe-3a8e4718e718/NIKE+C1TY.png",
-        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/51975e51-db31-4c47-9926-aac18dc8439e/NIKE+C1TY.png"
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/9d1488be-d438-4953-9edf-72d18e30a74d/NIKE+DUNK+LOW+RETRO.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/02ec94c0-4240-43aa-9299-49d9b2f1c722/NIKE+DUNK+LOW+RETRO.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/aef9c1b6-ee2b-4967-baba-80a0d901b986/NIKE+DUNK+LOW+RETRO.png"
       ],
-      "discountPercentage": 0
+      "discountPercentage": {"$numberInt": "30"}
     },
     {
-      "colorId": "FZ3863-200",
-      "colorName": "Flax/Sesame/Stadium Green/Black",
-      "colorImage": "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3ea1951b-cf47-4bef-8e96-510ef54b2ec1/NIKE+C1TY.png",
-      "colorCode": "#C0A36D",
-      "quantity": 130,
-      "country": ["Đức"],
+      "colorId": "NIKE-001-102",
+      "colorName": "White/University Red/Concord",
+      "colorImage": "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/6b0e56a7-3f23-4943-9aeb-b56ee221d4b0/NIKE+DUNK+LOW+RETRO.png",
+      "colorCode": "#2E3C79",
+      "quantity": {"$numberInt": "0"},
+      "country": ["Indonesia"],
       "images": [
-        "https://product.hstatic.net/1000284478/product/28_392328_1_6c2bdc38662947d08776cc86b16ca228.jpg",
-        "https://product.hstatic.net/1000284478/product/28_392328_3_11d94c0fb3034c328a5303ff04a19753.jpg",
-        "https://product.hstatic.net/1000284478/product/28_392328_4_04539be795c244fd95e740c54f8e42a2.jpg",
-        "https://product.hstatic.net/1000284478/product/28_392328_6_2a3d516d38a44de0bf36c4cab5984c25.jpg",
-        "https://product.hstatic.net/1000284478/product/28_392328_7_9ea1dc8f49ee4402824a954657363f2f.jpg",
-        "https://product.hstatic.net/1000284478/product/28_392328_8_74b63c9c49af4875b0d91245f5c9f1ca.jpg"
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/df60a092-8601-4a69-ab71-ba13dd52eb4e/NIKE+DUNK+LOW+RETRO.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/9fb16a62-0167-47ac-b4cc-c54b064c95d7/NIKE+DUNK+LOW+RETRO.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/d5858135-cefe-4907-9a63-b5d295fd840f/NIKE+DUNK+LOW+RETRO.png"
       ],
-      "discountPercentage": 10
+      "discountPercentage": {"$numberInt": "10"}
+    },
+    {
+      "colorId": "NIKE-001-103",
+      "colorName": "White/Glacier Blue",
+      "colorImage": "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/4d67c46a-cb99-4160-9d2a-3ad5f5d27782/NIKE+DUNK+LOW+RETRO.png",
+      "colorCode": "#B2D1D5",
+      "quantity": {"$numberInt": "0"},
+      "country": ["Indonesia"],
+      "images": [
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/1f994c07-668f-427d-846c-45b735704fea/NIKE+DUNK+LOW+RETRO.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/814151db-f368-47ba-9612-e1df2e33874e/NIKE+DUNK+LOW+RETRO.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/8c2a6322-5291-4b1c-9423-9965359bb77a/NIKE+DUNK+LOW+RETRO.png"
+      ],
+      "discountPercentage": {"$numberInt": "0"}
+    },
+    {
+      "colorId": "NIKE-001-104",
+      "colorName": "White/Pacific Moss",
+      "colorImage": "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/80a05f38-1936-46f0-9b99-7ed0eb00849b/NIKE+DUNK+LOW+RETRO.png",
+      "colorCode": "#80680C",
+      "quantity": {"$numberInt": "150"},
+      "country": ["Việt Nam"],
+      "images": [
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/82d4e6b8-e67b-4468-9efe-8c11ffe49e79/NIKE+DUNK+LOW+RETRO.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/fe071272-fafb-4520-a7f4-715d5ee50724/NIKE+DUNK+LOW+RETRO.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/bfdf1956-a64d-4e6d-9c21-68685e952f0e/NIKE+DUNK+LOW+RETRO.png"
+      ],
+      "discountPercentage": {"$numberInt": "15"}
+    },
+    {
+      "colorId": "NIKE-001-105",
+      "colorName": "White/White/Viotech",
+      "colorImage": "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/62706490-bfa9-4227-b87c-6d95964fdc36/NIKE+DUNK+LOW+RETRO.png",
+      "colorCode": "#6C3761",
+      "quantity": {"$numberInt": "10"},
+      "country": ["Indonesia"],
+      "images": [
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/bd86bb3f-5845-4a5c-9598-407c706b1083/NIKE+DUNK+LOW+RETRO.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a8dec195-7f66-4130-9237-073c1a10fd1a/NIKE+DUNK+LOW+RETRO.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/9d367f6a-de7b-43cd-ad49-8c22f97dd192/NIKE+DUNK+LOW+RETRO.png"
+      ],
+      "discountPercentage": {"$numberInt": "15"}
+    },
+    {
+      "colorId": "NIKE-001-106",
+      "colorName": "White/White/Vintage Green",
+      "colorImage": "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/1cabc2f5-40fb-4fb8-8b8a-8718dace7c19/NIKE+DUNK+LOW+RETRO.png",
+      "colorCode": "#334A49",
+      "quantity": {"$numberInt": "10"},
+      "country": ["Indonesia"],
+      "images": [
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/cf13a770-92c5-4506-8f66-fe3caf4a91b5/NIKE+DUNK+LOW+RETRO.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/51c7be83-d8d3-434d-89d9-c7a121775e0d/NIKE+DUNK+LOW+RETRO.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/f6661f7c-c4ea-40ac-91cf-fbac4f168914/NIKE+DUNK+LOW+RETRO.png"
+      ],
+      "discountPercentage": {"$numberInt": "15"}
     }
   ],
-
-  "sizes": ["37", "38", "39", "40", "41", "42", "43", "44"],
+  "sizes": ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
   "features": [
     {
-      "description": "Phần thân giày được làm từ da tổng hợp và vải, mang lại cảm giác thoải mái và bền bỉ cho mọi hoạt động hàng ngày.",
-      "image": "https://product.hstatic.net/1000284478/product/19_392328_3_4274810054314ccb80ddd24f310cbc31.jpg"
+      "description": "Màu sắc của giày giúp bạn thể hiện tình yêu với đội tuyển đại học yêu thích một cách đầy tự hào.",
+      "image": "https://static.nike.com/a/images/t_prod/w_1920,c_limit,f_auto,q_auto/f0d7766d-2a6c-4f46-9857-904abadbc615/pdp.jpg"
     },
     {
-      "description": "Đế ngoài cao su giúp tăng độ bám, mang lại sự an toàn khi di chuyển trên mọi địa hình.",
-      "image": "https://product.hstatic.net/1000284478/product/19_392328_2_c190d053583f4c54a06986997daf6904.jpg"
+      "description": "Phần thân giày bằng da sẽ trở nên mềm mại tự nhiên theo thời gian, đạt đến độ hoàn hảo và êm ái tuyệt đối.",
+      "image": "https://static.nike.com/a/images/t_prod/w_1920,c_limit,f_auto,q_auto/3733b19e-8a1f-4f6f-af28-5b84d5b00b8e/pdp.jpg"
     },
     {
-      "description": "Lớp đệm mềm mại bên trong mang đến cảm giác êm ái, hỗ trợ tốt cho đôi chân khi vận động lâu dài.",
-      "image": "https://product.hstatic.net/1000284478/product/19_392328_1_0854c39152d947f5b769aaa0b52b65f7.jpg"
+      "description": "Đệm giữa bằng foam mang đến sự êm ái nhẹ nhàng cùng độ đàn hồi vượt trội.",
+      "image": "https://static.nike.com/a/images/t_prod/w_1920,c_limit,f_auto,q_auto/96dad303-8c81-4daf-9d3e-ca77a1531d3f/pdp.jpg"
     }
   ],
   "reviews": [
     {
-      "username": "PhuongAnhTran",
-      "date": "2024-11-10",
-      "rating": 5,
-      "comment": "Thiết kế giày rất đẹp, đi cực kỳ thoải mái và chắc chắn. Rất phù hợp cho những buổi đi dạo hoặc tập nhẹ."
+      "username": "MinhPhat123",
+      "date": "2024-11-02",
+      "rating": {"$numberInt": "4"},
+      "comment": "Chất lượng khá tốt, rất hài lòng với thiết kế nhưng hơi chật ở mũi chân."
     },
     {
-      "username": "VanLinh",
-      "date": "2024-11-08",
-      "rating": 4,
-      "comment": "Giày khá nhẹ và mềm, phần đế rất bám tốt, chỉ có điều phần mũi hơi chật nếu đi tất dày."
+      "username": "LinhVu",
+      "date": "2024-11-01",
+      "rating": {"$numberInt": "5"},
+      "comment": "Đôi giày nhẹ và thoải mái, rất phù hợp cho những buổi đi bộ dài."
     },
     {
-      "username": "HuuThang",
-      "date": "2024-11-05",
-      "rating": 5,
-      "comment": "Rất hài lòng với chất lượng của Puma, thiết kế phong cách và phù hợp cho nhiều dịp khác nhau."
+      "username": "KhoaTran",
+      "date": "2024-10-30",
+      "rating": {"$numberInt": "3"},
+      "comment": "Màu sắc không giống lắm so với hình ảnh, nhưng vẫn ổn."
     },
     {
-      "username": "NguyenHa",
-      "date": "2024-10-31",
-      "rating": 3,
-      "comment": "Giày đẹp nhưng phần đệm hơi cứng, cần đi vài lần để làm mềm hơn."
+      "username": "LanAnhNguyen",
+      "date": "2024-10-29",
+      "rating": {"$numberInt": "4"},
+      "comment": "Giày đẹp và dễ phối đồ, tuy nhiên hơi cứng ở phần gót."
+    },
+    {
+      "username": "HoangTuan",
+      "date": "2024-10-28",
+      "rating": {"$numberInt": "5"},
+      "comment": "Chất lượng vượt mong đợi! Rất hài lòng với đôi giày này."
+    },
+    {
+      "username": "ThaoMy",
+      "date": "2024-10-27",
+      "rating": {"$numberInt": "4"},
+      "comment": "Đôi giày rất bền và màu sắc sang trọng, nhưng cần đi vài lần để mềm hơn."
+    },
+    {
+      "username": "DucVuong",
+      "date": "2024-10-25",
+      "rating": {"$numberInt": "5"},
+      "comment": "Rất êm chân, tôi đã chạy cả buổi và không thấy khó chịu chút nào."
+    },
+    {
+      "username": "NgocMai98",
+      "date": "2024-10-24",
+      "rating": {"$numberInt": "3"},
+      "comment": "Giày đẹp nhưng phần đế hơi nặng, không phù hợp lắm để chạy."
+    },
+    {
+      "username": "BaoTran",
+      "date": "2024-10-23",
+      "rating": {"$numberInt": "4"},
+      "comment": "Đôi giày này có thiết kế rất độc đáo và hiện đại."
+    },
+    {
+      "username": "VanQuyen",
+      "date": "2024-10-20",
+      "rating": {"$numberInt": "5"},
+      "comment": "Không còn gì để chê, thực sự là đôi giày hoàn hảo!"
     }
   ],
-
-  "similarProductIds": ["ULTRA4", "BOOST21"],
+  "similarProductIds": ["JAM123", "DUNK234"],
   "benefits": [
-    "Thân giày kết hợp da và vải tạo sự thoải mái nhưng vẫn đảm bảo độ bền.",
-    "Đế cao su với độ bám cao giúp giữ vững và an toàn khi di chuyển.",
-    "Thiết kế cổ giày có đệm mềm tạo sự thoải mái, phù hợp cho các hoạt động dài.",
-    "Thân giày linh hoạt giúp dễ dàng di chuyển, phù hợp với nhiều hoạt động từ đi chơi, đi làm đến tập luyện nhẹ nhàng."
+    "The stitched overlays on the upper add heritage style, durability and support."
   ],
-  "productDetails": [
-    "Thiết kế regular fit",
-    "Có dây giày",
-    "Thân giày kết hợp giữa da tổng hợp và vải",
-    "Phần đệm mềm mại hỗ trợ bàn chân tốt hơn",
-    "Đế cao su tăng cường độ bám",
-    "Trọng lượng: 290 g (size 42)",
-    "Độ cao đế giữa: 10 mm",
-    "Thích hợp cho các hoạt động hàng ngày hoặc luyện tập nhẹ"
-  ],
-  "origins": "Puma Rebound V6 được ra mắt với cảm hứng từ giày thể thao cổ điển kết hợp với phong cách hiện đại, mang lại sự thoải mái và phong cách cho người dùng trong các hoạt động hàng ngày.",
-
-  "label": "Everyday Comfort"
+  "productDetails": ["Foam midsole", "Perforations on the toe", "Rubber sole"],
+  "origins": "Debuting in 1982, the AF-1 was the first basketball shoe to house Nike Air.",
+  "label": "Best Seller"
 }
