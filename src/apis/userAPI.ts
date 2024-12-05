@@ -16,10 +16,18 @@ class UserAPI {
     currentPassword: string,
     newPassword: string,
   ): Promise<{message: string}> {
-    return await axiosClient.put('/user/password', {
-      currentPassword,
-      newPassword,
-    });
+    try {
+      const response = await axiosClient.put('/user/password', {
+        currentPassword,
+        newPassword,
+      });
+
+      // Giả sử API trả về thông báo thành công
+      return response.data; // Trả về { message: 'Mật khẩu đã được thay đổi thành công' }
+    } catch (error: any) {
+      // Nếu có lỗi, bạn có thể throw lỗi ở đây
+      throw new Error(error.response?.data?.message || 'Error-Password');
+    }
   }
 
   async deleteUser(): Promise<{message: string}> {

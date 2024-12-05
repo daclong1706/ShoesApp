@@ -1,9 +1,9 @@
 export const appColors = {
   primary: '#000',
   primaryLight: '#90C4F2',
-  primarySoft: '#7AB2E9',
+  primarySoft: '#31363F',
   primaryPale: '#B8D9F5',
-  primaryTint: '#A3CFF0',
+  primaryTint: 'rgba(39, 43, 50, 0.5)',
   primaryPastel: '#FFF',
   background: '#FFF',
   secondary: '#1A183E',

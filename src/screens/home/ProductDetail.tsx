@@ -597,7 +597,10 @@ const ProductDetail = ({navigation, route}: any) => {
         </ScrollView>
       </View>
       <LoadingModal visible={isLoading} />
-      <AddItemModal visible={isAddLoading} />
+      <AddItemModal
+        visible={isAddLoading}
+        mess="Đã thêm sản phẩm vào giỏ hàng"
+      />
     </>
   );
 };

@@ -69,11 +69,11 @@ const ResetPassword = ({navigation, route}: any) => {
         }}>
         <TextComponent
           title
-          text="Set A New Password"
+          text="Đặt mật khẩu mới"
           styles={{marginBottom: 12}}
         />
         <TextComponent
-          text="Create a new password. Ensure it differs from previous ones for security"
+          text="Tạo mật khẩu mới. Hãy đảm bảo mật khẩu này khác với các mật khẩu trước để bảo mật."
           color={appColors.coolGray}
           size={16}
           styles={{paddingHorizontal: 10, textAlign: 'center'}}
@@ -82,7 +82,7 @@ const ResetPassword = ({navigation, route}: any) => {
       <SectionComponent>
         <InputComponent
           value={password}
-          placeholder="Your Password"
+          placeholder="Mật khẩu của bạn"
           onChange={val => setPassword(val)}
           allowClear
           isPassword
@@ -98,7 +98,7 @@ const ResetPassword = ({navigation, route}: any) => {
         />
         <InputComponent
           value={confirmPassword}
-          placeholder="Confirm Password"
+          placeholder="Nhập lại mật khẩu"
           onChange={val => setConfirmPassword(val)}
           allowClear
           isPassword
@@ -137,7 +137,7 @@ const ResetPassword = ({navigation, route}: any) => {
       <SectionComponent>
         <ButtonComponent
           disable={isDisable}
-          text="Continue"
+          text="Tiếp tục"
           type="primary"
           onPress={handleResetPassword}
           size={16}

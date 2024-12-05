@@ -8,6 +8,7 @@ import {
 } from '../../stores/reducers/cartSlice';
 import {useAppDispatch, useAppSelector} from '../../stores/hook';
 import {createOrder} from '../../stores/reducers/orderSlice';
+import {AccountModal} from '../../modals';
 
 const EventScreen = () => {
   // const dispatch = useAppDispatch();
@@ -36,6 +37,7 @@ const EventScreen = () => {
   return (
     <View style={styles.container}>
       {/* <Button title="Tạo đơn hàng" onPress={handleCreateOrder} /> */}
+      {/* <AccountModal visible={true} /> */}
     </View>
   );
 };

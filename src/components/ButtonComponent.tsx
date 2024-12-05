@@ -69,7 +69,7 @@ const ButtonComponent = (props: Props) => {
         flex={0}
         text={text}
         color={
-          textColor ?? (type === 'link' ? appColors.primary : appColors.text)
+          textColor ?? (type === 'link' ? appColors.danger : appColors.text)
         }
         size={size}
         styles={[textStyles]}

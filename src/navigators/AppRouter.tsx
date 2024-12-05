@@ -10,6 +10,7 @@ const AppRouter = () => {
   const [isShowSplash, setIsShowSplash] = useState(true);
   const {getItem} = useAsyncStorage('auth');
   const auth = useSelector(authSelector);
+  console.log('Auth: ', auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,14 +24,19 @@ const AppRouter = () => {
 
   const checkLogin = async () => {
     const res = await getItem();
-    res && dispatch(addAuth(JSON.parse(res)));
+    if (res) {
+      dispatch(addAuth(JSON.parse(res)));
+    }
   };
+
+  // Kiểm tra auth và accesstoken
+  const isAuthenticated = auth && auth.accesstoken;
 
   return (
     <>
       {isShowSplash ? (
         <SplashScreen />
-      ) : auth.accesstoken ? (
+      ) : isAuthenticated ? (
         <MainNavigator />
       ) : (
         <AuthNavigator />

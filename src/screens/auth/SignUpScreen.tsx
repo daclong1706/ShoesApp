@@ -93,19 +93,19 @@ const SignUpScreen = ({navigation}: any) => {
           }}>
           <TextComponent
             title
-            text="Create Account"
+            text="Đăng ký"
             size={28}
             styles={{marginBottom: 12}}
           />
           <TextComponent
-            text="Let’s Create Account Together"
+            text="Tạo tài khoản ngay bây giờ thôi!"
             color={appColors.coolGray}
           />
         </SectionComponent>
         <SectionComponent>
           <InputComponent
             value={values.username}
-            placeholder="Full name"
+            placeholder="Họ và tên"
             onChange={val => handleChangeValue('username', val)}
             allowClear
             affix={<User size={22} color={appColors.darkGray} />}
@@ -127,7 +127,7 @@ const SignUpScreen = ({navigation}: any) => {
           />
           <InputComponent
             value={values.password}
-            placeholder="Your Password"
+            placeholder="Mật khẩu của bạn"
             onChange={val => handleChangeValue('password', val)}
             allowClear
             isPassword
@@ -143,7 +143,7 @@ const SignUpScreen = ({navigation}: any) => {
           />
           <InputComponent
             value={values.confirmPassword}
-            placeholder="Confirm Password"
+            placeholder="Nhập lại mật khẩu"
             onChange={val => handleChangeValue('confirmPassword', val)}
             allowClear
             isPassword
@@ -183,7 +183,7 @@ const SignUpScreen = ({navigation}: any) => {
           </SectionComponent>
           <ButtonComponent
             type="primary"
-            text="Sign Up"
+            text="Đăng ký"
             disable={isDisable}
             onPress={handleRegister}
             size={18}
@@ -196,10 +196,10 @@ const SignUpScreen = ({navigation}: any) => {
           <RowComponent
             justify="space-between"
             styles={{paddingHorizontal: 70}}>
-            <TextComponent text="Already have an account?" size={12} />
+            <TextComponent text="Bạn đã có tài khoản?" size={12} />
             <ButtonComponent
               type="link"
-              text="Sign in"
+              text="Đăng nhập"
               size={12}
               textColor={appColors.darkSlate}
               textStyles={{fontFamily: fontFamilies.medium}}

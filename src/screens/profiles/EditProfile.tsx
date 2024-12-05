@@ -18,10 +18,13 @@ import ContainerProfile from './components/ContainerProfile';
 import CountrySelector from './components/CountrySelector';
 import GenderPicker from './components/GenderPicker';
 import Toast from 'react-native-toast-message';
+import {AddItemModal, LoadingModal} from '../../modals';
 
 const EditProfileScreen = ({navigation}: any) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const [isLoading, setIsLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const [fullName, setFullName] = useState(user?.name ?? '');
   const [firstName, setFirstName] = useState(user?.givenName ?? '');
@@ -45,6 +48,7 @@ const EditProfileScreen = ({navigation}: any) => {
   };
 
   const handleUpdateProfile = async () => {
+    setIsLoading(true);
     try {
       const validGender =
         gender === 'male' || gender === 'female' || gender === 'other'
@@ -60,13 +64,11 @@ const EditProfileScreen = ({navigation}: any) => {
         }),
       ).unwrap();
 
-      Toast.show({
-        type: 'success',
-        text1: 'Cập nhật thành công',
-        position: 'bottom',
-        visibilityTime: 2000,
-      });
-      navigation.goBack();
+      setVisible(true);
+      setTimeout(() => {
+        setVisible(false);
+        navigation.goBack();
+      }, 1000);
     } catch (error) {
       Toast.show({
         type: 'error',
@@ -74,6 +76,8 @@ const EditProfileScreen = ({navigation}: any) => {
         position: 'bottom',
         visibilityTime: 2000,
       });
+    } finally {
+      setIsLoading(false); // Đảm bảo rằng setIsLoading luôn được gọi
     }
   };
 
@@ -146,6 +150,8 @@ const EditProfileScreen = ({navigation}: any) => {
           />
         </View>
       </View>
+      <AddItemModal visible={visible} mess="Cập nhật thông tin thành công" />
+      <LoadingModal visible={isLoading} />
     </ContainerProfile>
   );
 };

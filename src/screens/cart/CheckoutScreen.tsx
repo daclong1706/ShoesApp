@@ -17,12 +17,12 @@ import {
   shippingSelector,
 } from '../../stores/reducers/shippingSlice';
 import Toast from 'react-native-toast-message';
-import {addressSelector} from '../../stores/reducers/addressSlice';
+// import {addressSelector} from '../../stores/reducers/addressSlice';
 
 const CheckoutScreen = ({navigation, route}: any) => {
   const {shoes, total} = route.params;
   const selectedShippingMethod = useSelector(shippingSelector);
-  const selectedAddressMethod = useSelector(addressSelector);
+  //const selectedAddressMethod = useSelector(addressSelector);
 
   const handlePayment = () => {
     if (!selectedShippingMethod) {
@@ -37,7 +37,7 @@ const CheckoutScreen = ({navigation, route}: any) => {
       navigation.navigate('PaymentMethod', {
         pay: pay,
         shipping: selectedShippingMethod,
-        address: selectedAddressMethod,
+        //address: selectedAddressMethod,
       });
     }
   };
@@ -75,14 +75,14 @@ const CheckoutScreen = ({navigation, route}: any) => {
                     styles={{fontWeight: 'bold', marginLeft: 12}}
                   />
 
-                  <TextComponent
+                  {/* <TextComponent
                     text={
                       selectedAddressMethod
                         ? `Đường ${selectedAddressMethod.street}, ${selectedAddressMethod.city}, ${selectedAddressMethod.country}`
                         : ''
                     }
                     styles={{marginLeft: 12, marginTop: 6}}
-                  />
+                  /> */}
                 </View>
               </RowComponent>
               <Edit2 size={22} color={appColors.primary} />

@@ -58,13 +58,9 @@ const ForgotPassword = ({navigation}: any) => {
           marginTop: 55,
           marginBottom: 20,
         }}>
+        <TextComponent title text="Quên mật khẩu" styles={{marginBottom: 12}} />
         <TextComponent
-          title
-          text="Recovery Password"
-          styles={{marginBottom: 12}}
-        />
-        <TextComponent
-          text="Please Enter Your Email Address To Recieve a Verification Code"
+          text="Vui lòng nhập địa chỉ email của bạn để nhận mã xác thực"
           color={appColors.coolGray}
           size={16}
           styles={{paddingHorizontal: 10, textAlign: 'center'}}
@@ -104,7 +100,7 @@ const ForgotPassword = ({navigation}: any) => {
       <SectionComponent>
         <ButtonComponent
           disable={isDisable}
-          text="Continue"
+          text="Tiếp tục"
           type="primary"
           onPress={handleForgotPassword}
           size={16}

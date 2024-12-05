@@ -72,24 +72,19 @@ const LoginScreen = ({navigation}: any) => {
           alignItems: 'center',
           marginTop: 55,
         }}>
-        {/* <Image
-          source={require('../../assets/images/nike.png')}
-          style={{width: 162, height: 114, marginBottom: 30}}
-        /> */}
         <TextComponent
           title
-          text="Hello Again!"
+          text="Chào mừng bạn quay lại!"
           size={28}
           styles={{marginBottom: 12}}
         />
         <TextComponent
-          text="Welcome Back You’ve Been Missed!"
+          text="Chúng tôi đã nhớ bạn!"
           color={appColors.coolGray}
         />
       </SectionComponent>
       <SpaceComponent height={50} />
       <SectionComponent>
-        {/* <TextComponent title text="Sign in" /> */}
         <InputComponent
           value={email}
           placeholder="Email"
@@ -110,23 +105,14 @@ const LoginScreen = ({navigation}: any) => {
         />
         <InputComponent
           value={password}
-          placeholder="Password"
+          placeholder="Mật khẩu"
           onChange={val => {
             setPassword(val);
             setErrorMessage({});
-            // formValidator(
-            //   'password',
-            //   {password: val},
-            //   errorMessage,
-            //   setErrorMessage,
-            // );
           }}
           allowClear
           isPassword
           affix={<PasswordCheck size={22} color={appColors.darkGray} />}
-          // onEnd={() =>
-
-          // }
         />
         <SpaceComponent height={19} />
         <RowComponent justify="space-between">
@@ -139,14 +125,14 @@ const LoginScreen = ({navigation}: any) => {
               style={{marginRight: 12}}
             />
             <TextComponent
-              text="Remember me"
+              text="Nhớ tôi"
               size={13}
               color={appColors.coolGray}
             />
           </RowComponent>
           <ButtonComponent
             type="link"
-            text="Recovery Password"
+            text="Quên mật khẩu?"
             textColor={appColors.coolGray}
             size={13}
             onPress={() => navigation.navigate('ForgotPassword')}
@@ -176,7 +162,7 @@ const LoginScreen = ({navigation}: any) => {
         <ButtonComponent
           disable={isDisable}
           type="primary"
-          text="Sign In"
+          text="Đăng nhập"
           onPress={handleLogin}
           size={18}
         />
@@ -186,10 +172,10 @@ const LoginScreen = ({navigation}: any) => {
 
       <SectionComponent styles={{flex: 1, justifyContent: 'flex-end'}}>
         <RowComponent justify="space-between" styles={{paddingHorizontal: 40}}>
-          <TextComponent text="Don’t have an account?" size={12} />
+          <TextComponent text="Bạn chưa có tài khoản?" size={12} />
           <ButtonComponent
             type="link"
-            text="Sign Up For Free"
+            text="Đăng ký tài khoản"
             size={12}
             textColor={appColors.darkSlate}
             textStyles={{fontFamily: fontFamilies.medium}}

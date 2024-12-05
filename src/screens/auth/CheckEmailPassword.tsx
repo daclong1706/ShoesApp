@@ -115,13 +115,14 @@ const CheckEmailPassword = ({navigation, route}: any) => {
         }}>
         <TextComponent
           title
-          text="Check your email"
+          text="Kiểm tra email của bạn"
           styles={{marginBottom: 12}}
         />
         <TextComponent
-          text={`We sent a reset link to ${email.replace(/.{1,7}./, (m: any) =>
-            '*'.repeat(m.length),
-          )} enter 4 digit code that mentioned in the email`}
+          text={`Chúng tôi đã gửi liên kết đặt lại mật khẩu đến ${email.replace(
+            /.{1,7}./,
+            (m: any) => '*'.repeat(m.length),
+          )}, vui lòng nhập mã 4 chữ số được đề cập trong email`}
           color={appColors.coolGray}
           size={16}
           styles={{paddingHorizontal: 10, textAlign: 'center'}}
@@ -182,7 +183,7 @@ const CheckEmailPassword = ({navigation, route}: any) => {
       <SectionComponent styles={{marginTop: 32}}>
         <ButtonComponent
           disable={newCode.length !== 4}
-          text="Verify Code"
+          text="Xác minh"
           type="primary"
           onPress={handleResetPassword}
           size={18}
@@ -207,7 +208,7 @@ const CheckEmailPassword = ({navigation, route}: any) => {
       <SectionComponent styles={{marginTop: 32}}>
         {limit > 0 ? (
           <RowComponent justify="center">
-            <TextComponent text="Re-send code in " />
+            <TextComponent text="Gửi lại mã trong " />
             <TextComponent
               text={`${(limit - (limit % 60)) / 60}:${
                 limit - (limit - (limit % 60))
@@ -217,10 +218,10 @@ const CheckEmailPassword = ({navigation, route}: any) => {
           </RowComponent>
         ) : (
           <RowComponent justify="center">
-            <TextComponent text="Haven't got the email yet? " />
+            <TextComponent text="Chưa nhận được email? " />
             <ButtonComponent
               type="link"
-              text="Resend email"
+              text="Gửi lại"
               onPress={handleResendEmailCode}
             />
           </RowComponent>

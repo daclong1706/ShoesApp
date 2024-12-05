@@ -36,11 +36,14 @@ const OnboardingSlide = (props: Props) => {
           borderRadius: 50,
           backgroundColor: appColors.primary,
         }}>
-        <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity
+          onPress={onPress}
+          style={{paddingHorizontal: 12, width: 100, alignItems: 'center'}}>
           <TextComponent
             text={buttonText}
             color={appColors.white}
             font={fontFamilies.medium}
+            size={16}
           />
         </TouchableOpacity>
       </View>

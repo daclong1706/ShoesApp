@@ -14,7 +14,7 @@ import {ArrowRight} from 'iconsax-react-native';
 import {fontFamilies} from '../../constants/fontFamilies';
 import {globalStyles} from '../../styles/globalStyles';
 import authenticationAPI from '../../apis/authApi';
-import {LoadingModal} from '../../modals';
+import {AccountModal, LoadingModal} from '../../modals';
 import {useDispatch} from 'react-redux';
 import {addAuth} from '../../stores/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -28,6 +28,7 @@ const Verification = ({navigation, route}: any) => {
   const [limit, setLimit] = useState(60);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [accountModalVisible, setAccountModalVisible] = useState(false);
 
   const ref1 = useRef<any>();
   const ref2 = useRef<any>();
@@ -87,7 +88,7 @@ const Verification = ({navigation, route}: any) => {
 
   const handleVerification = async () => {
     if (parseInt(newCode) !== parseInt(currentCode)) {
-      setErrorMessage('Invalid code.');
+      setErrorMessage('Mã không hợp lệ.');
     } else {
       setErrorMessage('');
       const api = '/register';
@@ -96,18 +97,38 @@ const Verification = ({navigation, route}: any) => {
         password,
         username: username ?? '',
       };
+      setIsLoading(true);
       try {
+        // Đăng ký tài khoản
         const res: any = await authenticationAPI.HandleAuthentication(
           api,
           data,
           'post',
         );
-        console.log(res.data);
-        dispatch(addAuth(res.data));
-        await AsyncStorage.setItem('auth', JSON.stringify(res.data));
+
+        // Đăng nhập ngay sau khi tạo tài khoản
+        const loginRes = await authenticationAPI.HandleAuthentication(
+          '/login',
+          {email, password},
+          'post',
+        );
+        setIsLoading(false);
+
+        setAccountModalVisible(true); // Hiển thị modal sau 2 giây
+
+        // Trì hoãn hiển thị modal sau 2 giây
+
+        // Sau khi modal hiển thị, điều hướng vào trang chủ
+        setTimeout(() => {
+          // Lưu thông tin vào AsyncStorage sau khi đăng nhập
+          setAccountModalVisible(false);
+          AsyncStorage.setItem('auth', JSON.stringify(loginRes.data));
+          dispatch(addAuth(loginRes.data));
+          // Điều hướng tới MainNavigator sau khi modal đã hiển thị
+        }, 2500); // Chờ 2.5 giây trước khi chuyển hướng
       } catch (error) {
-        setErrorMessage('User has already exist.');
-        console.log(`Can not create new user ${error}`);
+        setErrorMessage('Tài khoản đã tồn tại.');
+        console.log(`Không thể tạo tài khoản mới: ${error}`);
       }
     }
   };
@@ -121,12 +142,11 @@ const Verification = ({navigation, route}: any) => {
           marginTop: 55,
           marginBottom: 20,
         }}>
-        <TextComponent title text="Verification" styles={{marginBottom: 12}} />
+        <TextComponent title text="Xác minh" styles={{marginBottom: 12}} />
         <TextComponent
-          text={`Please Enter Your Email Address To Recieve a Verification Code ${email.replace(
-            /.{1,7}./,
-            (m: any) => '*'.repeat(m.length),
-          )}`}
+          text={`Vui lòng kiểm tra email ${email.replace(/.{1,7}./, (m: any) =>
+            '*'.repeat(m.length),
+          )} để lấy mã xác minh`}
           color={appColors.coolGray}
           size={16}
           styles={{paddingHorizontal: 10, textAlign: 'center'}}
@@ -187,7 +207,7 @@ const Verification = ({navigation, route}: any) => {
       <SectionComponent styles={{marginTop: 32}}>
         <ButtonComponent
           disable={newCode.length !== 4}
-          text="Continue"
+          text="Tiếp tục"
           type="primary"
           onPress={handleVerification}
           size={18}
@@ -212,7 +232,7 @@ const Verification = ({navigation, route}: any) => {
       <SectionComponent styles={{marginTop: 32}}>
         {limit > 0 ? (
           <RowComponent justify="center">
-            <TextComponent text="Re-send code in " />
+            <TextComponent text="Gửi lại mã trong " />
             <TextComponent
               text={`${(limit - (limit % 60)) / 60}:${
                 limit - (limit - (limit % 60))
@@ -224,13 +244,14 @@ const Verification = ({navigation, route}: any) => {
           <RowComponent justify="center">
             <ButtonComponent
               type="link"
-              text="Resend email verification"
+              text="Gửi lại email xác minh"
               onPress={handleResendVerification}
             />
           </RowComponent>
         )}
       </SectionComponent>
       <LoadingModal visible={isLoading} />
+      <AccountModal visible={accountModalVisible} />
     </ContainerComponent>
   );
 };

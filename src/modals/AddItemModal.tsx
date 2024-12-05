@@ -22,7 +22,7 @@ const AddItemModal = (props: Props) => {
         }}>
         <AntDesign name="checkcircle" color={appColors.success} size={48} />
         <TextComponent
-          text="Đã thêm sản phẩm vào giỏ hàng"
+          text={mess}
           color={appColors.white}
           styles={{marginTop: 24}}
           size={16}
