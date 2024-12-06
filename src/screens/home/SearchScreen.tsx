@@ -19,11 +19,13 @@ import {appColors} from '../../constants/appColor';
 import {Shoes} from '../../models/ShoesModel';
 import {fontFamilies} from '../../constants/fontFamilies';
 import ShoeSearch from './components/ShoeSearch';
+import {FilterModal} from '../../modals';
 
 const SearchScreen = ({navigation, route}: any) => {
   const {shoes: shoesData} = route.params;
   const [search, setSearch] = useState('');
-  const [filteredShoes, setFilteredShoes] = useState<Shoes[]>([]);
+  const [filteredShoes, setFilteredShoes] = useState<Shoes[]>([]); // Danh sách giày đã lọc
+  const [isFilter, setIsFilter] = useState(false);
 
   // Lọc sản phẩm mỗi khi `search` thay đổi
   useEffect(() => {
@@ -34,9 +36,16 @@ const SearchScreen = ({navigation, route}: any) => {
       );
       setFilteredShoes(filtered);
     } else {
-      setFilteredShoes([]);
+      setFilteredShoes([]); // Nếu không có gì tìm kiếm thì set lại danh sách lọc là rỗng
     }
   }, [search, shoesData]);
+
+  // Hàm xử lý lọc sản phẩm với bộ lọc
+  const handleFilterConfirm = (filteredItems: Shoes[]) => {
+    console.log('Item: ', filteredItems.length);
+    setFilteredShoes(filteredItems); // Cập nhật lại danh sách sản phẩm đã lọc
+    setIsFilter(false); // Đóng modal filter
+  };
 
   return (
     <View style={styles.container}>
@@ -59,7 +68,7 @@ const SearchScreen = ({navigation, route}: any) => {
         />
       </View>
 
-      {search && filteredShoes.length > 0 ? (
+      {filteredShoes.length > 0 ? (
         <FlatList
           data={filteredShoes} // Hiển thị sản phẩm đã lọc
           renderItem={({item, index}) => (
@@ -69,11 +78,8 @@ const SearchScreen = ({navigation, route}: any) => {
           nestedScrollEnabled
           showsVerticalScrollIndicator={false}
         />
-      ) : search ? (
-        <View
-          style={{
-            alignItems: 'center',
-          }}>
+      ) : (
+        <View style={{alignItems: 'center'}}>
           <TextComponent text="Không tìm thấy sản phẩm tương ứng" />
           <Image
             source={require('../../assets/images/no-item.png')}
@@ -86,8 +92,11 @@ const SearchScreen = ({navigation, route}: any) => {
             resizeMode="contain"
           />
         </View>
-      ) : null}
-      <TouchableOpacity style={styles.buttonFilter}>
+      )}
+
+      <TouchableOpacity
+        style={styles.buttonFilter}
+        onPress={() => setIsFilter(true)}>
         <Image
           source={require('../../assets/images/filter.png')}
           style={{
@@ -98,6 +107,14 @@ const SearchScreen = ({navigation, route}: any) => {
           tintColor={appColors.white}
         />
       </TouchableOpacity>
+
+      {/* Truyền hàm handleFilterConfirm vào FilterModal */}
+      <FilterModal
+        visible={isFilter}
+        onClose={() => setIsFilter(false)}
+        onConfirm={handleFilterConfirm} // Cập nhật lại danh sách khi bộ lọc được áp dụng
+        shoes={shoesData}
+      />
     </View>
   );
 };

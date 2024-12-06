@@ -57,6 +57,8 @@ import {Shoes} from '../../models/ShoesModel';
 const ProductDetail = ({navigation, route}: any) => {
   const {item: product} = route.params;
 
+  console.log(product);
+
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [isSizeFitCollapsed, setSizeFitCollapsed] = useState(true);

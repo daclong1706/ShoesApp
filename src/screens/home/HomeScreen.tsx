@@ -54,6 +54,9 @@ import Geolocation from '@react-native-community/geolocation';
 import ProductLabel from './components/ProductLabel';
 import productLabelsData from './data/productLabels.json';
 import Video from 'react-native-video';
+import VideoItem from '../events/VideoItem';
+import exploreAPI from '../../apis/exploreAPI';
+import ExploreItem from './components/ExploreItem';
 
 const shuffleArray = (array: any[]) => {
   return array.sort(() => Math.random() - 0.5);
@@ -63,13 +66,15 @@ const HomeScreen = ({navigation}: any) => {
   const [shoes, setShoes] = useState<Shoes[]>([]);
   const [brand, setBrand] = useState<string | null>(null);
   const [currentLocation, setCurrentLocation] = useState<AddressModel>();
-  const [currentVideo, setCurrentVideo] = useState(null);
+  const [currentVideo, setCurrentVideo] = useState<any>(null);
+  const [explores, setExplores] = useState<any[]>([]);
   const videoRefs = useRef([]);
 
   const dispatch = useAppDispatch();
 
   const handleVideoPress = (videoSource: any) => {
-    setCurrentVideo(videoSource);
+    // Nếu video đang phát lại, dừng nó
+    setCurrentVideo(currentVideo === videoSource ? null : videoSource);
   };
 
   useEffect(() => {
@@ -87,6 +92,19 @@ const HomeScreen = ({navigation}: any) => {
     };
 
     getAllProducts();
+  }, []);
+
+  useEffect(() => {
+    const getAllExplores = async () => {
+      try {
+        const res = await exploreAPI.getAllExplores();
+        setExplores(res.data.explores);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    getAllExplores();
   }, []);
 
   const handleBrandSelect = (brandId: string | null) => {
@@ -118,6 +136,11 @@ const HomeScreen = ({navigation}: any) => {
     'nike-black.png': require('../../assets/images/nike-black.png'),
     'nike-pink.png': require('../../assets/images/nike-pink.png'),
     'nike-orange-2.png': require('../../assets/images/nike-orange-2.png'),
+  };
+  const error = console.error;
+  console.error = (...args: any) => {
+    if (/VirtualizedLists/.test(args[0])) return;
+    error(...args);
   };
 
   const randomProductLabels = shuffleArray(productLabelsData).slice(0, 4);
@@ -161,7 +184,7 @@ const HomeScreen = ({navigation}: any) => {
           </View>
           <CircleComponent
             styles={{backgroundColor: appColors.white}}
-            onPress={navigation.navigate('NotificationScreen')}>
+            onPress={() => navigation.navigate('NotificationScreen')}>
             <Notification size={24} color={appColors.black} />
             {/* <View style={styles.notificationDot} /> */}
           </CircleComponent>
@@ -227,100 +250,21 @@ const HomeScreen = ({navigation}: any) => {
           <SpaceComponent line color={appColors.coolGray} />
         </SectionComponent>
         <TabBarComponent title="Explore" hideSeeAll size={20} />
-        <View style={styles.containerVideo}>
-          <TouchableOpacity
-            onPress={() =>
-              handleVideoPress(
-                require('../../assets/videos/Nike-Air-Max-270.mp4'),
-              )
-            }>
-            <Video
-              source={require('../../assets/videos/Nike-Air-Max-270.mp4')}
-              style={styles.backgroundVideo}
-              muted={true}
-              repeat={true}
-              resizeMode="cover"
-              paused={
-                currentVideo !==
-                require('../../assets/videos/Nike-Air-Max-270.mp4')
-              } // Kiểm tra xem video này có phải là video đang phát không
+        <FlatList
+          data={[...explores].sort(() => Math.random() - 0.5).slice(0, 3)}
+          renderItem={({item, index}) => (
+            <ExploreItem
+              videoSource={item.videoSource}
+              title={item.product.name}
+              index={index}
+              currentVideo={currentVideo}
+              handleVideoPress={handleVideoPress}
+              onPress={() => navigation.navigate('DiscoverScreen', {item})}
             />
-          </TouchableOpacity>
-
-          <View style={styles.viewOverlay}>
-            <Text style={styles.textOverlay}>Nike</Text>
-            <Text style={styles.textTitleOverlay}>AIR MAX 270</Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.navigate('DiscoverScreen');
-              }}>
-              <Text style={styles.buttonText}>Khám phá</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.containerVideo}>
-          <TouchableOpacity
-            onPress={() =>
-              handleVideoPress(
-                require('../../assets/videos/Adidas-Ultraboost.mp4'),
-              )
-            }>
-            <Video
-              source={require('../../assets/videos/Adidas-Ultraboost.mp4')}
-              style={styles.backgroundVideo}
-              muted={true}
-              repeat={true}
-              resizeMode="cover"
-              paused={
-                currentVideo !==
-                require('../../assets/videos/Adidas-Ultraboost.mp4')
-              } // Kiểm tra xem video này có phải là video đang phát không
-            />
-          </TouchableOpacity>
-
-          <View style={styles.viewOverlay}>
-            <Text style={styles.textOverlay}>Adidas</Text>
-            <Text style={styles.textTitleOverlay}>Ultraboost</Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.native('DiscoverScreen');
-              }}>
-              <Text style={styles.buttonText}>Khám phá</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.containerVideo}>
-          <TouchableOpacity
-            onPress={() =>
-              handleVideoPress(
-                require('../../assets/videos/Puma-FOREVER-FASTER.mp4'),
-              )
-            }>
-            <Video
-              source={require('../../assets/videos/Puma-FOREVER-FASTER.mp4')}
-              style={styles.backgroundVideo}
-              muted={true}
-              repeat={true}
-              resizeMode="cover"
-              paused={
-                currentVideo !==
-                require('../../assets/videos/Puma-FOREVER-FASTER.mp4')
-              } // Kiểm tra xem video này có phải là video đang phát không
-            />
-          </TouchableOpacity>
-
-          <View style={styles.viewOverlay}>
-            <Text style={styles.textOverlay}>Puma</Text>
-            <Text style={styles.textTitleOverlay}>FOREVER-FASTER</Text>
-            <TouchableOpacity style={styles.button} onPress={() => {}}>
-              <Text style={styles.buttonText}>Xem thêm...</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+          )}
+          keyExtractor={item => item._id}
+          nestedScrollEnabled
+        />
         <SpaceComponent line />
         <View style={styles.footer}>
           <Text style={styles.footerText}>

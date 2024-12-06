@@ -1,9 +1,9 @@
 {
-  "videoSource": "../../assets/videos/NIKE-AIR-MAX-270-KICKS.mp4",
+  "videoSource": "https://res.cloudinary.com/di5s8bfuq/video/upload/v1733500639/dgpzyoxjjtng5f9mfyyw.mp4",
   "product": {
-    "id": "NIKE-026",
-    "name": "NIKE AIR MAX 270",
-    "description": "Nike Air Max 270 mang đến sự thoải mái tuyệt vời với đệm khí Max Air, kết hợp cùng thiết kế hiện đại và phong cách nổi bật.",
+    "id": "NIKE-004",
+    "name": "NIKE Cortez Leather",
+    "description": "Nike Cortez Leather mang đến phong cách cổ điển, được làm từ chất liệu da cao cấp, với thiết kế nhẹ nhàng và thoải mái. Đây là lựa chọn hoàn hảo cho những ai yêu thích sự kết hợp giữa thời trang và sự thoải mái.",
     "images": [
       "https://static.nike.com/a/images/t_prod/w_1920,c_limit,f_auto,q_auto/75c73723-2453-4549-9c68-05c825eebe4b/image.jpg",
       "https://www.joandkemp.com/wp-content/uploads/2018/03/Photo-Mar-10-4-45-18-PM.jpg",
@@ -16,11 +16,13 @@
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaFXfgyo8EeCq01CxdtTUGdmnFZcdY8JSJZg&s",
       "https://www.elleman.vn/app/uploads/2018/03/26/Nike-Air-Max-270-elle-man-feature-image.jpg"
     ],
-    "colorsAndStyles": {
-      "description": "Nike Air Max 270 có nhiều màu sắc đa dạng, phù hợp với mọi phong cách, giúp bạn dễ dàng phối đồ và thể hiện cá tính."
+    "detail": {
+      "title": "Phong Cách Cổ Điển & Chất Liệu Da",
+      "description": "Nike Cortez Leather mang đến phong cách cổ điển với thiết kế đơn giản nhưng ấn tượng, kết hợp cùng chất liệu da cao cấp bền bỉ và dễ dàng vệ sinh."
     },
     "highlight": {
-      "description": "Nike Air Max 270 mang đến cảm giác bước trên mây với đệm khí Max Air, giúp từng bước đi trở nên êm ái và nhẹ nhàng."
+      "title": "Sự Tiện Dụng & Thoải Mái",
+      "description": "Được trang bị đệm giày êm ái và độ bám tốt, Nike Cortez Leather mang đến sự thoải mái trong mọi bước di chuyển, thích hợp cho cả đi bộ và chạy bộ nhẹ."
     }
   }
 }
