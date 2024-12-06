@@ -35,6 +35,7 @@ import {
 import {
   ArrowRight,
   Menu,
+  Notification,
   SearchNormal1,
   ShoppingBag,
 } from 'iconsax-react-native';
@@ -158,9 +159,11 @@ const HomeScreen = ({navigation}: any) => {
               <TextComponent text=" Ho Chi Minh City, Viet Nam" />
             </RowComponent>
           </View>
-          <CircleComponent styles={{backgroundColor: appColors.white}}>
-            <ShoppingBag size={24} color={appColors.black} />
-            <View style={styles.notificationDot} />
+          <CircleComponent
+            styles={{backgroundColor: appColors.white}}
+            onPress={navigation.navigate('NotificationScreen')}>
+            <Notification size={24} color={appColors.black} />
+            {/* <View style={styles.notificationDot} /> */}
           </CircleComponent>
         </RowComponent>
         <RowComponent styles={{marginVertical: 20}}>
@@ -334,8 +337,8 @@ const SeeAllButton = ({onPress}: {onPress: () => void}) => (
   <ShoesCard
     onPress={onPress}
     styles={{
-      height: 295,
-      maxHeight: 295,
+      height: 300,
+      maxHeight: 300,
       justifyContent: 'center',
       alignItems: 'center',
       width: appInfo.sizes.WIDTH * 0.4,

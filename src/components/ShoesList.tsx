@@ -82,22 +82,21 @@ const ShoesList = (props: Props) => {
     setIsLoading(true);
     setIsFavorite(newFavoriteStatus);
     if (newFavoriteStatus) {
-      await dispatch(addFavoriteItem(item.productId));
       Toast.show({
         type: 'success',
         text1: 'Đã thêm vào yêu thích',
         position: 'top',
         visibilityTime: 2000,
       });
+      await dispatch(addFavoriteItem(item.productId));
     } else {
-      await dispatch(removeFavoriteItem(item.productId));
-
       Toast.show({
         type: 'info',
         text1: 'Đã xóa khỏi yêu thích',
         position: 'top',
         visibilityTime: 2000,
       });
+      await dispatch(removeFavoriteItem(item.productId));
     }
     setIsLoading(false);
   };
@@ -206,7 +205,7 @@ const ShoesList = (props: Props) => {
           />
         </RowComponent>
       </RowComponent>
-      <LoadingModal visible={isLoading} />
+      {/* <LoadingModal visible={isLoading} /> */}
     </ShoesCard>
   );
 };

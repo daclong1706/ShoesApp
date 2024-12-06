@@ -1,5 +1,5 @@
 // src/screens/EventScreen.tsx
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,36 +10,43 @@ import {
 import {ContainerComponent} from '../../components';
 import Carousel from 'react-native-reanimated-carousel';
 import VideoItem from './VideoItem';
+import exploreAPI from '../../apis/exploreAPI';
+import {useFocusEffect} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
 
 const EventScreen = ({navigation}: any) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [muted, setMuted] = useState<boolean>(false);
+  const [explores, setExplores] = useState<any[]>([]);
 
-  // Dữ liệu video
-  const videos = [
-    {
-      uri: require('../../assets/videos/Nike-Air-Max-270.mp4'),
-      title: 'AIR MAX 270',
-      brand: 'Nike',
-    },
-    {
-      uri: require('../../assets/videos/Adidas-Ultraboost.mp4'),
-      title: 'Ultraboost',
-      brand: 'Adidas',
-    },
-    {
-      uri: require('../../assets/videos/Puma-FOREVER-FASTER.mp4'),
-      title: 'FOREVER-FASTER',
-      brand: 'Puma',
-    },
-    // Thêm các video khác vào đây
-  ];
+  useEffect(() => {
+    const getAllExplores = async () => {
+      try {
+        const res = await exploreAPI.getAllExplores();
+        setExplores(res.data.explores);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    getAllExplores();
+  }, []);
 
   const toggleMute = () => {
     setMuted(!muted); // Đảo ngược trạng thái muted
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setMuted(false); // Đặt trạng thái muted là true khi màn hình mất focus
+
+      return () => {
+        // Cleanup function when screen loses focus
+        setMuted(true); // Khôi phục lại trạng thái âm thanh khi màn hình lại focus
+      };
+    }, []),
+  );
 
   return (
     <ContainerComponent back title="Khám phá">
@@ -49,19 +56,18 @@ const EventScreen = ({navigation}: any) => {
           width={width}
           height={height}
           autoPlay={false}
-          data={videos}
+          data={explores}
           vertical={true}
           onSnapToItem={(index: number) => setCurrentIndex(index)} // Cập nhật chỉ số video đang hiển thị
           renderItem={({index, item}: any) => (
             <VideoItem
-              videoSource={item.uri}
-              title={item.title}
-              brand={item.brand}
+              videoSource={item.videoSource}
+              title={item.product.name}
               currentIndex={currentIndex}
-              index={index} // Truyền chỉ số video hiện tại vào
-              muted={muted} // Truyền trạng thái muted vào
-              onPress={() => navigation.navigate('DiscoverScreen')}
-              toggleMute={toggleMute} // Truyền hàm toggleMute vào
+              index={index}
+              muted={muted}
+              onPress={() => navigation.navigate('DiscoverScreen', {item})}
+              toggleMute={toggleMute}
             />
           )}
         />

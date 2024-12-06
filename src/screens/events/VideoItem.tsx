@@ -8,7 +8,6 @@ import {VolumeCross, VolumeHigh} from 'iconsax-react-native';
 interface VideoItemProps {
   videoSource: any;
   title: string;
-  brand: string;
   onPress: () => void;
   currentIndex: number;
   index: number;
@@ -19,27 +18,43 @@ interface VideoItemProps {
 const VideoItem: React.FC<VideoItemProps> = ({
   videoSource,
   title,
-  brand,
   onPress,
   currentIndex,
   index,
   muted,
   toggleMute,
 }) => {
+  const splitBrandAndProduct = (productName: string, type: number) => {
+    const parts = productName.split(' ');
+
+    const brand = parts[0];
+
+    const product = parts.slice(1).join(' ');
+
+    if (type === 0) {
+      return brand;
+    } else if (type === 1) {
+      return product;
+    } else {
+      return null;
+    }
+  };
   return (
     <View style={styles.containerVideo}>
       <Video
-        source={videoSource}
+        source={{uri: videoSource}}
         style={styles.backgroundVideo}
-        muted={muted} // Điều khiển âm thanh từ prop muted
+        muted={muted}
         repeat={true}
         resizeMode="cover"
         paused={currentIndex !== index} // Dừng video nếu không phải video đang hiển thị
       />
 
       <View style={styles.viewOverlay}>
-        <Text style={styles.textOverlay}>{brand}</Text>
-        <Text style={styles.textTitleOverlay}>{title}</Text>
+        <Text style={styles.textOverlay}>{splitBrandAndProduct(title, 0)}</Text>
+        <Text style={styles.textTitleOverlay}>
+          {splitBrandAndProduct(title, 1)}
+        </Text>
         <TouchableOpacity style={styles.button} onPress={onPress}>
           <Text style={styles.buttonText}>Khám phá</Text>
         </TouchableOpacity>

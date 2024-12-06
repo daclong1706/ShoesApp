@@ -1,6 +1,6 @@
-import {Camera, Image, Link} from 'iconsax-react-native';
 import React, {ReactNode, useRef, useState} from 'react';
 import {View, Modal, StyleSheet, TouchableOpacity} from 'react-native';
+import {Camera, Image, Link} from 'iconsax-react-native';
 import ImageCropPicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
@@ -13,6 +13,7 @@ import {globalStyles} from '../styles/globalStyles';
 import {appInfo} from '../constants/appInfos';
 import InputComponent from './InputComponent';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useFocusEffect} from '@react-navigation/native'; // Import useFocusEffect to close modal when focus changes
 
 interface Props {
   onSelect: (val: {type: 'url' | 'file'; value: string | ImageOrVideo}) => void;
@@ -41,8 +42,10 @@ const ImagePicker = ({onSelect}: Props) => {
     },
   ];
 
+  // Handle open modal
   const handleOpenModal = () => modalizeRef.current?.open();
 
+  // Render modal options
   const renderItem = (item: {icon: ReactNode; key: string; title: string}) => (
     <RowComponent
       key={item.key}
@@ -54,6 +57,7 @@ const ImagePicker = ({onSelect}: Props) => {
     </RowComponent>
   );
 
+  // Handle image choice
   const handleChoiceImage = (key: string) => {
     switch (key) {
       case 'camera':
@@ -62,7 +66,9 @@ const ImagePicker = ({onSelect}: Props) => {
           height: 400,
           cropping: true,
           mediaType: 'photo',
-        }).then(res => onSelect({type: 'file', value: res}));
+        })
+          .then(res => onSelect({type: 'file', value: res}))
+          .catch(() => {});
         break;
       case 'library':
         ImageCropPicker.openPicker({
@@ -70,7 +76,9 @@ const ImagePicker = ({onSelect}: Props) => {
           height: 400,
           cropping: true,
           mediaType: 'photo',
-        }).then(res => onSelect({type: 'file', value: res}));
+        })
+          .then(res => onSelect({type: 'file', value: res}))
+          .catch(() => {});
         break;
       case 'url':
         setIsVisibleModelAddUrl(true);
@@ -81,6 +89,7 @@ const ImagePicker = ({onSelect}: Props) => {
     modalizeRef.current?.close();
   };
 
+  // Handle URL submission
   const handleUrlSubmit = () => {
     if (imageUrl) {
       onSelect({type: 'url', value: imageUrl});
@@ -88,12 +97,18 @@ const ImagePicker = ({onSelect}: Props) => {
     }
   };
 
+  // Close modal when focus changes (useFocusEffect)
+  useFocusEffect(
+    React.useCallback(() => {
+      setIsVisibleModelAddUrl(false); // Close modal when screen loses focus
+      return () => {
+        setIsVisibleModelAddUrl(false); // Cleanup when screen gains focus again
+      };
+    }, []),
+  );
+
   return (
-    <View
-      style={{
-        position: 'absolute',
-        bottom: -60,
-      }}>
+    <View style={{position: 'absolute', bottom: -60}}>
       <TouchableOpacity
         onPress={handleOpenModal}
         style={{

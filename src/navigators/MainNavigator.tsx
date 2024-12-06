@@ -11,6 +11,7 @@ import {
   ChooseAddressScreen,
   ChooseShippingScreen,
   MasterCardScreen,
+  NotificationScreen,
   OrderDetailScreen,
   OrderListScreen,
   PaymentMethod,
@@ -31,8 +32,11 @@ const MainNavigator = () => {
           <Stack.Screen name="Order" component={OrderListScreen} />
           <Stack.Screen name="OrderDetail" component={OrderDetailScreen} />
 
-          {/* <Stack.Screen name="Notification" component={NotificationScreen} />
-      <Stack.Screen name="Setting" component={SettingScreen} /> */}
+          <Stack.Screen
+            name="NotificationScreen"
+            component={NotificationScreen}
+          />
+          {/* <Stack.Screen name="Setting" component={SettingScreen} /> */}
         </Stack.Navigator>
       </Host>
     </GestureHandlerRootView>

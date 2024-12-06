@@ -1,14 +1,24 @@
-import {View, Text, StyleSheet, FlatList} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import {ArrowLeft, SearchNormal1} from 'iconsax-react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
   ContainerComponent,
   InputComponent,
+  RowComponent,
   ShoesList,
   TextComponent,
 } from '../../components';
-import {SearchNormal1} from 'iconsax-react-native';
 import {appColors} from '../../constants/appColor';
 import {Shoes} from '../../models/ShoesModel';
+import {fontFamilies} from '../../constants/fontFamilies';
+import ShoeSearch from './components/ShoeSearch';
 
 const SearchScreen = ({navigation, route}: any) => {
   const {shoes: shoesData} = route.params;
@@ -30,7 +40,15 @@ const SearchScreen = ({navigation, route}: any) => {
 
   return (
     <View style={styles.container}>
-      <View style={{padding: 12, marginBottom: 12}}>
+      <RowComponent styles={{marginTop: 12}}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={[styles.button, {marginRight: 12}]}>
+          <ArrowLeft size={24} color={appColors.text} />
+        </TouchableOpacity>
+        <TextComponent text="Tìm kiếm" font={fontFamilies.medium} size={16} />
+      </RowComponent>
+      <View style={{paddingHorizontal: 12, marginBottom: 12}}>
         <InputComponent
           value={search}
           placeholder="Nhập tên giày bạn muốn tìm..."
@@ -45,16 +63,41 @@ const SearchScreen = ({navigation, route}: any) => {
         <FlatList
           data={filteredShoes} // Hiển thị sản phẩm đã lọc
           renderItem={({item, index}) => (
-            <ShoesList key={`Shoes ${index}`} item={item} type="card" />
+            <ShoeSearch key={`Shoes ${index}`} item={item} />
           )}
           keyExtractor={item => item.productId}
-          numColumns={2}
           nestedScrollEnabled
           showsVerticalScrollIndicator={false}
         />
       ) : search ? (
-        <Text style={styles.noResultsText}>Không tìm thấy sản phẩm nào.</Text>
+        <View
+          style={{
+            alignItems: 'center',
+          }}>
+          <TextComponent text="Không tìm thấy sản phẩm tương ứng" />
+          <Image
+            source={require('../../assets/images/no-item.png')}
+            style={{
+              width: 250,
+              height: 250,
+              marginTop: 100,
+              marginBottom: 50,
+            }}
+            resizeMode="contain"
+          />
+        </View>
       ) : null}
+      <TouchableOpacity style={styles.buttonFilter}>
+        <Image
+          source={require('../../assets/images/filter.png')}
+          style={{
+            width: 32,
+            height: 32,
+          }}
+          resizeMode="contain"
+          tintColor={appColors.white}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -63,6 +106,7 @@ export default SearchScreen;
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
     flex: 1,
     padding: 12,
     backgroundColor: 'white',
@@ -72,5 +116,19 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 16,
     color: appColors.darkGray,
+  },
+  button: {
+    borderRadius: 50,
+    backgroundColor: appColors.white,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+  },
+  buttonFilter: {
+    backgroundColor: appColors.primary,
+    position: 'absolute',
+    right: 32,
+    bottom: 42,
+    padding: 12,
+    borderRadius: 36,
   },
 });

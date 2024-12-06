@@ -156,7 +156,7 @@ const ProfileScreen = () => {
           text="Logout"
           onPress={handleLogout}
           type="primary"
-          color={appColors.danger}
+          // color={appColors.danger}
           icon={<LogoutCurve size={24} color={appColors.white} />}
           iconFlex="left"
         />

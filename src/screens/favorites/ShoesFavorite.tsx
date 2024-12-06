@@ -6,20 +6,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Toast from 'react-native-toast-message';
 import Octicons from 'react-native-vector-icons/Octicons';
 import {RowComponent, SpaceComponent, TextComponent} from '../../components';
 import {appColors} from '../../constants/appColor';
 import {appInfo} from '../../constants/appInfos';
 import {fontFamilies} from '../../constants/fontFamilies';
-import {LoadingModal} from '../../modals';
 import {Shoes} from '../../models/ShoesModel';
-import {useAppDispatch, useAppSelector} from '../../stores/hook';
-import {
-  addFavoriteItem,
-  favoriteSelectorID,
-  removeFavoriteItem,
-} from '../../stores/reducers/favoriteSlice';
+import {useAppSelector} from '../../stores/hook';
+import {favoriteSelectorID} from '../../stores/reducers/favoriteSlice';
 
 interface Props {
   item: Shoes;
@@ -28,8 +22,6 @@ interface Props {
 
 const ShoesFavorite = (props: Props) => {
   const {item, onFavorite} = props;
-
-  const dispatch = useAppDispatch();
   const favorites = useAppSelector(favoriteSelectorID);
 
   // State
@@ -136,7 +128,6 @@ const styles = StyleSheet.create({
     width: appInfo.sizes.WIDTH,
     height: appInfo.sizes.WIDTH * 0.9,
     backgroundColor: appColors.white,
-
     marginVertical: 6,
     marginBottom: 16,
   },
@@ -146,24 +137,5 @@ const styles = StyleSheet.create({
     height: appInfo.sizes.WIDTH * 0.9,
     padding: 10,
     resizeMode: 'cover',
-  },
-  colorScrollView: {
-    maxWidth: appInfo.sizes.WIDTH * 0.25,
-    height: 30,
-  },
-  colorCircle: {
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    borderWidth: 1,
-    marginHorizontal: 4,
-  },
-  addButton: {
-    backgroundColor: appColors.primary,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });

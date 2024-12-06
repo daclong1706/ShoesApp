@@ -38,7 +38,7 @@ const ContainerComponent = (props: Props) => {
               paddingHorizontal: 26,
               paddingVertical: 16,
               minWidth: 48,
-              minHeight: 48,
+              minHeight: 44,
             }}>
             {back && (
               <RowComponent>

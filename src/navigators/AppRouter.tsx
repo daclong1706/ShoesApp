@@ -10,7 +10,6 @@ const AppRouter = () => {
   const [isShowSplash, setIsShowSplash] = useState(true);
   const {getItem} = useAsyncStorage('auth');
   const auth = useSelector(authSelector);
-  console.log('Auth: ', auth);
   const dispatch = useDispatch();
 
   useEffect(() => {

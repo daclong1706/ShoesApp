@@ -11,28 +11,28 @@ import React, {useEffect, useState} from 'react';
 import {ArrowLeft, VolumeCross, VolumeHigh} from 'iconsax-react-native';
 import {appColors} from '../../constants/appColor';
 import {useNavigation} from '@react-navigation/native';
-import {ButtonComponent, RowComponent, SpaceComponent} from '../../components';
+import {
+  ButtonComponent,
+  FooterComponent,
+  RowComponent,
+  SpaceComponent,
+} from '../../components';
 import Video from 'react-native-video';
 import Swiper from 'react-native-swiper';
 import {useAppDispatch} from '../../stores/hook';
 import productAPI from '../../apis/productAPI';
 import {Shoes} from '../../models/ShoesModel';
+import {fontFamilies} from '../../constants/fontFamilies';
 
-const images = [
-  'https://static.nike.com/a/images/t_prod/w_1920,c_limit,f_auto,q_auto/75c73723-2453-4549-9c68-05c825eebe4b/image.jpg',
-  'https://www.joandkemp.com/wp-content/uploads/2018/03/Photo-Mar-10-4-45-18-PM.jpg',
-  'https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/1952de1b-fc7a-4bab-a0a8-00554bd13c5d/W+AIR+MAX+270.png',
-];
-
-const DiscoverScreen = () => {
+const DiscoverScreen = ({navigation, route}: any) => {
+  const {item} = route.params;
   const [muted, setMuted] = useState(false);
-  const navigation: any = useNavigation();
   const [shoes, setShoes] = useState<Shoes>();
-
+  console.log(item.product.detail.title);
   const getProduct = async () => {
     try {
       // Giả sử 'NIKE-026' là productId bạn cần lấy
-      const product = await productAPI.getProductById('NIKE-026');
+      const product = await productAPI.getProductById(item.product.id);
       setShoes(product.data.shoes); // Cập nhật state shoes nếu cần, nhưng không dùng ngay lập tức
       setMuted(true);
       // Truyền trực tiếp sản phẩm lấy được vào navigation
@@ -41,6 +41,8 @@ const DiscoverScreen = () => {
       console.error('Lỗi khi lấy sản phẩm:', error);
     }
   };
+
+  const images = item.product.images;
 
   return (
     <View style={styles.container}>
@@ -60,7 +62,7 @@ const DiscoverScreen = () => {
       <ScrollView>
         <View style={styles.containerVideo}>
           <Video
-            source={require('../../assets/videos/NIKE-AIR-MAX-270-KICKS.mp4')}
+            source={{uri: item.videoSource}}
             style={styles.backgroundVideo}
             repeat={true}
             resizeMode="cover"
@@ -80,44 +82,41 @@ const DiscoverScreen = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.context}>
-          <Text style={styles.title}>NIKE AIR MAX 270</Text>
-          <Text style={styles.text}>
-            Nike Air Max 270 mang đến sự thoải mái tuyệt vời với đệm khí Max
-            Air, kết hợp cùng thiết kế hiện đại và phong cách nổi bật.
-          </Text>
+          <Text style={styles.title}>{item.product.name}</Text>
+          <Text style={styles.text}>{item.product.description}</Text>
         </View>
 
         <View style={{marginVertical: 100}}>
           <Image
             source={{
-              uri: 'https://static.nike.com/a/images/t_prod/w_1920,c_limit,f_auto,q_auto/ad80fcdc-ea4c-4d5f-9a38-8f16bbc43b0c/image.jpg',
+              uri: item.product.additionalImages[0],
             }}
             style={{width: '100%', height: 250}}
           />
           <RowComponent>
             <Image
               source={{
-                uri: 'https://images.tokopedia.net/img/cache/700/product-1/2019/9/9/6770312/6770312_c30a3637-f421-49c1-98a2-d759e07e5fba_800_800',
+                uri: item.product.additionalImages[1],
               }}
               style={{width: '50%', height: 250}}
             />
             <View style={{flex: 1}}>
               <Image
                 source={{
-                  uri: 'https://www.jordan1.vn/wp-content/uploads/2023/09/untitled_design_-_2022-08-17t135032.995_131a2fd4aa6145a689cc1054e286de05_1024x1024.png',
+                  uri: item.product.additionalImages[2],
                 }}
                 style={{width: '100%', height: 125}}
               />
               <RowComponent>
                 <Image
                   source={{
-                    uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaFXfgyo8EeCq01CxdtTUGdmnFZcdY8JSJZg&s',
+                    uri: item.product.additionalImages[3],
                   }}
                   style={{width: '50%', height: 125}}
                 />
                 <Image
                   source={{
-                    uri: 'https://www.elleman.vn/app/uploads/2018/03/26/Nike-Air-Max-270-elle-man-feature-image.jpg',
+                    uri: item.product.additionalImages[4],
                   }}
                   style={{width: '50%', height: 125}}
                 />
@@ -127,11 +126,8 @@ const DiscoverScreen = () => {
         </View>
 
         <View style={styles.context}>
-          <Text style={styles.section}>Màu Sắc & Phong Cách</Text>
-          <Text style={styles.text}>
-            Nike Air Max 270 có nhiều màu sắc đa dạng, phù hợp với mọi phong
-            cách, giúp bạn dễ dàng phối đồ và thể hiện cá tính.
-          </Text>
+          <Text style={styles.section}>{item.product.detail.title}</Text>
+          <Text style={styles.text}>{item.product.detail.description}</Text>
         </View>
 
         <Swiper
@@ -160,11 +156,8 @@ const DiscoverScreen = () => {
         </Swiper>
 
         <View style={[styles.context, {marginVertical: 80}]}>
-          <Text style={styles.section}>Nổi bật</Text>
-          <Text style={styles.text}>
-            Nike Air Max 270 mang đến cảm giác bước trên mây với đệm khí Max
-            Air, giúp từng bước đi trở nên êm ái và nhẹ nhàng.
-          </Text>
+          <Text style={styles.section}>{item.product.highlight.title}</Text>
+          <Text style={styles.text}>{item.product.highlight.description}</Text>
         </View>
         <View style={[styles.context, {marginBottom: 40}]}>
           <ButtonComponent
@@ -173,12 +166,7 @@ const DiscoverScreen = () => {
             onPress={getProduct}
           />
         </View>
-        <SpaceComponent line />
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
-            © 2024 Đắc Long. All Rights Reserved.
-          </Text>
-        </View>
+        <FooterComponent />
       </ScrollView>
     </View>
   );
@@ -217,11 +205,15 @@ const styles = StyleSheet.create({
   },
   section: {
     color: appColors.primary,
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 26,
     marginVertical: 24,
+    fontFamily: 'YanoneKaffeesatz-Medium',
   },
-  text: {color: appColors.primary, fontSize: 18},
+  text: {
+    color: appColors.primary,
+    fontSize: 18,
+    fontFamily: fontFamilies.regular,
+  },
   swiper: {
     height: 500,
     marginTop: 100,
@@ -230,13 +222,5 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 500,
     resizeMode: 'cover',
-  },
-  footer: {
-    padding: 10,
-    alignItems: 'center',
-  },
-  footerText: {
-    color: '#000',
-    fontSize: 12,
   },
 });

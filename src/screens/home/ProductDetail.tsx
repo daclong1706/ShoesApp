@@ -152,30 +152,26 @@ const ProductDetail = ({navigation, route}: any) => {
   // Back in Stock
   // Top Rated
 
-  const handleAddToFavorite = () => {
+  const handleAddToFavorite = async () => {
     // Đảo trạng thái yêu thích
     const newFavoriteStatus = !isFavorite;
     setIsFavorite(newFavoriteStatus);
     if (newFavoriteStatus) {
-      setIsLoading(true);
-      dispatch(addFavoriteItem(product.productId));
-      setIsLoading(false);
       Toast.show({
         type: 'success',
         text1: 'Đã thêm vào yêu thích',
         position: 'top',
         visibilityTime: 2000,
       });
+      await dispatch(addFavoriteItem(product.productId));
     } else {
-      setIsLoading(true);
-      dispatch(removeFavoriteItem(product.productId));
-      setIsLoading(false);
       Toast.show({
         type: 'info',
         text1: 'Đã xóa khỏi yêu thích',
         position: 'top',
         visibilityTime: 2000,
       });
+      await dispatch(removeFavoriteItem(product.productId));
     }
   };
 
@@ -249,19 +245,6 @@ const ProductDetail = ({navigation, route}: any) => {
     }
   };
 
-  const goBack = () => {
-    const routes = navigation.getState().routes; // Lấy tất cả các route trong stack
-    const lastRoute = routes[routes.length - 1]; // Lấy route cuối cùng trong stack
-    console.log('Route: ', routes);
-    if (lastRoute.name === 'FavoriteScreen') {
-      // Nếu màn hình trước là 'Favorite', dùng goBack()
-      navigation.popToTop();
-    } else {
-      // Nếu không, popToTop() để quay lại 'Favorite'
-      navigation.goBack();
-    }
-  };
-
   return (
     <>
       <View style={{flex: 1, backgroundColor: '#FFF'}}>
@@ -269,7 +252,7 @@ const ProductDetail = ({navigation, route}: any) => {
         <View style={[styles.headerContainer, globalStyles.shadow]}>
           <RowComponent styles={{padding: 16}}>
             <TouchableOpacity
-              onPress={goBack}
+              onPress={() => navigation.goBack()}
               style={[styles.button, {marginRight: 12}]}>
               <ArrowLeft size={24} color={appColors.text} />
             </TouchableOpacity>
@@ -598,9 +581,7 @@ const ProductDetail = ({navigation, route}: any) => {
               horizontal
               showsHorizontalScrollIndicator={false}
               data={shoes}
-              renderItem={({item, index}) => (
-                <ShoesSimilar item={item} type="card" />
-              )}
+              renderItem={({item, index}) => <ShoesSimilar item={item} />}
               keyExtractor={(item, index) => `${item.productId}-${index}`}
               nestedScrollEnabled
               maxToRenderPerBatch={5} // Số item tối đa render cùng lúc
