@@ -20,7 +20,7 @@ import EditProfile from './profiles/EditProfile';
 import OrderListScreen from './orders/OrderListScreen';
 import AddressList from './profiles/AddressList';
 import AddAddress from './profiles/AddAddress';
-import NotificationSettings from './profiles/NotificationSettings';
+import SettingScreen from './profiles/SettingScreen';
 import ChangePasswordScreen from './profiles/ChangePasswordScreen';
 import PrivacyPolicyScreen from './profiles/PrivacyPolicyScreen';
 import CheckoutScreen from './cart/CheckoutScreen';
@@ -35,6 +35,8 @@ import OrderCancel from '../modals/OrderCancel';
 import DiscoverScreen from './home/DiscoverScreen';
 import CashScreen from './cart/CashScreen';
 import MapScreen from './profiles/MapScreen';
+import EditAddress from './profiles/EditAddress';
+import MapEditScreen from './profiles/MapEditScreen';
 
 export {
   HomeScreen,
@@ -59,7 +61,7 @@ export {
   OrderListScreen,
   AddressList,
   AddAddress,
-  NotificationSettings,
+  SettingScreen,
   ChangePasswordScreen,
   PrivacyPolicyScreen,
   CheckoutScreen,
@@ -74,4 +76,6 @@ export {
   DiscoverScreen,
   CashScreen,
   MapScreen,
+  EditAddress,
+  MapEditScreen,
 };

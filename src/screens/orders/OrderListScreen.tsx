@@ -11,6 +11,7 @@ import {
 import {appColors} from '../../constants/appColor';
 import {useAppDispatch, useAppSelector} from '../../stores/hook';
 import {fetchOrders, ordersSelector} from '../../stores/reducers/orderSlice';
+import {fontFamilies} from '../../constants/fontFamilies';
 const OrderListScreen = () => {
   const dispatch = useAppDispatch();
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -26,16 +27,38 @@ const OrderListScreen = () => {
   // Render item trong FlatList
   const renderItem = ({item}: {item: any}) => (
     <View style={styles.cardContainer}>
-      <Text style={styles.productName}>ID : {item._id}</Text>
       <RowComponent styles={styles.text}>
-        <TextComponent text="Tổng tiền: " />
+        <TextComponent
+          styles={styles.title}
+          text={`Mã hóa đơn: `}
+          font={fontFamilies.bold}
+          size={16}
+        />
+        <TextComponent text={`${item._id}`} styles={styles.totalPrice} />
+      </RowComponent>
+      <RowComponent styles={styles.text}>
+        <TextComponent text="Người nhận: " styles={styles.title} />
+        <TextComponent
+          text={`${item.shippingAddress.name}`}
+          styles={styles.totalPrice}
+        />
+      </RowComponent>
+      <RowComponent styles={styles.text}>
+        <TextComponent text="Người nhận: " styles={styles.title} />
+        <TextComponent
+          text={`${item.shippingAddress.street}, ${item.shippingAddress.address}`}
+          styles={styles.totalPrice}
+        />
+      </RowComponent>
+      <RowComponent styles={styles.text}>
+        <TextComponent text="Tổng tiền: " styles={styles.title} />
         <TextComponent
           text={`${item.totalAmount.toLocaleString()} đ`}
           styles={styles.totalPrice}
         />
       </RowComponent>
       <RowComponent styles={styles.text}>
-        <TextComponent text="Ngày đặt: " />
+        <TextComponent text="Ngày đặt: " styles={styles.title} />
         <TextComponent
           text={`${item.orderDate.split('T')[0]}`}
           styles={styles.totalPrice}
@@ -80,6 +103,7 @@ const OrderListScreen = () => {
             setSelectedIndex(nativeEvent.selectedSegmentIndex)
           }
           backgroundColor={appColors.white}
+          fontStyle={{fontFamily: fontFamilies.medium}}
         />
         <View style={styles.borderBottom}></View>
       </View>
@@ -111,7 +135,7 @@ const OrderListScreen = () => {
               }}
               resizeMode="contain"
             />
-            <Text>Hiện tại bạn không có đơn đặt hàng nào</Text>
+            <TextComponent text="Hiện tại bạn không có đơn đặt hàng nào" />
           </View>
         )}
       </View>
@@ -123,6 +147,7 @@ export default OrderListScreen;
 
 const styles = StyleSheet.create({
   text: {
+    alignItems: 'flex-start',
     marginVertical: 4,
     fontSize: 16,
   },
@@ -159,9 +184,14 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: 'center',
   },
+  title: {
+    fontSize: 16,
+    color: appColors.primary,
+    fontFamily: fontFamilies.medium,
+  },
   totalPrice: {
     fontSize: 16,
-    fontWeight: 'bold',
     color: appColors.primary,
+    fontFamily: fontFamilies.regular,
   },
 });

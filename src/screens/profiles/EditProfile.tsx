@@ -120,7 +120,7 @@ const EditProfileScreen = ({navigation}: any) => {
 
         {/* Email - Không thể chỉnh sửa */}
         <View style={styles.inputRow}>
-          <Text>{email}</Text>
+          <TextComponent text={email} color={appColors.gray} />
           <Sms size={20} color={appColors.primary} />
         </View>
 
@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     marginBottom: 15,
+    fontFamily: fontFamilies.regular,
   },
   inputRow: {
     flexDirection: 'row',

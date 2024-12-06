@@ -1,6 +1,6 @@
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Add, Heart} from 'iconsax-react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ImageBackground,
   ScrollView,
@@ -21,6 +21,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   addFavoriteItem,
   favoriteSelectorID,
+  loadFavoriteDetails,
   loadFavorites,
   removeFavoriteItem,
 } from '../stores/reducers/favoriteSlice';
@@ -29,6 +30,7 @@ import Toast from 'react-native-toast-message';
 import Octicons from 'react-native-vector-icons/Octicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import SpaceComponent from './SpaceComponent';
+import {LoadingModal} from '../modals';
 interface Props {
   item: Shoes;
   type: 'card' | 'list';
@@ -43,6 +45,7 @@ const ShoesList = (props: Props) => {
   // State
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Định dạng giá tiền
   const formatPrice = (price: number) => {
@@ -73,27 +76,30 @@ const ShoesList = (props: Props) => {
     setIsFavorite(isFavorited);
   }, [favorites, item.productId]);
 
-  const handleAddToFavorite = () => {
+  const handleAddToFavorite = async () => {
     // Đảo trạng thái yêu thích
     const newFavoriteStatus = !isFavorite;
+    setIsLoading(true);
     setIsFavorite(newFavoriteStatus);
     if (newFavoriteStatus) {
-      dispatch(addFavoriteItem(item.productId));
+      await dispatch(addFavoriteItem(item.productId));
       Toast.show({
         type: 'success',
         text1: 'Đã thêm vào yêu thích',
-        position: 'bottom',
+        position: 'top',
         visibilityTime: 2000,
       });
     } else {
-      dispatch(removeFavoriteItem(item.productId));
+      await dispatch(removeFavoriteItem(item.productId));
+
       Toast.show({
         type: 'info',
         text1: 'Đã xóa khỏi yêu thích',
-        position: 'bottom',
+        position: 'top',
         visibilityTime: 2000,
       });
     }
+    setIsLoading(false);
   };
 
   return (
@@ -200,6 +206,7 @@ const ShoesList = (props: Props) => {
           />
         </RowComponent>
       </RowComponent>
+      <LoadingModal visible={isLoading} />
     </ShoesCard>
   );
 };

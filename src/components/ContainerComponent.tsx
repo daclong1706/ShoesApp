@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import {ArrowLeft2} from 'iconsax-react-native';
+import {ArrowLeft, ArrowLeft2} from 'iconsax-react-native';
 import React, {ReactNode} from 'react';
 import {
   ImageBackground,
@@ -44,12 +44,8 @@ const ContainerComponent = (props: Props) => {
               <RowComponent>
                 <TouchableOpacity
                   onPress={onPress ? onPress : () => navigation.goBack()}
-                  style={[
-                    styles.button,
-                    globalStyles.shadow,
-                    {marginRight: 12},
-                  ]}>
-                  <ArrowLeft2 size={24} color={appColors.text} />
+                  style={[styles.button, {marginRight: 12}]}>
+                  <ArrowLeft size={24} color={appColors.text} />
                 </TouchableOpacity>
               </RowComponent>
             )}

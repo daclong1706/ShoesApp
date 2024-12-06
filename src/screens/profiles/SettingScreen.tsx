@@ -23,7 +23,7 @@ const initialSettings: NotificationSetting[] = [
   {id: 'tips', label: 'Mẹo mới có sẵn', value: false},
 ];
 
-const NotificationSettings = () => {
+const SettingScreen = () => {
   const [settings, setSettings] =
     useState<NotificationSetting[]>(initialSettings);
 
@@ -37,7 +37,7 @@ const NotificationSettings = () => {
 
   const loadSettings = async () => {
     try {
-      const savedSettings = await AsyncStorage.getItem('notificationSettings');
+      const savedSettings = await AsyncStorage.getItem('Settings');
       if (savedSettings) {
         setSettings(JSON.parse(savedSettings));
       }
@@ -48,10 +48,7 @@ const NotificationSettings = () => {
 
   const saveSettings = async () => {
     try {
-      await AsyncStorage.setItem(
-        'notificationSettings',
-        JSON.stringify(settings),
-      );
+      await AsyncStorage.setItem('Settings', JSON.stringify(settings));
     } catch (error) {
       console.error('Không thể lưu cài đặt:', error);
     }
@@ -94,4 +91,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NotificationSettings;
+export default SettingScreen;

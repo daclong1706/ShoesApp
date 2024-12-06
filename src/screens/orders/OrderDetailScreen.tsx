@@ -143,7 +143,11 @@ const OrderDetailScreen = ({navigation, route}: any) => {
         isScroll
         onPress={handleBack}>
         <View style={styles.container}>
-          <Text style={styles.title}>Thông tin hóa đơn</Text>
+          <TextComponent
+            text="Thông tin hóa đơn"
+            size={16}
+            font={fontFamilies.medium}
+          />
           <SpaceComponent line />
           <InfoRow
             icon={
@@ -154,6 +158,22 @@ const OrderDetailScreen = ({navigation, route}: any) => {
               />
             }
             value={item._id}
+          />
+          <InfoRow
+            icon={
+              <FontAwesome6
+                name="house-user"
+                size={20}
+                color={appColors.white}
+              />
+            }
+            value={`${item.shippingAddress.name}`}
+          />
+          <InfoRow
+            icon={
+              <FontAwesome6 name="phone" size={20} color={appColors.white} />
+            }
+            value={`${item.shippingAddress.phone}`}
           />
           <InfoRow
             icon={
@@ -173,18 +193,26 @@ const OrderDetailScreen = ({navigation, route}: any) => {
                 color={appColors.white}
               />
             }
-            value={`${item.shippingAddress.street}, ${item.shippingAddress.city}, ${item.shippingAddress.country}`}
+            value={`${item.shippingAddress.street}, ${item.shippingAddress.address}`}
           />
         </View>
         <View style={styles.container}>
-          <Text style={styles.title}>Danh sách sản phẩm</Text>
+          <TextComponent
+            text="Danh sách sản phẩm"
+            size={16}
+            font={fontFamilies.medium}
+          />
           <SpaceComponent line />
           {shoes.map((shoe, index) => (
             <ShoesCart key={shoe.productId + index} item={shoe} isOrder />
           ))}
         </View>
         <View style={styles.container}>
-          <Text style={styles.title}>Phương thức vận chuyển</Text>
+          <TextComponent
+            text="Phương thức vận chuyển"
+            size={16}
+            font={fontFamilies.medium}
+          />
           <SpaceComponent line />
           <RowComponent justify="space-between">
             <RowComponent>
@@ -195,7 +223,7 @@ const OrderDetailScreen = ({navigation, route}: any) => {
                   color={appColors.primary}
                 />
               </View>
-              <Text style={styles.text}>{shipping?.label}</Text>
+              <TextComponent text={shipping?.label} size={16} />
             </RowComponent>
           </RowComponent>
         </View>

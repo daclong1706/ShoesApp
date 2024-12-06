@@ -19,9 +19,7 @@ import {
   fetchCart,
 } from '../../stores/reducers/cartSlice';
 import {fontFamilies} from '../../constants/fontFamilies';
-import {RowComponent, TextComponent} from '../../components';
-
-const HERE_API_KEY = 'FDSrRQkvtZ4QPx6QMNN1384RW_SNr8tPZfWsFs-HMS8';
+import {RowComponent, SpaceComponent, TextComponent} from '../../components';
 
 const CashScreen = ({navigation, route}: any) => {
   const {pay, shipping, address} = route.params;
@@ -35,22 +33,6 @@ const CashScreen = ({navigation, route}: any) => {
   // console.log('Shipping: ', shipping);
   // console.log('Address: ', address);
 
-  // // Reverse geocoding: Chuyển vĩ độ, kinh độ thành địa chỉ
-  // const reverseGeoCode = async (lat: number, long: number) => {
-  //   const api = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${long}&lang=vi-VI&apiKey=${HERE_API_KEY}`;
-  //   try {
-  //     const res = await axios.get(api);
-  //     if (res && res.status === 200 && res.data) {
-  //       const items = res.data.items;
-  //       if (items.length > 0) {
-  //         setLocation(items[0]); // Cập nhật địa chỉ
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log('Error fetching address:', error);
-  //   }
-  // };
-
   const handlePayment = async () => {
     setLoading(true);
 
@@ -59,14 +41,13 @@ const CashScreen = ({navigation, route}: any) => {
       const shippingAddress = {
         method: shipping.id,
         price: shipping.price,
-        street: '123 Main St',
-        city: 'Hanoi',
-        state: 'HN',
-        postalCode: '100000',
-        country: 'Vietnam',
+        name: address.name,
+        phone: address.phone,
+        street: address.street,
+        address: address.address,
       };
       const paymentDetails = {
-        method: 'Credit Card',
+        method: 'Cash',
         status: 'Paid',
         transactionId: 'TM' + randomDigits,
       };
@@ -91,11 +72,11 @@ const CashScreen = ({navigation, route}: any) => {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    if (item) {
-      console.log('Order details:', item); // In ra chi tiết đơn hàng sau khi lấy thành công
-    }
-  }, [item]);
+  // useEffect(() => {
+  //   if (item) {
+  //     console.log('Order details:', item); // In ra chi tiết đơn hàng sau khi lấy thành công
+  //   }
+  // }, [item]);
 
   return (
     <View style={{flex: 1}}>
@@ -104,9 +85,23 @@ const CashScreen = ({navigation, route}: any) => {
         buttonText="Xác nhận thanh toán bằng tiền mặt"
         title="Tiền mặt">
         <View style={styles.contain}>
-          <RowComponent>
-            <TextComponent text="Địa chỉ nhận hàng: " />
-          </RowComponent>
+          <TextComponent text={`Tên người nhận: ${address.name}`} />
+          <SpaceComponent line color="#000" />
+          <TextComponent text={`Số điện thoại: ${address.phone}`} />
+          <SpaceComponent line color="#000" />
+          <TextComponent
+            text={`Địa chỉ nhận hàng: ${address.street}, ${address.address}`}
+          />
+          <SpaceComponent line color="#000" />
+          {/* </View>
+        <View style={styles.contain}> */}
+          <TextComponent text={`Phương thức thanh toán: Tiền mặt`} />
+          <SpaceComponent line color="#000" />
+          <TextComponent text={`Phương thức vận chuyển: ${shipping.label}`} />
+          <SpaceComponent line color="#000" />
+          <TextComponent text={`Phí vận chuyển: ${shipping.price}`} />
+          <SpaceComponent line color="#000" />
+          <TextComponent text={`Tổng tiền: ${pay}`} />
         </View>
         <View style={{alignItems: 'center'}}>
           <TextComponent

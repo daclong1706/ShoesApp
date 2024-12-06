@@ -1,26 +1,35 @@
 // screens/AddressList.tsx
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {
+  getFocusedRouteNameFromRoute,
+  useNavigation,
+} from '@react-navigation/native';
 import {ButtonComponent} from '../../components';
 import AddressItem from './components/AddressItem';
 import ContaineProfile from './components/ContainerProfile';
+import {useAppDispatch, useAppSelector} from '../../stores/hook';
+import {
+  addressesSelector,
+  fetchAddresses,
+} from '../../stores/reducers/addressSlice';
+import {it} from 'node:test';
 
 const AddressList = () => {
   const navigation: any = useNavigation();
-  const [addresses, setAddresses] = useState([
-    {
-      id: '1',
-      name: 'Home',
-      address: '61480 Sunbrook Park, PC 5679',
-      isDefault: true,
-    },
-    {id: '2', name: 'Office', address: '6993 Meadow Valley Terra, PC 3637'},
-    {id: '3', name: 'Apartment', address: '21833 Clyde Gallagher, PC 4662'},
-  ]);
 
-  const handleEdit = (id: string) => {
-    navigation.navigate('AddAddress', {id});
+  const dispatch = useAppDispatch();
+  const addresses = useAppSelector(addressesSelector); // Lấy danh sách địa chỉ từ Redux store
+
+  useEffect(() => {
+    dispatch(fetchAddresses()); // Dispatch action lấy địa chỉ khi component mount
+  }, [dispatch]);
+
+  const handleEdit = (item: any) => {
+    navigation.navigate('EditAddress', {
+      item: item,
+      location: {latitude: 0, longitude: 0},
+    });
   };
 
   return (
@@ -28,13 +37,19 @@ const AddressList = () => {
       <View style={styles.container}>
         <FlatList
           data={addresses}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item._id || Math.random().toString()}
           renderItem={({item}) => (
             <AddressItem
               name={item.name}
               address={item.address}
+              street={item.street}
+              phone={item.phone}
               isDefault={item.isDefault}
-              onEdit={() => handleEdit(item.id)}
+              onEdit={() => {
+                if (item._id) {
+                  handleEdit(item);
+                }
+              }}
             />
           )}
         />

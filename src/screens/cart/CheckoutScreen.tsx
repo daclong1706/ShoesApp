@@ -17,13 +17,16 @@ import {
   shippingSelector,
 } from '../../stores/reducers/shippingSlice';
 import Toast from 'react-native-toast-message';
+import {SlideInRight} from 'react-native-reanimated';
+import {fontFamilies} from '../../constants/fontFamilies';
 // import {addressSelector} from '../../stores/reducers/addressSlice';
 
 const CheckoutScreen = ({navigation, route}: any) => {
-  const {shoes, total} = route.params;
+  const {shoes, total, selectedAddress} = route.params;
   const selectedShippingMethod = useSelector(shippingSelector);
   //const selectedAddressMethod = useSelector(addressSelector);
 
+  console.log('Đã chọn', selectedAddress);
   const handlePayment = () => {
     if (!selectedShippingMethod) {
       Toast.show({
@@ -37,7 +40,7 @@ const CheckoutScreen = ({navigation, route}: any) => {
       navigation.navigate('PaymentMethod', {
         pay: pay,
         shipping: selectedShippingMethod,
-        //address: selectedAddressMethod,
+        address: selectedAddress,
       });
     }
   };
@@ -54,7 +57,13 @@ const CheckoutScreen = ({navigation, route}: any) => {
           <TextComponent text="Địa chỉ giao hàng" size={18} title />
           <TouchableOpacity
             style={[styles.shipping, {padding: 15}]}
-            onPress={() => navigation.navigate('ChooseAddressScreen')}>
+            onPress={() =>
+              navigation.navigate('ChooseAddressScreen', {
+                shoes,
+                total,
+                selectedAddress,
+              })
+            }>
             <RowComponent justify="space-between">
               <RowComponent styles={{flex: 1}}>
                 <View
@@ -70,19 +79,25 @@ const CheckoutScreen = ({navigation, route}: any) => {
                 </View>
 
                 <View style={{flex: 1}}>
-                  <TextComponent
-                    text={'Home'}
-                    styles={{fontWeight: 'bold', marginLeft: 12}}
-                  />
-
-                  {/* <TextComponent
-                    text={
-                      selectedAddressMethod
-                        ? `Đường ${selectedAddressMethod.street}, ${selectedAddressMethod.city}, ${selectedAddressMethod.country}`
-                        : ''
-                    }
-                    styles={{marginLeft: 12, marginTop: 6}}
-                  /> */}
+                  <RowComponent>
+                    <TextComponent
+                      text={selectedAddress.name}
+                      styles={{marginLeft: 12}}
+                      font={fontFamilies.medium}
+                    />
+                    <TextComponent
+                      text={
+                        selectedAddress.phone
+                          ? ' (' + selectedAddress.phone + ')'
+                          : ''
+                      }
+                      size={12}
+                    />
+                  </RowComponent>
+                  <View style={{marginLeft: 12}}>
+                    <TextComponent text={selectedAddress.street} size={12} />
+                    <TextComponent text={selectedAddress.address} size={12} />
+                  </View>
                 </View>
               </RowComponent>
               <Edit2 size={22} color={appColors.primary} />

@@ -16,6 +16,20 @@ import {appInfo} from '../../constants/appInfos';
 import {useNavigation} from '@react-navigation/native';
 import ContainerCart from './components/ContainerCart';
 import {fontFamilies} from '../../constants/fontFamilies';
+import {
+  addressesSelector,
+  fetchAddresses,
+} from '../../stores/reducers/addressSlice';
+import {Loading, LoadingModal} from '../../modals';
+
+const selectedAddress = {
+  _id: '',
+  address: '',
+  isDefault: false,
+  name: '',
+  phone: '',
+  street: '',
+};
 
 const CartScreen = () => {
   const dispatch = useAppDispatch();
@@ -25,69 +39,83 @@ const CartScreen = () => {
 
   const [shoes, setShoes] = useState<Cart[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Lấy dữ liệu giỏ hàng
+  const addresses = useAppSelector(addressesSelector);
+  const defaultAddress = addresses.find(address => address.isDefault === true);
+
   useEffect(() => {
-    dispatch(fetchCart());
-  }, [dispatch]);
+    const fetchData = async () => {
+      try {
+        // Fetch addresses và cart
+        await dispatch(fetchAddresses());
+        await dispatch(fetchCart());
 
-  useEffect(() => {
-    if (cart.length === 0) {
-      setShoes([]); // Đảm bảo không có sản phẩm nào được hiển thị khi giỏ hàng trống
-      setTotalPrice(0);
-    }
-  }, [cart]);
+        // Khi cart có dữ liệu, tiến hành tải chi tiết giày
+        if (cart.length > 0) {
+          const detailedShoes = await Promise.all(
+            cart.map(async item => {
+              const productRes = await productAPI.getProductById(
+                item.productId,
+              );
+              const productData = productRes.data.shoes;
 
-  // Lấy thông tin chi tiết sản phẩm và tính tổng giá
-  useEffect(() => {
-    const fetchDetailedShoes = async () => {
-      const detailedShoes = await Promise.all(
-        cart.map(async item => {
-          const productRes = await productAPI.getProductById(item.productId);
-          const productData = productRes.data.shoes;
+              const selectedColorData = productData.colors.find(
+                (color: any) => color.colorId === item.selectedColor,
+              );
 
-          const selectedColorData = productData.colors.find(
-            (color: any) => color.colorId === item.selectedColor,
+              const priceDiscount =
+                productData.price -
+                (productData.price *
+                  (selectedColorData?.discountPercentage ??
+                    productData.discountPercentage)) /
+                  100;
+
+              return {
+                productId: productData.productId,
+                name: productData.name,
+                colorName: selectedColorData ? selectedColorData.colorName : '',
+                colorImage: selectedColorData
+                  ? selectedColorData.colorImage
+                  : '',
+                price: priceDiscount,
+                quantity: item.quantity,
+                selectedColor: item.selectedColor ?? '',
+                selectedSize: item.selectedSize ?? '',
+              };
+            }),
           );
 
-          const priceDiscount =
-            productData.price -
-            (productData.price *
-              (selectedColorData?.discountPercentage ??
-                productData.discountPercentage)) /
-              100;
+          setShoes(detailedShoes);
 
-          return {
-            productId: productData.productId,
-            name: productData.name,
-            colorName: selectedColorData ? selectedColorData.colorName : '',
-            colorImage: selectedColorData ? selectedColorData.colorImage : '',
-            price: priceDiscount,
-            quantity: item.quantity,
-            selectedColor: item.selectedColor ?? '',
-            selectedSize: item.selectedSize ?? '',
-          };
-        }),
-      );
-
-      setShoes(detailedShoes);
-
-      // Tính tổng giá trị của giỏ hàng
-      const total = detailedShoes.reduce((sum, shoe) => {
-        return sum + shoe.price * shoe.quantity;
-      }, 0);
-      setTotalPrice(total);
+          // Tính tổng giá trị của giỏ hàng
+          const total = detailedShoes.reduce(
+            (sum, shoe) => sum + shoe.price * shoe.quantity,
+            0,
+          );
+          setTotalPrice(total);
+        } else {
+          setShoes([]);
+          setTotalPrice(0);
+        }
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    if (cart.length > 0) {
-      fetchDetailedShoes();
-    }
-  }, [cart]);
+    fetchData();
+  }, [dispatch, cart.length]);
+
+  const shoesLength = shoes.length;
 
   return (
     <View style={{flex: 1}}>
       <ContainerCart isButton title="Giỏ hàng của tôi">
-        {shoes.length > 0 ? (
+        {isLoading ? (
+          <Loading mess="Đang tải sản phẩm..." />
+        ) : shoesLength > 0 ? (
           <>
             <ScrollView
               showsVerticalScrollIndicator={true}
@@ -112,6 +140,9 @@ const CartScreen = () => {
                     navigation.navigate('CheckoutScreen', {
                       shoes: shoes,
                       total: totalPrice,
+                      selectedAddress: defaultAddress
+                        ? defaultAddress
+                        : selectedAddress,
                     })
                   }
                   text="Thanh toán"

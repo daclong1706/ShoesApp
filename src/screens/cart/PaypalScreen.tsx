@@ -12,6 +12,7 @@ import paypalAPI from '../../apis/paypalAPI';
 import {appInfo} from '../../constants/appInfos';
 import ContainerCart from './components/ContainerCart';
 import getExchangeRate from '../../apis/exchangeRateAPI';
+import {fontFamilies} from '../../constants/fontFamilies';
 
 const PaypalScreen = ({navigation, route}: any) => {
   const {pay} = route.params;
@@ -77,7 +78,7 @@ const PaypalScreen = ({navigation, route}: any) => {
   }, []);
 
   return (
-    <ContainerCart isButton>
+    <ContainerCart isButton title="PayPal">
       {approvalUrl ? (
         <WebView
           source={{
@@ -91,6 +92,11 @@ const PaypalScreen = ({navigation, route}: any) => {
           originWhitelist={['*']}
           cacheEnabled={false}
           style={{flex: 1, width: appInfo.sizes.WIDTH}}
+          injectedJavaScript={`
+            const style = document.createElement('style');
+            style.innerHTML = 'body { font-family: "${fontFamilies.regular}"; }';
+            document.head.appendChild(style);
+          `}
           onNavigationStateChange={handleWebViewNavigation}
           onShouldStartLoadWithRequest={event => {
             console.log('Navigating to:', event.url);

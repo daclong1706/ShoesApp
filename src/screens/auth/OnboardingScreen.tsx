@@ -30,20 +30,20 @@ const OnboardingScreen = ({navigation}: any) => {
         dotColor={appColors.primaryPastel}
         activeDotColor={appColors.primary}
         paginationStyle={{
-          bottom: 40,
+          bottom: 60,
           justifyContent: 'flex-start',
           paddingLeft: 30,
         }}
         dotStyle={{
-          width: 10,
+          width: 30,
           height: 6,
-          borderRadius: 4,
-          backgroundColor: appColors.primaryPastel,
+          borderRadius: 0,
+          backgroundColor: appColors.secondary,
         }}
         activeDotStyle={{
-          width: 32,
+          width: 60,
           height: 6,
-          borderRadius: 4,
+          borderRadius: 0,
           backgroundColor: appColors.primary,
         }}>
         <OnboardingSlide

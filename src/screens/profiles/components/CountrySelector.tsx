@@ -14,6 +14,7 @@ import {ArrowDown2, Call} from 'iconsax-react-native';
 import {appColors} from '../../../constants/appColor';
 import {TextComponent} from '../../../components';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import {fontFamilies} from '../../../constants/fontFamilies';
 
 interface Props {
   countryCode: CountryCode;
@@ -82,9 +83,13 @@ const CountrySelector: React.FC<Props> = ({
           onClose={() => setIsPickerVisible(false)}
         />
         <ArrowDown2 size={20} color="#000" />
-        <Text style={{marginHorizontal: 10}}>{`+${callingCode}`}</Text>
+        <Text
+          style={{
+            marginHorizontal: 10,
+            fontFamily: fontFamilies.regular,
+          }}>{`+${callingCode}`}</Text>
         <TextInput
-          style={{flex: 1}}
+          style={{flex: 1, fontFamily: fontFamilies.regular}}
           value={phone}
           onChangeText={setPhone}
           placeholder="123 456 789"

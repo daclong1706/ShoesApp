@@ -31,20 +31,6 @@ const MainNavigator = () => {
           <Stack.Screen name="Order" component={OrderListScreen} />
           <Stack.Screen name="OrderDetail" component={OrderDetailScreen} />
 
-          <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
-          <Stack.Screen
-            name="ChooseAddressScreen"
-            component={ChooseAddressScreen}
-          />
-
-          <Stack.Screen
-            name="ChooseShippingScreen"
-            component={ChooseShippingScreen}
-          />
-          <Stack.Screen name="PaymentMethod" component={PaymentMethod} />
-          <Stack.Screen name="PaypalScreen" component={PaypalScreen} />
-          <Stack.Screen name="MasterCardScreen" component={MasterCardScreen} />
-          <Stack.Screen name="CashScreen" component={CashScreen} />
           {/* <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="Setting" component={SettingScreen} /> */}
         </Stack.Navigator>

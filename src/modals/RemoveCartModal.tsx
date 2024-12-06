@@ -8,8 +8,14 @@ import {
   Image,
 } from 'react-native';
 import {appColors} from '../constants/appColor';
-import {ButtonComponent, RowComponent, SpaceComponent} from '../components';
+import {
+  ButtonComponent,
+  RowComponent,
+  SpaceComponent,
+  TextComponent,
+} from '../components';
 import {appInfo} from '../constants/appInfos';
+import {fontFamilies} from '../constants/fontFamilies';
 
 interface RemoveCartModalProps {
   visible: boolean;
@@ -44,25 +50,31 @@ const RemoveCartModal = ({
       onRequestClose={onClose}>
       <View style={styles.modalBackground}>
         <View style={styles.modalContainer}>
-          <Text style={styles.modalTitle}>Xóa khỏi cửa hàng?</Text>
-          <SpaceComponent line />
+          <TextComponent
+            text="Xóa khỏi cửa hàng?"
+            title
+            size={20}
+            styles={{textAlign: 'center'}}
+          />
+          <SpaceComponent line color={appColors.primarySoft} />
           <View style={styles.modalContent}>
             <Image source={{uri: item.colorImage}} style={styles.modalImage} />
             <View style={styles.modalProductDetails}>
-              <Text style={styles.productName}>{item.name}</Text>
-              <Text style={styles.productDetailsText}>
-                Color: {item.colorName}
-              </Text>
-              <Text style={styles.productDetailsText}>
-                Size: {item.selectedSize}
-              </Text>
+              <TextComponent
+                text={item.name}
+                size={18}
+                font={fontFamilies.bold}
+              />
+              <TextComponent text={`Color: ${item.colorName}`} size={12} />
+              <TextComponent text={`Size: ${item.selectedSize}`} size={12} />
               <RowComponent justify="space-between">
-                <Text style={styles.price}>{formatPrice(item.price)}</Text>
-                <View style={styles.quantityContainer}>
-                  <Text style={styles.quantityText}>
-                    Số lượng: {item.quantity}
-                  </Text>
-                </View>
+                <TextComponent
+                  text={`${formatPrice(item.price)}`}
+                  color={appColors.primary}
+                  size={16}
+                  font={fontFamilies.medium}
+                />
+                <TextComponent text={`Số lượng: ${item.quantity}`} />
               </RowComponent>
             </View>
           </View>
@@ -72,7 +84,7 @@ const RemoveCartModal = ({
             <TouchableOpacity
               style={[styles.Button, styles.cancelButton]}
               onPress={onClose}>
-              <Text style={styles.cancelText}>Hủy</Text>
+              <TextComponent text="Hủy" size={16} font={fontFamilies.medium} />
             </TouchableOpacity>
             {/* <ButtonComponent
               type="primary"
@@ -81,7 +93,12 @@ const RemoveCartModal = ({
               color={appColors.coolGray}
             /> */}
             <TouchableOpacity style={styles.Button} onPress={onConfirm}>
-              <Text style={styles.removeText}>Xóa</Text>
+              <TextComponent
+                text="Xóa"
+                color={appColors.white}
+                size={16}
+                font={fontFamilies.medium}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -115,6 +132,7 @@ const styles = StyleSheet.create({
   modalContent: {
     flex: 0,
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 20,
   },

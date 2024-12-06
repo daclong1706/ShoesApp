@@ -10,6 +10,7 @@ import {
   setShippingMethod,
   shippingSelector,
 } from '../../stores/reducers/shippingSlice';
+import {fontFamilies} from '../../constants/fontFamilies';
 
 // Định nghĩa kiểu dữ liệu cho phương thức vận chuyển
 interface ShippingMethod {
@@ -190,7 +191,5 @@ const styles = StyleSheet.create({
   infoContainer: {
     marginLeft: 12,
   },
-  itemLabel: {
-    fontWeight: 'bold',
-  },
+  itemLabel: {fontFamily: fontFamilies.medium, fontSize: 16},
 });

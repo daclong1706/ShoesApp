@@ -80,7 +80,7 @@ const CustomDrawer = ({navigation}: any) => {
       icon: <Notification size={size} color={color} />,
     },
     {
-      key: 'Setting',
+      key: 'SettingScreen',
       title: 'Cài đặt',
       icon: <Setting2 size={size} color={color} />,
     },

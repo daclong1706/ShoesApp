@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   },
   selectedOption: {
     borderColor: appColors.primary,
-    backgroundColor: '#f0f8ff',
+    backgroundColor: 'rgb(248, 248, 248)',
   },
   iconContainer: {
     marginRight: 16,

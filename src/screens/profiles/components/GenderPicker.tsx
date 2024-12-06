@@ -3,6 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {appColors} from '../../../constants/appColor';
+import {fontFamilies} from '../../../constants/fontFamilies';
 
 interface GenderPickerProps {
   selectedGender: string;

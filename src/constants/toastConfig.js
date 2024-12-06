@@ -1,5 +1,6 @@
 // toastConfig.ts
 import {BaseToast, ErrorToast} from 'react-native-toast-message';
+import {fontFamilies} from './fontFamilies';
 
 const toastConfig = {
   success: props => (
@@ -8,8 +9,8 @@ const toastConfig = {
       style={{borderLeftColor: 'green', backgroundColor: 'rgba(0, 0, 0, 0.9)'}}
       contentContainerStyle={{paddingHorizontal: 15}}
       text1Style={{
-        fontSize: 15,
-        fontWeight: 'bold',
+        fontSize: 12,
+        fontFamily: fontFamilies.regular,
         color: 'white',
       }}
       text2Style={{
@@ -23,8 +24,8 @@ const toastConfig = {
       {...props}
       style={{borderLeftColor: 'red', backgroundColor: 'rgba(0, 0, 0, 0.9)'}}
       text1Style={{
-        fontSize: 15,
-        fontWeight: 'bold',
+        fontSize: 12,
+        fontFamily: fontFamilies.regular,
         color: 'white',
       }}
       // text2Style={{
@@ -42,8 +43,8 @@ const toastConfig = {
       }}
       contentContainerStyle={{paddingHorizontal: 15}}
       text1Style={{
-        fontSize: 15,
-        fontWeight: 'bold',
+        fontSize: 12,
+        fontFamily: fontFamilies.regular,
         color: 'white',
       }}
       // text2Style={{

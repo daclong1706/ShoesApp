@@ -19,6 +19,7 @@ import {
   fetchCart,
 } from '../../stores/reducers/cartSlice';
 import {fontFamilies} from '../../constants/fontFamilies';
+import {SpaceComponent, TextComponent} from '../../components';
 
 const PaymentScreen = ({navigation, route}: any) => {
   const {pay, shipping, address} = route.params;
@@ -54,11 +55,10 @@ const PaymentScreen = ({navigation, route}: any) => {
       const shippingAddress = {
         method: shipping.id,
         price: shipping.price,
-        street: '123 Main St',
-        city: 'Hanoi',
-        state: 'HN',
-        postalCode: '100000',
-        country: 'Vietnam',
+        name: address.name,
+        phone: address.phone,
+        street: address.street,
+        address: address.address,
       };
       const paymentDetails = {
         method: 'Credit Card',
@@ -104,8 +104,28 @@ const PaymentScreen = ({navigation, route}: any) => {
       <ContainerCart
         onPress={handlePayment}
         buttonText="Thanh toán"
-        title="Thanh toán bằng thẻ">
+        title="Thanh toán bằng thẻ"
+        isScroll>
         {/* Thẻ thanh toán với hình ảnh nền */}
+        <View style={styles.contain}>
+          <TextComponent text={`Tên người nhận: ${address.name}`} />
+          <SpaceComponent line color="#000" />
+          <TextComponent text={`Số điện thoại: ${address.phone}`} />
+          <SpaceComponent line color="#000" />
+          <TextComponent
+            text={`Địa chỉ nhận hàng: ${address.street}, ${address.address}`}
+          />
+          <SpaceComponent line color="#000" />
+          {/* </View>
+        <View style={styles.contain}> */}
+          <TextComponent text={`Phương thức thanh toán: Thẻ tín dụng`} />
+          <SpaceComponent line color="#000" />
+          <TextComponent text={`Phương thức vận chuyển: ${shipping.label}`} />
+          <SpaceComponent line color="#000" />
+          <TextComponent text={`Phí vận chuyển: ${shipping.price}`} />
+          <SpaceComponent line color="#000" />
+          <TextComponent text={`Tổng tiền: ${pay}`} />
+        </View>
 
         {/* Form nhập thông tin thẻ */}
 
@@ -114,6 +134,12 @@ const PaymentScreen = ({navigation, route}: any) => {
           style={styles.cardField}
           cardStyle={styles.cardInputStyle}
         />
+        <View style={{alignItems: 'center'}}>
+          <TextComponent
+            text="Vui lòng kiểm tra hàng trước khi thanh toán!"
+            color={appColors.danger}
+          />
+        </View>
       </ContainerCart>
       <OrderSuccess
         visible={visible}
@@ -156,6 +182,18 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  contain: {
+    backgroundColor: appColors.white,
+    padding: 24,
+    borderRadius: 12,
+    shadowColor: 'rgba(0, 0, 0, 0.8)',
+    shadowOffset: {width: 0, height: -4},
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+    marginVertical: 12,
+    marginHorizontal: 12,
   },
 });
 

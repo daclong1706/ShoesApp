@@ -1,6 +1,6 @@
 import {Camera, Image, Link} from 'iconsax-react-native';
 import React, {ReactNode, useRef, useState} from 'react';
-import {View, Modal, StyleSheet} from 'react-native';
+import {View, Modal, StyleSheet, TouchableOpacity} from 'react-native';
 import ImageCropPicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
@@ -12,6 +12,7 @@ import TextComponent from './TextComponent';
 import {globalStyles} from '../styles/globalStyles';
 import {appInfo} from '../constants/appInfos';
 import InputComponent from './InputComponent';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 interface Props {
   onSelect: (val: {type: 'url' | 'file'; value: string | ImageOrVideo}) => void;
@@ -88,12 +89,23 @@ const ImagePicker = ({onSelect}: Props) => {
   };
 
   return (
-    <View style={{marginBottom: 20}}>
-      <ButtonComponent
-        text="Upload image"
+    <View
+      style={{
+        position: 'absolute',
+        bottom: -60,
+      }}>
+      <TouchableOpacity
         onPress={handleOpenModal}
-        type="link"
-      />
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.5)',
+          paddingTop: 6,
+          paddingLeft: 34,
+          borderRadius: 44,
+          width: 88,
+          height: 88,
+        }}>
+        <FontAwesome name="camera" size={18} color={appColors.primary} />
+      </TouchableOpacity>
 
       <Portal>
         <Modalize

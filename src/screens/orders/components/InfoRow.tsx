@@ -4,7 +4,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {appColors} from '../../../constants/appColor';
-import {RowComponent} from '../../../components';
+import {RowComponent, TextComponent} from '../../../components';
 
 type InfoRowProps = {
   icon: JSX.Element;
@@ -22,8 +22,7 @@ const InfoRow = ({icon, value}: InfoRowProps) => {
           ]}>
           {icon}
         </View>
-
-        <Text style={styles.text}>{value}</Text>
+        <TextComponent text={value} styles={styles.text} size={16} flex={1} />
       </RowComponent>
     </RowComponent>
   );
@@ -40,8 +39,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 16,
-    color: appColors.primary,
     marginVertical: 4,
     marginLeft: 12,
   },

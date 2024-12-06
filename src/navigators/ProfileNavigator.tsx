@@ -4,9 +4,11 @@ import {
   AddAddress,
   AddressList,
   ChangePasswordScreen,
+  EditAddress,
   EditProfile,
+  MapEditScreen,
   MapScreen,
-  NotificationSettings,
+  SettingScreen,
   PrivacyPolicyScreen,
   ProfileScreen,
 } from '../screens';
@@ -19,11 +21,10 @@ const ProfileNavigator = () => {
       <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="AddressList" component={AddressList} />
       <Stack.Screen name="AddAddress" component={AddAddress} />
+      <Stack.Screen name="EditAddress" component={EditAddress} />
       <Stack.Screen name="MapScreen" component={MapScreen} />
-      <Stack.Screen
-        name="NotificationSettings"
-        component={NotificationSettings}
-      />
+      <Stack.Screen name="MapEditScreen" component={MapEditScreen} />
+      <Stack.Screen name="SettingScreen" component={SettingScreen} />
       <Stack.Screen
         name="ChangePasswordScreen"
         component={ChangePasswordScreen}

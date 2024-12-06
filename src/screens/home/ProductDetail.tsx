@@ -1,5 +1,6 @@
 import {
   ArrowDown2,
+  ArrowLeft,
   ArrowLeft2,
   ArrowUp2,
   Heart,
@@ -248,6 +249,19 @@ const ProductDetail = ({navigation, route}: any) => {
     }
   };
 
+  const goBack = () => {
+    const routes = navigation.getState().routes; // Lấy tất cả các route trong stack
+    const lastRoute = routes[routes.length - 1]; // Lấy route cuối cùng trong stack
+    console.log('Route: ', routes);
+    if (lastRoute.name === 'FavoriteScreen') {
+      // Nếu màn hình trước là 'Favorite', dùng goBack()
+      navigation.popToTop();
+    } else {
+      // Nếu không, popToTop() để quay lại 'Favorite'
+      navigation.goBack();
+    }
+  };
+
   return (
     <>
       <View style={{flex: 1, backgroundColor: '#FFF'}}>
@@ -255,9 +269,9 @@ const ProductDetail = ({navigation, route}: any) => {
         <View style={[styles.headerContainer, globalStyles.shadow]}>
           <RowComponent styles={{padding: 16}}>
             <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={[globalStyles.shadow, styles.button, {marginRight: 12}]}>
-              <ArrowLeft2 size={24} color={appColors.text} />
+              onPress={goBack}
+              style={[styles.button, {marginRight: 12}]}>
+              <ArrowLeft size={24} color={appColors.text} />
             </TouchableOpacity>
             <View style={{flex: 1}}>
               <TextComponent

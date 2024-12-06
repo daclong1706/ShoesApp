@@ -14,6 +14,7 @@ import Toast from 'react-native-toast-message';
 import {uploadToCloudinary} from '../../apis/cloudinaryAPI';
 import {
   ButtonComponent,
+  FooterComponent,
   ImagePicker,
   SpaceComponent,
   TextComponent,
@@ -27,8 +28,10 @@ import {
   updateUser,
 } from '../../stores/reducers/userSlice';
 import ProfileOptions from './components/ProfileOptions';
-import {LoadingModal} from '../../modals';
+import {Loading, LoadingModal} from '../../modals';
 import {fontFamilies} from '../../constants/fontFamilies';
+import {LogoutCurve} from 'iconsax-react-native';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const ProfileScreen = () => {
   const dispatch = useAppDispatch();
@@ -46,9 +49,10 @@ const ProfileScreen = () => {
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem('auth');
+      await GoogleSignin.signOut();
       dispatch(removeAuth());
     } catch (error) {
-      console.error('Error logging out:', error);
+      console.log(error);
     }
   };
 
@@ -94,7 +98,7 @@ const ProfileScreen = () => {
   if (!user)
     return (
       <View style={styles.center}>
-        <Text>No user data</Text>
+        <Loading />
       </View>
     );
 
@@ -108,11 +112,11 @@ const ProfileScreen = () => {
     <ScrollView style={styles.container}>
       {/* Header Profile Info */}
       <View style={styles.center}>
-        <TouchableOpacity>
+        <View style={styles.avatar}>
           {user?.photo ? (
             <Image
               source={{uri: user?.photo || 'https://placehold.co/80x80'}}
-              style={styles.avatar}
+              style={styles.image}
             />
           ) : (
             <View style={[styles.avatar, {backgroundColor: appColors.primary}]}>
@@ -136,7 +140,7 @@ const ProfileScreen = () => {
                 : handleFileSelected(val.value as ImageOrVideo)
             }
           />
-        </TouchableOpacity>
+        </View>
         <Text style={styles.userName}>{user.name}</Text>
         <Text style={styles.userInfo}>{user.email}</Text>
         <Text style={styles.userInfo}>{user.phoneNumber}</Text>
@@ -148,7 +152,14 @@ const ProfileScreen = () => {
 
       {/* Logout Button */}
       <View style={{marginTop: 30}}>
-        <ButtonComponent text="Logout" onPress={handleLogout} />
+        <ButtonComponent
+          text="Logout"
+          onPress={handleLogout}
+          type="primary"
+          color={appColors.danger}
+          icon={<LogoutCurve size={24} color={appColors.white} />}
+          iconFlex="left"
+        />
       </View>
       <LoadingModal visible={loading} />
     </ScrollView>
@@ -159,19 +170,35 @@ export default ProfileScreen;
 
 const styles = StyleSheet.create({
   container: {flex: 1, padding: 20, backgroundColor: appColors.background},
-  center: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-  avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginBottom: 10,
+  center: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  userName: {fontSize: 20, fontFamily: fontFamilies.extraBold},
+
+  avatar: {
+    position: 'relative',
+    borderRadius: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80,
+    height: 80,
+    overflow: 'hidden',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 40,
+  },
+  userName: {
+    marginTop: 12,
+    fontSize: 20,
+    fontFamily: fontFamilies.bold,
+    color: appColors.text,
+  },
   userInfo: {
     fontSize: 14,
     color: '#888',
-    fontFamily: fontFamilies.semiMediumItalic,
+    fontFamily: fontFamilies.semiMedium,
   },
 });

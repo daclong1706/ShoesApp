@@ -4,7 +4,7 @@ import addressAPI from '../../apis/addressAPI';
 
 // Định nghĩa kiểu dữ liệu cho AddressItem
 interface AddressItem {
-  _id: string;
+  _id?: string;
   name: string;
   phone: string;
   address: string;
@@ -30,7 +30,8 @@ export const fetchAddresses = createAsyncThunk(
   'addresses/fetchAddresses',
   async () => {
     const response = await addressAPI.getAddresses();
-    return response.data.addresses; // Trả về danh sách địa chỉ
+    console.log('Response slice: ', response);
+    return response.addresses; // Trả về danh sách địa chỉ
   },
 );
 

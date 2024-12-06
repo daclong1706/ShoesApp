@@ -1,39 +1,36 @@
-// screens/AddAddress.tsx
+// screens/EditAddress.tsx
+import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
-  View,
-  TextInput,
-  Text,
-  Switch,
   StyleSheet,
+  Switch,
+  TextInput,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import {ButtonComponent, InputComponent, TextComponent} from '../../components';
-import axios from 'axios';
-import ContainerProfile from './components/ContainerProfile';
-import {fontFamilies} from '../../constants/fontFamilies';
-import {appColors} from '../../constants/appColor';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {ButtonComponent, TextComponent} from '../../components';
+import {appColors} from '../../constants/appColor';
+import {fontFamilies} from '../../constants/fontFamilies';
 import {AddressModel} from '../../models/AddressModel';
 import {useAppDispatch} from '../../stores/hook';
 import {
   createAddress,
+  deleteAddress,
   fetchAddresses,
+  updateAddress,
 } from '../../stores/reducers/addressSlice';
-import {
-  getFocusedRouteNameFromRoute,
-  useNavigationState,
-} from '@react-navigation/native';
+import ContainerProfile from './components/ContainerProfile';
 
 const HERE_API_KEY = 'FDSrRQkvtZ4QPx6QMNN1384RW_SNr8tPZfWsFs-HMS8';
 
-const AddAddress = ({navigation, route}: any) => {
-  const {location} = route.params || {location: {latitude: 0, longitude: 0}};
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [street, setStreet] = useState('');
-  const [isDefault, setIsDefault] = useState(false);
+const EditAddress = ({navigation, route}: any) => {
+  const {item, location} = route.params;
+  const [name, setName] = useState(item.name);
+  const [phone, setPhone] = useState(item.phone);
+  const [address, setAddress] = useState(item.address);
+  const [street, setStreet] = useState(item.street);
+  const [isDefault, setIsDefault] = useState(item.isDefault);
   const [currentLocation, setCurrentLocation] = useState<AddressModel>();
   const dispatch = useAppDispatch();
 
@@ -47,7 +44,20 @@ const AddAddress = ({navigation, route}: any) => {
     };
 
     // Dispatch action để thêm địa chỉ
-    dispatch(createAddress(newAddress))
+    dispatch(updateAddress({addressId: item._id, address: newAddress}))
+      .then(() => {
+        dispatch(fetchAddresses());
+        navigation.goBack(); // Quay lại màn hình trước đó
+      })
+      .catch(error => {
+        // Xử lý lỗi nếu có
+        console.log('Error saving address:', error);
+      });
+  };
+
+  const handleDelete = () => {
+    // Dispatch action để thêm địa chỉ
+    dispatch(deleteAddress(item._id))
       .then(() => {
         dispatch(fetchAddresses());
         navigation.goBack(); // Quay lại màn hình trước đó
@@ -92,7 +102,7 @@ const AddAddress = ({navigation, route}: any) => {
   }, [location]);
 
   return (
-    <ContainerProfile title="Địa chỉ mới" isScroll>
+    <ContainerProfile title="Sửa địa chỉ" isScroll>
       <View style={styles.container}>
         {/* <LocationComponent /> */}
 
@@ -133,7 +143,7 @@ const AddAddress = ({navigation, route}: any) => {
               borderWidth: 1,
               flexDirection: 'row',
             }}
-            onPress={() => navigation.navigate('MapScreen')}>
+            onPress={() => navigation.navigate('MapEditScreen', {item: item})}>
             <MaterialIcons
               name="location-on"
               size={24}
@@ -166,12 +176,20 @@ const AddAddress = ({navigation, route}: any) => {
           <View style={styles.switchRow}>
             <TextComponent text="Đặt làm địa chỉ mặc định" size={16} />
             <Switch
-              trackColor={{false: '#000', true: '#000'}} // Đổi màu track
-              thumbColor={isDefault ? '#f4f3f4' : '#f4f3f4'}
               value={isDefault}
               onValueChange={setIsDefault}
+              trackColor={{false: '#000', true: '#000'}} // Đổi màu track
+              thumbColor={isDefault ? '#f4f3f4' : '#f4f3f4'}
             />
           </View>
+
+          <ButtonComponent
+            text="Xóa"
+            type="primary"
+            onPress={handleDelete}
+            styles={{marginHorizontal: 12, marginBottom: 24}}
+            color={appColors.primaryTint}
+          />
 
           <ButtonComponent
             text="Hoàn thành"
@@ -205,4 +223,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddAddress;
+export default EditAddress;

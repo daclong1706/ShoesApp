@@ -7,6 +7,7 @@ import HomeNavigator from './HomeNavigator';
 import EventNavigator from './EventNavigator';
 import ProfileNavigator from './ProfileNavigator';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
+import CartNavigator from './CartNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,12 +26,22 @@ const TabNavigator = () => {
       'PrivacyPolicyScreen',
       'Cart',
       'ChangePasswordScreen',
-      'NotificationSettings',
+      'SettingScreen',
       'SearchScreen',
       'DiscoverScreen',
       'AddressList',
       'AddAddress',
+      'EditAddress',
       'MapScreen',
+      'MapEditScreen',
+      'CartScreen',
+      'ChooseAddressScreen',
+      'CheckoutScreen',
+      'ChooseShippingScreen',
+      'PaymentMethod',
+      'PaypalScreen',
+      'MasterCardScreen',
+      'CashScreen',
     ];
     return hideTabBarScreens.includes(routeName);
   };
@@ -57,7 +68,7 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen name="Event" component={EventNavigator} />
-      <Tab.Screen name="Cart" component={CartScreen} />
+      <Tab.Screen name="Cart" component={CartNavigator} />
       <Tab.Screen name="Favorite" component={FavoriteNavigator} />
       <Tab.Screen name="Profile" component={ProfileNavigator} />
     </Tab.Navigator>

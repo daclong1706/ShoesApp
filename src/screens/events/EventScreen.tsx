@@ -1,53 +1,79 @@
-import {View, Text, StyleSheet, Button} from 'react-native';
-import React, {useEffect} from 'react';
+// src/screens/EventScreen.tsx
+import React, {useState} from 'react';
 import {
-  addToCart,
-  fetchCart,
-  removeCartItem,
-  updateCartItem,
-} from '../../stores/reducers/cartSlice';
-import {useAppDispatch, useAppSelector} from '../../stores/hook';
-import {createOrder} from '../../stores/reducers/orderSlice';
-import {AccountModal} from '../../modals';
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
+import {ContainerComponent} from '../../components';
+import Carousel from 'react-native-reanimated-carousel';
+import VideoItem from './VideoItem';
 
-const EventScreen = () => {
-  // const dispatch = useAppDispatch();
+const {width, height} = Dimensions.get('window');
 
-  // const handleCreateOrder = () => {
-  //   const shippingAddress = {
-  //     method: 'Normal',
-  //     price: 15000,
-  //     street: '123 Main St',
-  //     city: 'Hanoi',
-  //     state: 'HN',
-  //     postalCode: '100000',
-  //     country: 'Vietnam',
-  //   };
+const EventScreen = ({navigation}: any) => {
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [muted, setMuted] = useState<boolean>(false);
 
-  //   const paymentDetails = {
-  //     method: 'Credit Card',
-  //     status: 'Paid',
-  //     transactionId: 'TXN123456789',
-  //   };
+  // Dữ liệu video
+  const videos = [
+    {
+      uri: require('../../assets/videos/Nike-Air-Max-270.mp4'),
+      title: 'AIR MAX 270',
+      brand: 'Nike',
+    },
+    {
+      uri: require('../../assets/videos/Adidas-Ultraboost.mp4'),
+      title: 'Ultraboost',
+      brand: 'Adidas',
+    },
+    {
+      uri: require('../../assets/videos/Puma-FOREVER-FASTER.mp4'),
+      title: 'FOREVER-FASTER',
+      brand: 'Puma',
+    },
+    // Thêm các video khác vào đây
+  ];
 
-  //   // Dispatch action tạo đơn hàng
-  //   console.log('done');
-  //   dispatch(createOrder({shippingAddress, paymentDetails}));
-  // };
+  const toggleMute = () => {
+    setMuted(!muted); // Đảo ngược trạng thái muted
+  };
+
   return (
-    <View style={styles.container}>
-      {/* <Button title="Tạo đơn hàng" onPress={handleCreateOrder} /> */}
-      {/* <AccountModal visible={true} /> */}
-    </View>
+    <ContainerComponent back title="Khám phá">
+      <View style={styles.container}>
+        <Carousel
+          loop={false}
+          width={width}
+          height={height}
+          autoPlay={false}
+          data={videos}
+          vertical={true}
+          onSnapToItem={(index: number) => setCurrentIndex(index)} // Cập nhật chỉ số video đang hiển thị
+          renderItem={({index, item}: any) => (
+            <VideoItem
+              videoSource={item.uri}
+              title={item.title}
+              brand={item.brand}
+              currentIndex={currentIndex}
+              index={index} // Truyền chỉ số video hiện tại vào
+              muted={muted} // Truyền trạng thái muted vào
+              onPress={() => navigation.navigate('DiscoverScreen')}
+              toggleMute={toggleMute} // Truyền hàm toggleMute vào
+            />
+          )}
+        />
+      </View>
+    </ContainerComponent>
   );
 };
-
-export default EventScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
+
+export default EventScreen;

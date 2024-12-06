@@ -6,6 +6,8 @@ import {
   Notification,
   Profile,
   SecuritySafe,
+  Setting,
+  Setting2,
 } from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {
@@ -18,6 +20,9 @@ import {
 import {RowComponent} from '../../../components';
 import {appColors} from '../../../constants/appColor';
 import {fontFamilies} from '../../../constants/fontFamilies';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ProfileOptions = () => {
   const navigation: any = useNavigation();
@@ -42,39 +47,69 @@ const ProfileOptions = () => {
     {
       label: 'Sửa hồ sơ',
       onPress: () => navigation.navigate('EditProfile'),
-      icon: <Profile size={24} color={appColors.gray} />,
+      icon: (
+        <FontAwesome5 name="user-cog" size={18} color={appColors.primary} />
+      ),
     },
     {
       label: 'Địa chỉ',
       onPress: () => navigation.navigate('AddressList'),
-      icon: <Location size={24} color={appColors.gray} />,
+      icon: (
+        <MaterialIcons name="location-on" size={24} color={appColors.primary} />
+      ),
     },
     {
-      label: 'Thông báo',
-      onPress: () => navigation.navigate('NotificationSettings'),
-      icon: <Notification size={24} color={appColors.gray} />,
+      label: 'Cài đặt',
+      onPress: () => navigation.navigate('SettingScreen'),
+      icon: (
+        <MaterialIcons name="settings" size={24} color={appColors.primary} />
+      ),
     },
     {
       label: 'Đổi mật khẩu',
       onPress: () => navigation.navigate('ChangePasswordScreen'),
-      icon: <SecuritySafe size={24} color={appColors.gray} />,
+      icon: (
+        <MaterialCommunityIcons
+          name="key-change"
+          size={24}
+          color={appColors.primary}
+        />
+      ),
     },
     {
       label: 'Dark Mode',
       isSwitch: true,
       value: isDarkMode,
       onSwitchToggle: toggleDarkMode,
-      icon: <Profile size={24} color={appColors.gray} />,
+      icon: (
+        <MaterialCommunityIcons
+          name="theme-light-dark"
+          size={24}
+          color={appColors.primary}
+        />
+      ),
     },
     {
       label: 'Chính sách bảo mật',
       onPress: () => navigation.navigate('PrivacyPolicyScreen'),
-      icon: <Profile size={24} color={appColors.gray} />,
+      icon: (
+        <MaterialCommunityIcons
+          name="security"
+          size={24}
+          color={appColors.primary}
+        />
+      ),
     },
     {
       label: 'Trung tâm hỗ trợ',
       onPress: () => {},
-      icon: <Profile size={24} color={appColors.gray} />,
+      icon: (
+        <MaterialIcons
+          name="support-agent"
+          size={24}
+          color={appColors.primary}
+        />
+      ),
     },
   ];
   return (
@@ -91,7 +126,7 @@ const ProfileOptions = () => {
             {item.isSwitch && (
               <Switch value={item.value} onValueChange={item.onSwitchToggle} />
             )}
-            <ArrowRight2 size={24} color={appColors.gray} />
+            <ArrowRight2 size={24} color={appColors.primary} />
           </RowComponent>
         </TouchableOpacity>
       )}
@@ -109,9 +144,9 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   optionText: {
-    fontSize: 18,
+    fontSize: 16,
     marginLeft: 6,
     color: appColors.text,
-    fontFamily: fontFamilies.medium,
+    fontFamily: fontFamilies.regular,
   },
 });

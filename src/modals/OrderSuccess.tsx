@@ -53,20 +53,16 @@ const OrderSuccess = ({visible, onOrder, onShop}: Props) => {
                 color={appColors.white}
               />
             </View>
-            <TextComponent
-              text="Đặt hàng thành công"
-              size={22}
-              styles={{fontWeight: 'bold'}}
-            />
+            <TextComponent text="Đặt hàng thành công" size={22} title />
           </View>
           <TouchableOpacity
             style={[styles.Button, styles.cancelButton]}
             onPress={onOrder}>
-            <Text style={styles.cancelText}>Xem hóa đơn</Text>
+            <TextComponent text="Xem hóa đơn" size={18} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.Button} onPress={onShop}>
-            <Text style={styles.removeText}>Tiếp tục mua xắm</Text>
+            <TextComponent text="Tiếp tục mua xắm" size={18} color="white" />
           </TouchableOpacity>
         </View>
       </View>
@@ -89,51 +85,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 40,
   },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-    color: appColors.black,
-  },
-  modalContent: {
-    flex: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 20,
-  },
-  modalImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 10,
-  },
-  modalProductDetails: {
-    marginLeft: 10,
-  },
-  productName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: appColors.black,
-    marginBottom: 6,
-  },
-  productDetailsText: {
-    fontSize: 12,
-    color: '#666',
-    marginVertical: 2,
-  },
-  price: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    marginTop: 5,
-    color: appColors.black,
-  },
-  quantityContainer: {
-    marginTop: 10,
-  },
-  quantityText: {
-    fontSize: 14,
-    color: '#666',
-  },
+
   cancelButton: {
     backgroundColor: appColors.grayLight,
   },
@@ -147,15 +99,5 @@ const styles = StyleSheet.create({
     height: 60,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  cancelText: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  removeText: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: '#fff',
   },
 });

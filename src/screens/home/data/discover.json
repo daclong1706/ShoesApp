@@ -1,0 +1,28 @@
+{
+  "videoSource": "../../assets/videos/NIKE-AIR-MAX-270-KICKS.mp4",
+  "product": {
+    "id": "NIKE-026",
+    "name": "NIKE AIR MAX 270",
+    "description": "Nike Air Max 270 mang đến sự thoải mái tuyệt vời với đệm khí Max Air, kết hợp cùng thiết kế hiện đại và phong cách nổi bật.",
+    "images": [
+      "https://static.nike.com/a/images/t_prod/w_1920,c_limit,f_auto,q_auto/75c73723-2453-4549-9c68-05c825eebe4b/image.jpg",
+      "https://www.joandkemp.com/wp-content/uploads/2018/03/Photo-Mar-10-4-45-18-PM.jpg",
+      "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/1952de1b-fc7a-4bab-a0a8-00554bd13c5d/W+AIR+MAX+270.png"
+    ],
+    "additionalImages": [
+      "https://static.nike.com/a/images/t_prod/w_1920,c_limit,f_auto,q_auto/ad80fcdc-ea4c-4d5f-9a38-8f16bbc43b0c/image.jpg",
+      "https://images.tokopedia.net/img/cache/700/product-1/2019/9/9/6770312/6770312_c30a3637-f421-49c1-98a2-d759e07e5fba_800_800",
+      "https://www.jordan1.vn/wp-content/uploads/2023/09/untitled_design_-_2022-08-17t135032.995_131a2fd4aa6145a689cc1054e286de05_1024x1024.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaFXfgyo8EeCq01CxdtTUGdmnFZcdY8JSJZg&s",
+      "https://www.elleman.vn/app/uploads/2018/03/26/Nike-Air-Max-270-elle-man-feature-image.jpg"
+    ],
+    "colorsAndStyles": {
+      "description": "Nike Air Max 270 có nhiều màu sắc đa dạng, phù hợp với mọi phong cách, giúp bạn dễ dàng phối đồ và thể hiện cá tính."
+    },
+    "highlight": {
+      "description": "Nike Air Max 270 mang đến cảm giác bước trên mây với đệm khí Max Air, giúp từng bước đi trở nên êm ái và nhẹ nhàng."
+    }
+  },
+  "buttonText": "Xem sản phẩm",
+  "footerText": "© 2024 Đắc Long. All Rights Reserved."
+}

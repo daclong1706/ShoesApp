@@ -16,8 +16,8 @@ const NotificationItem = ({label, value, onToggle}: NotificationItemProps) => {
       <Switch
         value={value}
         onValueChange={onToggle}
-        thumbColor={value ? appColors.primary : appColors.gray}
-        trackColor={{false: appColors.coolGray, true: appColors.primaryLight}}
+        thumbColor={value ? appColors.whiteLight : appColors.whiteLight}
+        trackColor={{false: appColors.primary, true: appColors.primary}}
       />
     </View>
   );

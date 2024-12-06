@@ -67,33 +67,8 @@ const HomeScreen = ({navigation}: any) => {
 
   const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   Geolocation.getCurrentPosition(position => {
-  //     if (position.coords) {
-  //       reverseGeoCode({
-  //         lat: position.coords.latitude,
-  //         long: position.coords.longitude,
-  //       });
-  //     }
-  //   });
-  // }, []);
-
-  // const reverseGeoCode = async ({lat, long}: {lat: number; long: number}) => {
-  //   const api = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${long}&lang=vi-VI&apiKey=FDSrRQkvtZ4QPx6QMNN1384RW_SNr8tPZfWsFs-HMS8`;
-  //   try {
-  //     const res = await axios(api);
-  //     if (res && res.status === 200 && res.data) {
-  //       const items = res.data.items;
-  //       console.log(items[0]);
-  //       setCurrentLocation(items[0]);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const handleVideoPress = (videoSource: any) => {
-    setCurrentVideo(videoSource); // Khi người dùng chạm vào video, thay đổi video đang phát
+    setCurrentVideo(videoSource);
   };
 
   useEffect(() => {
@@ -275,7 +250,6 @@ const HomeScreen = ({navigation}: any) => {
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                console.log('Ò');
                 navigation.navigate('DiscoverScreen');
               }}>
               <Text style={styles.buttonText}>Khám phá</Text>
