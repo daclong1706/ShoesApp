@@ -44,69 +44,63 @@ const CartScreen = () => {
   const addresses = useAppSelector(addressesSelector);
   const defaultAddress = addresses.find(address => address.isDefault === true);
 
+  // Lấy dữ liệu giỏ hàng
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch addresses và cart
-        await dispatch(fetchAddresses());
-        await dispatch(fetchCart());
+    dispatch(fetchCart());
+  }, [dispatch]);
 
-        // Khi cart có dữ liệu, tiến hành tải chi tiết giày
-        if (cart.length > 0) {
-          const detailedShoes = await Promise.all(
-            cart.map(async item => {
-              const productRes = await productAPI.getProductById(
-                item.productId,
-              );
-              const productData = productRes.data.shoes;
+  useEffect(() => {
+    if (cart.length === 0) {
+      setShoes([]); // Đảm bảo không có sản phẩm nào được hiển thị khi giỏ hàng trống
+      setTotalPrice(0);
+    }
+  }, [cart]);
 
-              const selectedColorData = productData.colors.find(
-                (color: any) => color.colorId === item.selectedColor,
-              );
+  // Lấy thông tin chi tiết sản phẩm và tính tổng giá
+  useEffect(() => {
+    const fetchDetailedShoes = async () => {
+      const detailedShoes = await Promise.all(
+        cart.map(async item => {
+          const productRes = await productAPI.getProductById(item.productId);
+          const productData = productRes.data.shoes;
 
-              const priceDiscount =
-                productData.price -
-                (productData.price *
-                  (selectedColorData?.discountPercentage ??
-                    productData.discountPercentage)) /
-                  100;
-
-              return {
-                productId: productData.productId,
-                name: productData.name,
-                colorName: selectedColorData ? selectedColorData.colorName : '',
-                colorImage: selectedColorData
-                  ? selectedColorData.colorImage
-                  : '',
-                price: priceDiscount,
-                quantity: item.quantity,
-                selectedColor: item.selectedColor ?? '',
-                selectedSize: item.selectedSize ?? '',
-              };
-            }),
+          const selectedColorData = productData.colors.find(
+            (color: any) => color.colorId === item.selectedColor,
           );
 
-          setShoes(detailedShoes);
+          const priceDiscount =
+            productData.price -
+            (productData.price *
+              (selectedColorData?.discountPercentage ??
+                productData.discountPercentage)) /
+              100;
 
-          // Tính tổng giá trị của giỏ hàng
-          const total = detailedShoes.reduce(
-            (sum, shoe) => sum + shoe.price * shoe.quantity,
-            0,
-          );
-          setTotalPrice(total);
-        } else {
-          setShoes([]);
-          setTotalPrice(0);
-        }
-      } catch (error) {
-        console.error('Error fetching data: ', error);
-      } finally {
-        setIsLoading(false);
-      }
+          return {
+            productId: productData.productId,
+            name: productData.name,
+            colorName: selectedColorData ? selectedColorData.colorName : '',
+            colorImage: selectedColorData ? selectedColorData.colorImage : '',
+            price: priceDiscount,
+            quantity: item.quantity,
+            selectedColor: item.selectedColor ?? '',
+            selectedSize: item.selectedSize ?? '',
+          };
+        }),
+      );
+
+      setShoes(detailedShoes);
+
+      // Tính tổng giá trị của giỏ hàng
+      const total = detailedShoes.reduce((sum, shoe) => {
+        return sum + shoe.price * shoe.quantity;
+      }, 0);
+      setTotalPrice(total);
     };
 
-    fetchData();
-  }, [dispatch, cart.length]);
+    if (cart.length > 0) {
+      fetchDetailedShoes();
+    }
+  }, [cart]);
 
   const shoesLength = shoes.length;
 

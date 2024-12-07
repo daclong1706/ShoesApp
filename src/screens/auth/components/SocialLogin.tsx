@@ -14,6 +14,7 @@ import authenticationAPI from '../../../apis/authApi';
 import {useDispatch} from 'react-redux';
 import {addAuth} from '../../../stores/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 GoogleSignin.configure({
   webClientId:
@@ -47,6 +48,12 @@ const SocialLogin = () => {
 
         dispatch(addAuth(res.data));
         await AsyncStorage.setItem('auth', JSON.stringify(res.data));
+        Toast.show({
+          type: 'success',
+          text1: 'Đăng nhập thành công',
+          position: 'top',
+          visibilityTime: 2000,
+        });
       } else {
         console.log('User info is incomplete, login aborted.');
       }
@@ -84,6 +91,14 @@ const SocialLogin = () => {
         text="Đăng nhập với Facebook"
         icon={<Facebook />}
         iconFlex="left"
+        onPress={() => {
+          Toast.show({
+            type: 'info',
+            text1: 'Phương thức hiện tại chưa được hỗ trợ',
+            position: 'top',
+            visibilityTime: 2000,
+          });
+        }}
       />
     </SectionComponent>
   );

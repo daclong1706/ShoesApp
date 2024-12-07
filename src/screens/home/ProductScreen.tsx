@@ -20,6 +20,8 @@ const ProductScreen = ({navigation, route}: any) => {
     setBrand(brandId);
   };
 
+  const name = isBrand ? brand : isLabel ? label : 'All Shoes';
+
   // Lọc danh sách shoes mỗi khi brand thay đổi
   useEffect(() => {
     if (title === 'All Shoes') {
@@ -43,10 +45,7 @@ const ProductScreen = ({navigation, route}: any) => {
   }, [brand, label, originalShoes]);
 
   return (
-    <ContainerComponent
-      isImageBackground
-      back
-      title={brand ? brand : 'All Shoes'}>
+    <ContainerComponent isImageBackground back title={name as string}>
       <FlatList
         data={filteredShoes}
         renderItem={({item}) => (

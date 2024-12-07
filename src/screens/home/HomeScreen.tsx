@@ -251,7 +251,7 @@ const HomeScreen = ({navigation}: any) => {
         </SectionComponent>
         <TabBarComponent title="Explore" hideSeeAll size={20} />
         <FlatList
-          data={[...explores].sort(() => Math.random() - 0.5).slice(0, 3)}
+          data={[...explores].slice(0, 3)}
           renderItem={({item, index}) => (
             <ExploreItem
               videoSource={item.videoSource}

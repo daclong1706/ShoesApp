@@ -23,6 +23,7 @@ import {
   ShoppingBag,
   TruckFast,
   User,
+  VideoPlay,
 } from 'iconsax-react-native';
 import RowComponent from './RowComponent';
 import {fontFamilies} from '../constants/fontFamilies';
@@ -56,8 +57,8 @@ const CustomDrawer = ({navigation}: any) => {
     {key: 'Home', title: 'Trang chủ', icon: <Home size={size} color={color} />},
     {
       key: 'Event',
-      title: 'Sự kiện',
-      icon: <Calendar size={size} color={color} />,
+      title: 'Khám phá',
+      icon: <VideoPlay size={size} color={color} />,
     },
     {
       key: 'Cart',

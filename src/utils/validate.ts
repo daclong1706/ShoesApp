@@ -6,15 +6,15 @@ export class Validate {
   }
 
   static Password(val: string): boolean {
-    // if (
-    //   val.length < 8 ||
-    //   !/[A-Z]/.test(val) ||
-    //   !/[a-z]/.test(val) ||
-    //   !/\d/.test(val) ||
-    //   !/[!@#$%^&*(),.?":{}|<>]/.test(val)
-    // ) {
-    //   return false;
-    // }
+    if (
+      val.length < 8 ||
+      !/[A-Z]/.test(val) ||
+      !/[a-z]/.test(val) ||
+      !/\d/.test(val) ||
+      !/[!@#$%^&*(),.?":{}|<>]/.test(val)
+    ) {
+      return false;
+    }
 
     return true;
   }

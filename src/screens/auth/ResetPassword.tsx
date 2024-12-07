@@ -16,6 +16,7 @@ import {globalStyles} from '../../styles/globalStyles';
 import {LoadingModal} from '../../modals';
 import authenticationAPI from '../../apis/authApi';
 import {formValidator} from './constants/validator';
+import Toast from 'react-native-toast-message';
 
 const ResetPassword = ({navigation, route}: any) => {
   const {email} = route.params;
@@ -51,8 +52,20 @@ const ResetPassword = ({navigation, route}: any) => {
       );
       console.log(res.mess);
       navigation.navigate('LoginScreen');
+      Toast.show({
+        type: 'success',
+        text1: 'Đổi mật khẩu thành công',
+        position: 'top',
+        visibilityTime: 2000,
+      });
       setIsLoading(false);
     } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Có lỗi trong quá trình thay đổi mật khẩu',
+        position: 'top',
+        visibilityTime: 2000,
+      });
       console.log(`Can not reset password, ${error}`);
       setIsLoading(false);
     }

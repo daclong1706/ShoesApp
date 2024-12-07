@@ -4,6 +4,7 @@ import {
   Home,
   Profile,
   ShoppingBag,
+  VideoPlay,
 } from 'iconsax-react-native';
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
@@ -57,7 +58,7 @@ const TabBarBottom = ({state, descriptors, navigation, hideTabBar}: any) => {
           } else if (route.name === 'Favorite') {
             IconComponent = <Heart size={24} color={iconColor} />;
           } else if (route.name === 'Event') {
-            IconComponent = <Calendar size={24} color={iconColor} />;
+            IconComponent = <VideoPlay size={24} color={iconColor} />;
           } else if (route.name === 'Profile') {
             IconComponent = <Profile size={24} color={iconColor} />;
           } else if (route.name === 'Cart') {

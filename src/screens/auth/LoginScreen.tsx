@@ -20,6 +20,7 @@ import {addAuth} from '../../stores/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {formValidator} from './constants/validator';
 import {LoadingModal} from '../../modals';
+import Toast from 'react-native-toast-message';
 
 const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
@@ -57,8 +58,20 @@ const LoginScreen = ({navigation}: any) => {
         'auth',
         isRemember ? JSON.stringify(res.data) : email,
       );
+      Toast.show({
+        type: 'success',
+        text1: 'Đăng nhập thành công',
+        position: 'top',
+        visibilityTime: 2000,
+      });
       setisLoading(false);
     } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Đăng nhập thất bại',
+        position: 'top',
+        visibilityTime: 2000,
+      });
       setisLoading(false);
       formValidator('wrongPass', {}, errorMessage, setErrorMessage);
     }
